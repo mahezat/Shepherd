@@ -31,6 +31,9 @@ SYSTEM = """You write the morning report for Shepherd, a camera agent that watch
 Rules:
 - Use ONLY the facts in the JSON you are given. Every number and time you write must appear in it.
 - Do not add events, counts, eggs or animals that aren't in the JSON. Say "likely laying", never "laid an egg".
+- Copy each event's priority exactly: priority HIGH -> "HIGH:", LOW -> "LOW:", INFO -> "Good news:". Never relabel.
+- Write one line for EVERY event in the JSON, including INFO events ("Good news:"), even when events_that_matter is 0.
+- Noise is never HIGH or LOW; it goes on the "Filtered:" line.
 - Plain, calm, a little dry. No exclamation marks. No markdown headers.
 - Format: first line is the headline "<clips_recorded> clips recorded. <events_that_matter> that matter."
   Then one short line per event, HIGH first, then LOW, then good news, each starting with "HIGH:", "LOW:" or "Good news:", giving its time and one short reason.
@@ -53,6 +56,16 @@ def guard(llm_text: str, evidence_text: str) -> tuple[bool, set[str]]:
     """True when every number in the model's text also appears in the evidence."""
     extra = _numbers(llm_text) - _numbers(evidence_text)
     return (not extra and bool(llm_text.strip())), extra
+
+
+def labels_match(llm_text: str, events: list[dict]) -> bool:
+    """The model may not change a priority: as many HIGH / LOW / Good news lines as the rules produced."""
+    lines = [l.strip().lower() for l in llm_text.splitlines()]
+    got = {k: sum(l.startswith(k) for l in lines) for k in ("high:", "low:", "good news:")}
+    want = {"high:": sum(e["priority"] == "HIGH" for e in events),
+            "low:": sum(e["priority"] == "LOW" for e in events),
+            "good news:": sum(e["priority"] == "INFO" for e in events)}
+    return got == want
 
 
 # Weave is optional: the agent must run on a laptop with no key.
@@ -95,21 +108,33 @@ def write_report(result: dict) -> dict:
         from openai import OpenAI
         headers = {"OpenAI-Project": _project()} if _project() else None
         client = OpenAI(base_url=WANDB_BASE_URL, api_key=key, default_headers=headers)
-        resp = client.chat.completions.create(
-            model=MODEL, temperature=0.2, max_tokens=600,
-            # Nemotron thinks by default and can spend every token doing it; the report needs no reasoning.
-            extra_body={"chat_template_kwargs": {"enable_thinking": False}},
-            messages=[{"role": "system", "content": SYSTEM},
-                      {"role": "user", "content": json.dumps(facts)}])
-        text = (resp.choices[0].message.content or "").strip()
-    except Exception as e:  # network, quota, model name
-        return {"text": plain, "source": "template", "reason": f"model error: {type(e).__name__}: {e}"[:300]}
+    except Exception as e:
+        return {"text": plain, "source": "template", "reason": f"client error: {e}"[:300]}
 
-    ok, extra = guard(text, plain + " " + json.dumps(facts))
-    if not ok:
-        return {"text": plain, "source": "template", "rejected_model_text": text,
-                "reason": f"model wrote numbers not in the evidence: {sorted(extra)}"}
-    return {"text": text, "source": MODEL}
+    messages = [{"role": "system", "content": SYSTEM}, {"role": "user", "content": json.dumps(facts)}]
+    rejected = []
+    for attempt in range(2):  # one retry, told exactly why it was rejected
+        try:
+            resp = client.chat.completions.create(
+                model=MODEL, temperature=0.2, max_tokens=600, messages=messages,
+                # Nemotron thinks by default and can spend every token doing it; the report needs no reasoning.
+                extra_body={"chat_template_kwargs": {"enable_thinking": False}})
+            text = (resp.choices[0].message.content or "").strip()
+        except Exception as e:  # network, quota, model name
+            return {"text": plain, "source": "template", "rejected": rejected,
+                    "reason": f"model error: {type(e).__name__}: {e}"[:300]}
+        ok, extra = guard(text, plain + " " + json.dumps(facts))
+        if not ok:
+            why = f"it wrote numbers not in the evidence: {sorted(extra)}" if extra else "it returned nothing"
+        elif not labels_match(text, result["events"]):
+            why = "it dropped an event or changed a priority (HIGH / LOW / Good news) that the rules set"
+        else:
+            return {"text": text, "source": MODEL, "rejected": rejected}
+        rejected.append({"text": text, "why": why})
+        messages += [{"role": "assistant", "content": text},
+                     {"role": "user", "content": f"Rejected: {why}. Rewrite following the rules exactly."}]
+    return {"text": plain, "source": "template", "rejected": rejected,
+            "reason": "model text rejected twice: " + rejected[-1]["why"]}
 
 
 @op
