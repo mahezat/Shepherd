@@ -33,15 +33,15 @@
    "chunk_count": 52
   },
   {
-   "label": "warehouse3",
-   "chunk_count": 30
-  },
-  {
    "label": "nashville",
    "chunk_count": 30
   },
   {
    "label": "indoor",
+   "chunk_count": 30
+  },
+  {
+   "label": "warehouse3",
    "chunk_count": 30
   }
  ],

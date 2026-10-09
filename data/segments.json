@@ -6867,6 +6867,22 @@
     "bottom-left": "NO. No chicken pecks at another chicken in the video.",
     "bottom-right": "NO. No chicken pecks at another chicken in the video.",
     "center": "NO. No chicken pecks at another chicken in the video."
+   },
+   "peck_slow": {
+    "full": "NO. No chicken pecks at another chicken in the video.",
+    "top-left": "NO. No chicken pecks at another chicken in the video.",
+    "top-right": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-left": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-right": "NO. No chicken pecks at another chicken in the video.",
+    "center": "NO. No chicken pecks at another chicken in the video."
+   },
+   "fight_slow": {
+    "full": "NO",
+    "top-left": "NO. There is no interaction between the two birds.",
+    "top-right": "NO, there are no visible interactions between birds.",
+    "bottom-left": "NO",
+    "bottom-right": "NO",
+    "center": "NO"
    }
   }
  },
@@ -10480,6 +10496,22 @@
     "bottom-left": "NO. No chicken pecks at another chicken in the video.",
     "bottom-right": "NO. No chicken pecks at another chicken in the video.",
     "center": "NO. No chicken pecks at another chicken in the video."
+   },
+   "peck_slow": {
+    "full": "NO. No chicken pecks at another chicken in the video.",
+    "top-left": "NO. No chicken pecks at another chicken in the video.",
+    "top-right": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-left": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-right": "NO. No chicken pecks at another chicken in the video.",
+    "center": "NO. No chicken pecks at another chicken in the video."
+   },
+   "fight_slow": {
+    "full": "NO",
+    "top-left": "NO",
+    "top-right": "NO. No birds fight, jump at, chase, flap at, or attack each other.",
+    "bottom-left": "NO",
+    "bottom-right": "NO, there is no interaction between the birds.",
+    "center": "NO"
    }
   }
  },
@@ -12543,6 +12575,22 @@
     "bottom-left": "NO. No chicken pecks at another chicken in the video.",
     "bottom-right": "NO. No chicken pecks at another chicken in the video.",
     "center": "NO. No chicken pecks at another chicken in the video."
+   },
+   "peck_slow": {
+    "full": "NO. No chicken pecks at another chicken in the video.",
+    "top-left": "NO. No chicken pecks at another chicken in the video.",
+    "top-right": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-left": "NO. One chicken pecks at a bucket, but no chicken pecks at another.",
+    "bottom-right": "NO. No chicken pecks at another chicken in the video.",
+    "center": "NO. No chicken pecks at another chicken in the video."
+   },
+   "fight_slow": {
+    "full": "NO, there is no interaction between any birds.",
+    "top-left": "NO",
+    "top-right": "NO",
+    "bottom-left": "NO",
+    "bottom-right": "NO",
+    "center": "NO"
    }
   }
  },
@@ -14374,6 +14422,22 @@
     "bottom-left": "NO. No chicken pecks at another chicken in the video.",
     "bottom-right": "NO. No chicken pecks at another chicken in the video.",
     "center": "NO. No chicken pecks at another chicken in the video."
+   },
+   "peck_slow": {
+    "full": "NO. No chicken pecks at another chicken in the video.",
+    "top-left": "NO. No chicken pecks at another chicken in the video.",
+    "top-right": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-left": "NO. One chicken pecks at a bucket, but no chicken pecks at another.",
+    "bottom-right": "NO. No chicken pecks at another chicken in the video.",
+    "center": "NO. No chicken pecks at another chicken in the video."
+   },
+   "fight_slow": {
+    "full": "NO, there is no interaction between the birds.",
+    "top-left": "NO",
+    "top-right": "NO",
+    "bottom-left": "NO",
+    "bottom-right": "NO",
+    "center": "NO"
    }
   }
  },
@@ -15759,6 +15823,22 @@
     "bottom-left": "NO. No chicken pecks at another chicken in the video.",
     "bottom-right": "NO. No chicken pecks at another chicken in the video.",
     "center": "NO. No chicken pecks at another chicken in the video."
+   },
+   "peck_slow": {
+    "full": "NO. No chicken pecks at another chicken in the video.",
+    "top-left": "NO. No chicken pecks at another chicken in the video.",
+    "top-right": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-left": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-right": "NO. No chicken pecks at another chicken in the video.",
+    "center": "NO. No chicken pecks at another chicken in the video."
+   },
+   "fight_slow": {
+    "full": "NO",
+    "top-left": "NO",
+    "top-right": "NO",
+    "bottom-left": "NO",
+    "bottom-right": "NO. No birds are visible in the video.",
+    "center": "NO"
    }
   }
  },
@@ -17478,6 +17558,22 @@
     "bottom-left": "NO. No chicken pecks at another chicken in the video.",
     "bottom-right": "NO. No chicken pecks at another chicken in the video.",
     "center": "NO. No chicken pecks at another chicken in the video."
+   },
+   "peck_slow": {
+    "full": "NO. No chicken pecks at another chicken in the video.",
+    "top-left": "NO. No chicken pecks at another chicken in the video.",
+    "top-right": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-left": "NO. There is no interaction between chickens in the video.",
+    "bottom-right": "NO. No chicken pecks at another chicken in the video.",
+    "center": "NO. No chicken pecks at another chicken in the video."
+   },
+   "fight_slow": {
+    "full": "NO, there is no interaction between any birds.",
+    "top-left": "NO",
+    "top-right": "NO",
+    "bottom-left": "NO",
+    "bottom-right": "NO",
+    "center": "NO"
    }
   }
  },
@@ -18823,6 +18919,22 @@
     "bottom-left": "NO. No chicken pecks at another chicken in the video.",
     "bottom-right": "NO. No chicken pecks at another chicken in the video.",
     "center": "NO. No chicken pecks at another chicken in the video."
+   },
+   "peck_slow": {
+    "full": "NO. No chicken pecks at another chicken in the video.",
+    "top-left": "NO. No chicken pecks at another chicken in the video.",
+    "top-right": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-left": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-right": "NO. No chicken pecks at another chicken in the video.",
+    "center": "NO. No chicken pecks at another chicken in the video."
+   },
+   "fight_slow": {
+    "full": "NO",
+    "top-left": "NO",
+    "top-right": "NO. There are no birds visible in the video.",
+    "bottom-left": "NO",
+    "bottom-right": "NO",
+    "center": "NO"
    }
   }
  },
@@ -22092,6 +22204,22 @@
     "bottom-left": "NO. No chicken pecks at another chicken in the video.",
     "bottom-right": "NO. No chicken pecks at another chicken in the video.",
     "center": "NO. No chicken pecks at another chicken in the video."
+   },
+   "peck_slow": {
+    "full": "NO. No chicken is seen pecking at another chicken in the video.",
+    "top-left": "NO. No chicken pecks at another chicken in the video.",
+    "top-right": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-left": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-right": "NO. No chicken pecks at another chicken in the video.",
+    "center": "NO. No chicken pecks at another chicken in the video."
+   },
+   "fight_slow": {
+    "full": "NO, there is no interaction between any birds.",
+    "top-left": "NO, there is no interaction between the birds.",
+    "top-right": "NO",
+    "bottom-left": "NO. No two birds are seen fighting, jumping at, chasing, flapping at, or attacking each other in the video.",
+    "bottom-right": "NO",
+    "center": "NO, no birds are seen fighting or attacking each other."
    }
   }
  },
@@ -30217,6 +30345,22 @@
     "bottom-left": "NO. No chicken pecks at another chicken in the video.",
     "bottom-right": "No. There is no interaction between the chickens in the video.",
     "center": "NO. No chicken pecks at another chicken in the video."
+   },
+   "peck_slow": {
+    "full": "NO. No chicken pecks at another chicken in the video.",
+    "top-left": "NO. No chicken pecks at another chicken in the video.",
+    "top-right": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-left": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-right": "NO. No chicken pecks at another chicken in the video.",
+    "center": "NO. No chicken pecks at another chicken in the video."
+   },
+   "fight_slow": {
+    "full": "NO, the birds do not engage in any aggressive behavior towards each other.",
+    "top-left": "NO",
+    "top-right": "NO. No two birds are seen fighting, jumping at, chasing, flapping at, or attacking each other.",
+    "bottom-left": "NO",
+    "bottom-right": "NO, there is no interaction between the birds.",
+    "center": "NO"
    }
   }
  },
@@ -37836,6 +37980,22 @@
     "bottom-left": "NO. No chicken pecks at another chicken in the video.",
     "bottom-right": "NO. No chicken pecks at another chicken in the video.",
     "center": "NO. No chicken pecks at another chicken in the video."
+   },
+   "peck_slow": {
+    "full": "NO. No chicken pecks at another chicken in the video.",
+    "top-left": "NO. No chicken pecks at another chicken in the video.",
+    "top-right": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-left": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-right": "NO. No chicken pecks at another chicken in the video.",
+    "center": "NO. No chicken pecks at another chicken in the video."
+   },
+   "fight_slow": {
+    "full": "NO, the birds do not engage in any fighting or aggressive behavior.",
+    "top-left": "NO. No birds are seen fighting, jumping at, chasing, flapping at, or attacking each other.",
+    "top-right": "NO. No birds are visible in the video.",
+    "bottom-left": "NO",
+    "bottom-right": "NO. No birds are seen fighting, jumping at, chasing, flapping at, or attacking each other.",
+    "center": "NO"
    }
   }
  },
@@ -40947,6 +41107,22 @@
     "bottom-left": "NO. No chicken pecks at another chicken in the video.",
     "bottom-right": "NO. No chicken pecks at another chicken in the video.",
     "center": "NO. No chicken pecks at another chicken in the video."
+   },
+   "peck_slow": {
+    "full": "NO. No chicken pecks at another chicken in the video.",
+    "top-left": "NO. No chicken pecks at another chicken in the video.",
+    "top-right": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-left": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-right": "NO. No chicken pecks at another chicken in the video.",
+    "center": "NO. No chicken pecks at another chicken in the video."
+   },
+   "fight_slow": {
+    "full": "NO, there is no interaction between any birds.",
+    "top-left": "NO",
+    "top-right": "NO",
+    "bottom-left": "NO",
+    "bottom-right": "NO",
+    "center": "NO, there is no interaction between any birds."
    }
   }
  },
@@ -46352,6 +46528,22 @@
     "bottom-left": "NO. No chicken pecks at another chicken in the video.",
     "bottom-right": "NO. No chicken pecks at another chicken in the video.",
     "center": "NO. No chicken pecks at another chicken in the video."
+   },
+   "peck_slow": {
+    "full": "NO. No chicken pecks at another chicken in the video.",
+    "top-left": "NO. No chicken pecks at another chicken in the video.",
+    "top-right": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-left": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-right": "NO. No chicken pecks at another chicken in the video.",
+    "center": "NO. No chicken is seen pecking at another chicken in the video."
+   },
+   "fight_slow": {
+    "full": "NO",
+    "top-left": "NO",
+    "top-right": "NO",
+    "bottom-left": "NO, there is no interaction between the birds.",
+    "bottom-right": "NO",
+    "center": "NO"
    }
   }
  },
@@ -51903,6 +52095,22 @@
     "bottom-left": "NO. No chicken pecks at another chicken in the video.",
     "bottom-right": "NO. No chicken pecks at another chicken in the video.",
     "center": "NO. No chicken pecks at another chicken in the video."
+   },
+   "peck_slow": {
+    "full": "NO. No chicken pecks at another chicken in the video.",
+    "top-left": "NO. No chicken pecks at another chicken in the video.",
+    "top-right": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-left": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-right": "NO. No chicken pecks at another chicken in the video.",
+    "center": "NO. No chicken pecks at another chicken in the video."
+   },
+   "fight_slow": {
+    "full": "No, there is no fighting between any birds.",
+    "top-left": "NO",
+    "top-right": "NO",
+    "bottom-left": "NO\nNo birds are visible in the video.",
+    "bottom-right": "NO, there is no interaction between the birds.",
+    "center": "NO, there is no interaction between any birds."
    }
   }
  },
@@ -53556,6 +53764,22 @@
     "bottom-left": "NO. No chicken pecks at another chicken in the video.",
     "bottom-right": "NO. No chicken pecks at another chicken in the video.",
     "center": "NO. No chicken pecks at another chicken in the video."
+   },
+   "peck_slow": {
+    "full": "NO. No chicken pecks at another chicken in the video.",
+    "top-left": "NO. No chicken pecks at another chicken in the video.",
+    "top-right": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-left": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-right": "NO. No chicken pecks at another chicken in the video.",
+    "center": "NO. No chicken pecks at another chicken in the video."
+   },
+   "fight_slow": {
+    "full": "NO, there is no interaction between the birds.",
+    "top-left": "NO",
+    "top-right": "NO. No birds are visible in the video.",
+    "bottom-left": "NO",
+    "bottom-right": "NO. There are no birds visible in the video.",
+    "center": "NO"
    }
   }
  },
@@ -54823,6 +55047,22 @@
     "bottom-left": "NO. No chicken pecks at another chicken in the video.",
     "bottom-right": "NO. No chicken pecks at another chicken in the video.",
     "center": "NO. No chicken pecks at another chicken in the video."
+   },
+   "peck_slow": {
+    "full": "NO. No chicken pecks at another chicken in the video.",
+    "top-left": "NO. No chicken pecks at another chicken in the video.",
+    "top-right": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-left": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-right": "NO. No chicken pecks at another chicken in the video.",
+    "center": "NO. No chicken pecks at another chicken in the video."
+   },
+   "fight_slow": {
+    "full": "NO, there is no interaction between the birds.",
+    "top-left": "NO",
+    "top-right": "NO",
+    "bottom-left": "NO. No birds are visible in the video.",
+    "bottom-right": "NO. No birds are visible in the video.",
+    "center": "NO"
    }
   }
  },
@@ -56212,6 +56452,22 @@
     "bottom-left": "NO. No chicken pecks at another chicken in the video.",
     "bottom-right": "NO. No chicken pecks at another chicken in the video.",
     "center": "NO. No chicken pecks at another chicken in the video."
+   },
+   "peck_slow": {
+    "full": "NO. No chicken pecks at another chicken in the video.",
+    "top-left": "NO. No chicken pecks at another chicken in the video.",
+    "top-right": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-left": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-right": "NO. No chicken pecks at another chicken in the video.",
+    "center": "NO. No chicken pecks at another chicken during the video."
+   },
+   "fight_slow": {
+    "full": "YES. Two birds at the back behind the wire fence flap at each other.",
+    "top-left": "NO",
+    "top-right": "NO",
+    "bottom-left": "NO",
+    "bottom-right": "NO. No birds are visible in the video.",
+    "center": "NO"
    }
   }
  }
