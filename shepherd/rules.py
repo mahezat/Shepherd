@@ -263,6 +263,9 @@ def _runs(clips: list[Clip], gap: timedelta) -> list[list[Clip]]:
 def _confirmed(run: list[Clip], kind: str) -> tuple[bool, str]:
     if len(run) >= 2:
         return True, f"{len(run)} clips agree"
+    c = run[0]
+    if kind == "fight" and c.zoomed.get("fight") and c.form_event in ("disturbance", "fight", "peck"):
+        return True, f"full frame flagged a {c.form_event}; zoomed in, Cosmos saw a fight"
     if kind in ("fight", "peck") and any((c.birds_yolo or 0) >= 2 for c in run):
         return True, "YOLO sees 2+ birds"
     if kind == "disturbance" and run[0].mover in ("other_animal", "person"):
@@ -375,7 +378,7 @@ def decide(clips: list[Clip]) -> dict:
 def plain_report(result: dict) -> str:
     """The report with no language model at all. Also the fallback."""
     lines = [f"{result['clips_recorded']} clips recorded. {result['events_that_matter']} "
-             f"{'thing' if result['events_that_matter'] == 1 else 'things'} that matter."]
+             f"{'thing that matters' if result['events_that_matter'] == 1 else 'things that matter'}."]
     for e in result["events"]:
         span = e["start"] if e["start"] == e["end"] else f"{e['start']} to {e['end']}"
         label = {"HIGH": "HIGH", "LOW": "LOW", "INFO": "Good news"}[e["priority"]]

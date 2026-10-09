@@ -140,6 +140,13 @@ class Checks(unittest.TestCase):
                        "peck_zoom": {"center": "NO."}}
         c = build_clips([s])[0]
         self.assertEqual((c.event, c.zoomed["fight"]), ("fight", ["center"]))
+        self.assertFalse(decide([c])["events"][0]["confirmed"])  # form said normal: one signal only
+
+    def test_zoom_plus_full_frame_disturbance_is_confirmed(self):
+        s = seg("coopcam_2026-10-09T06_22_30.mp4", reply("night", 2, "disturbance", "floor"))
+        s["checks"] = {"fight": "NO.", "fight_zoom": {"center": "YES."}}
+        e = decide(build_clips([s]))["events"][0]
+        self.assertEqual((e["kind"], e["priority"], e["confirmed"]), ("fight", "HIGH", True))
 
     def test_chicken_disturbance_is_not_high(self):
         s = seg("coopcam_2026-10-09T06_22_30.mp4", reply("night", 2, "disturbance", "floor", mover="chicken"))

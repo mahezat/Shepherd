@@ -1,15 +1,67 @@
 {
   "report": {
-    "text": "16 clips recorded. 0 that matter.\nGood news: Hen in the nest box, likely laying at 8:47 AM. No clip shows the egg, so Shepherd says likely.\nFiltered: 10 noise clips",
-    "source": "nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B",
-    "rejected": []
+    "text": "16 clips recorded. 1 thing that matters.\nHIGH: Fight, in the dark, 6:22 AM (1 clip). Birds fighting can injure each other; nobody was there to break it up.\nGood news: Hen in the nest box, likely laying, 8:47 AM to 9:04 AM (6 clips). No clip shows the egg, so Shepherd says likely.\nFiltered: 9 clips of normal chicken business.",
+    "source": "template",
+    "rejected": [
+      {
+        "text": "16 clips recorded. 1 that matter.\nHIGH: 6:22 AM Fight, in the dark\nLOW: 8:47 AM Hen in the nest box, likely laying\nFiltered: 9 noise clips",
+        "why": "it dropped an event or changed a priority (HIGH / LOW / Good news) that the rules set"
+      },
+      {
+        "text": "16 clips recorded. 1 that matter.\nHIGH: 6:22 AM Fight, in the dark\nLOW: 8:47 AM Hen in the nest box, likely laying\nGood news: 8:47 AM Hen in the nest box, likely laying\nFiltered: 9 noise clips",
+        "why": "it dropped an event or changed a priority (HIGH / LOW / Good news) that the rules set"
+      }
+    ],
+    "reason": "model text rejected twice: it dropped an event or changed a priority (HIGH / LOW / Good news) that the rules set"
   },
   "result": {
     "clips_recorded": 16,
-    "clips_that_matter": 0,
-    "events_that_matter": 0,
+    "clips_that_matter": 1,
+    "events_that_matter": 1,
     "flock_size_seen": 6,
     "events": [
+      {
+        "kind": "fight",
+        "priority": "HIGH",
+        "title": "Fight, in the dark",
+        "start": "6:22 AM",
+        "end": "6:22 AM",
+        "start_iso": "2026-10-09T06:22:30",
+        "end_iso": "2026-10-09T06:22:30",
+        "clips": [
+          "coopcam_fight_2026-10-09T06_22_30.mp4"
+        ],
+        "clip_count": 1,
+        "confirmed": true,
+        "confirmed_by": "full frame flagged a disturbance; zoomed in, Cosmos saw a fight",
+        "why": "Birds fighting can injure each other; nobody was there to break it up.",
+        "evidence": [
+          {
+            "clip": "coopcam_fight_2026-10-09T06_22_30.mp4",
+            "time": "6:22 AM",
+            "event": "fight",
+            "lighting": "night",
+            "where": "floor",
+            "mover": "chicken",
+            "chickens_cosmos": 2,
+            "birds_yolo": 0,
+            "activity": "A chicken enters the coop and runs around on the floor.",
+            "form_event": "disturbance",
+            "zoomed": {
+              "fight": [
+                "center"
+              ],
+              "peck": []
+            },
+            "checks": {
+              "fight": "NO. No birds fight, jump at, chase, flap at, or attack each other.",
+              "peck": "NO. No chicken pecks at another chicken in the video.",
+              "nest": "NO. The black plastic crate is empty."
+            }
+          }
+        ],
+        "night": true
+      },
       {
         "kind": "laying",
         "priority": "INFO",
@@ -349,27 +401,6 @@
           "peck": "NO. No chicken pecks at another chicken in the video.",
           "nest": "No. The black plastic crate is empty and serves as a nest box, with no hen inside."
         }
-      },
-      {
-        "clip": "coopcam_fight_2026-10-09T06_22_30.mp4",
-        "time": "6:22 AM",
-        "event": "normal",
-        "lighting": "night",
-        "where": "floor",
-        "mover": "chicken",
-        "chickens_cosmos": 2,
-        "birds_yolo": 0,
-        "activity": "A chicken enters the coop and runs around on the floor.",
-        "form_event": "disturbance",
-        "zoomed": {
-          "fight": [],
-          "peck": []
-        },
-        "checks": {
-          "fight": "NO. No birds fight, jump at, chase, flap at, or attack each other.",
-          "peck": "NO. No chicken pecks at another chicken in the video.",
-          "nest": "NO. The black plastic crate is empty."
-        }
       }
     ],
     "cant_tell": [],
@@ -569,7 +600,7 @@
     {
       "clip": "coopcam_fight_2026-10-09T06_22_30.mp4",
       "time": "6:22 AM",
-      "event": "normal",
+      "event": "fight",
       "lighting": "night",
       "where": "floor",
       "mover": "chicken",
@@ -578,7 +609,9 @@
       "activity": "A chicken enters the coop and runs around on the floor.",
       "form_event": "disturbance",
       "zoomed": {
-        "fight": [],
+        "fight": [
+          "center"
+        ],
         "peck": []
       },
       "checks": {
@@ -714,7 +747,7 @@
       }
     }
   ],
-  "trace_url": "https://wandb.ai/maxmoud/shepherd/r/call/01a1214d-f3b0-7bda-82b7-d4224bc4e9c8",
+  "trace_url": "https://wandb.ai/maxmoud/shepherd/r/call/01a12151-18ca-7f6c-87f2-102b727e7ed3",
   "model": "nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B",
   "data_source": "segments.json"
 }
