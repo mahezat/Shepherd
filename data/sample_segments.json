@@ -1,0 +1,136 @@
+[
+ {
+  "filename": "coopcam_2026-10-08T15_34_34.mp4",
+  "source": "s3://x/coopcam_2026-10-08T15_34_34.mp4",
+  "start_sec": 0,
+  "reasoning": "LIGHTING: day\nTOTAL: 6\nEVENT: normal\nWHERE: floor\nMOVER: chicken\nACTIVITY: Something happens.",
+  "detections": null
+ },
+ {
+  "filename": "coopcam_2026-10-08T15_35_00.mp4",
+  "source": "s3://x/coopcam_2026-10-08T15_35_00.mp4",
+  "start_sec": 0,
+  "reasoning": "LIGHTING: day\nTOTAL: 7\nEVENT: normal\nWHERE: floor\nMOVER: chicken\nACTIVITY: Something happens.",
+  "detections": null
+ },
+ {
+  "filename": "coopcam_2026-10-08T21_51_00.mp4",
+  "source": "s3://x/coopcam_2026-10-08T21_51_00.mp4",
+  "start_sec": 0,
+  "reasoning": "LIGHTING: night\nTOTAL: 2\nEVENT: shifting\nWHERE: perch\nMOVER: chicken\nACTIVITY: Something happens.",
+  "detections": null
+ },
+ {
+  "filename": "coopcam_2026-10-08T21_52_00.mp4",
+  "source": "s3://x/coopcam_2026-10-08T21_52_00.mp4",
+  "start_sec": 0,
+  "reasoning": "LIGHTING: night\nTOTAL: 2\nEVENT: shifting\nWHERE: perch\nMOVER: chicken\nACTIVITY: Something happens.",
+  "detections": null
+ },
+ {
+  "filename": "coopcam_2026-10-08T21_53_00.mp4",
+  "source": "s3://x/coopcam_2026-10-08T21_53_00.mp4",
+  "start_sec": 0,
+  "reasoning": "LIGHTING: night\nTOTAL: 2\nEVENT: shifting\nWHERE: perch\nMOVER: chicken\nACTIVITY: Something happens.",
+  "detections": null
+ },
+ {
+  "filename": "coopcam_2026-10-08T21_54_00.mp4",
+  "source": "s3://x/coopcam_2026-10-08T21_54_00.mp4",
+  "start_sec": 0,
+  "reasoning": "LIGHTING: night\nTOTAL: 2\nEVENT: shifting\nWHERE: perch\nMOVER: chicken\nACTIVITY: Something happens.",
+  "detections": null
+ },
+ {
+  "filename": "coopcam_2026-10-08T21_55_00.mp4",
+  "source": "s3://x/coopcam_2026-10-08T21_55_00.mp4",
+  "start_sec": 0,
+  "reasoning": "LIGHTING: night\nTOTAL: 2\nEVENT: shifting\nWHERE: perch\nMOVER: chicken\nACTIVITY: Something happens.",
+  "detections": null
+ },
+ {
+  "filename": "coopcam_fight3_2026-10-09T06_20_41.mp4",
+  "source": "s3://x/coopcam_fight3_2026-10-09T06_20_41.mp4",
+  "start_sec": 0,
+  "reasoning": "LIGHTING: night (infrared)\nTOTAL: 3\nEVENT: fight\nWHERE: fence\nMOVER: chicken\nACTIVITY: Something happens.",
+  "detections": {
+   "frames": [
+    [
+     {
+      "class": "bird"
+     },
+     {
+      "class": "bird"
+     }
+    ]
+   ]
+  }
+ },
+ {
+  "filename": "coopcam_fight2_2026-10-09T06_20_59.mp4",
+  "source": "s3://x/coopcam_fight2_2026-10-09T06_20_59.mp4",
+  "start_sec": 0,
+  "reasoning": "LIGHTING: night\nTOTAL: 3\nEVENT: fight\nWHERE: fence\nMOVER: chicken\nACTIVITY: Something happens.",
+  "detections": null
+ },
+ {
+  "filename": "coopcam_fight_2026-10-09T06_22_30.mp4",
+  "source": "s3://x/coopcam_fight_2026-10-09T06_22_30.mp4",
+  "start_sec": 0,
+  "reasoning": "LIGHTING: night\nTOTAL: 3\nEVENT: fight\nWHERE: floor\nMOVER: chicken\nACTIVITY: Something happens.",
+  "detections": null
+ },
+ {
+  "filename": "coopcam_egglaying_2026-10-09T08_47_56.mp4",
+  "source": "s3://x/coopcam_egglaying_2026-10-09T08_47_56.mp4",
+  "start_sec": 0,
+  "reasoning": "LIGHTING: day\nTOTAL: 5\nEVENT: peck\nWHERE: nest_box\nMOVER: chicken\nACTIVITY: Something happens.",
+  "detections": {
+   "frames": [
+    [
+     {
+      "class": "bird"
+     },
+     {
+      "class": "bird"
+     }
+    ]
+   ]
+  }
+ },
+ {
+  "filename": "coopcam_egglaying_2026-10-09T08_57_49.mp4",
+  "source": "s3://x/coopcam_egglaying_2026-10-09T08_57_49.mp4",
+  "start_sec": 0,
+  "reasoning": "LIGHTING: day\nTOTAL: 4\nEVENT: laying\nWHERE: nest_box\nMOVER: chicken\nACTIVITY: Something happens.",
+  "detections": null
+ },
+ {
+  "filename": "coopcam_egglaying_2026-10-09T09_03_08.mp4",
+  "source": "s3://x/coopcam_egglaying_2026-10-09T09_03_08.mp4",
+  "start_sec": 0,
+  "reasoning": "LIGHTING: day\nTOTAL: 4\nEVENT: laying\nWHERE: nest_box\nMOVER: chicken\nACTIVITY: Something happens.",
+  "detections": null
+ },
+ {
+  "filename": "coopcam_egglaying_2026-10-09T09_03_45.mp4",
+  "source": "s3://x/coopcam_egglaying_2026-10-09T09_03_45.mp4",
+  "start_sec": 0,
+  "reasoning": "LIGHTING: day\nTOTAL: 4\nEVENT: laying\nWHERE: nest_box\nMOVER: chicken\nACTIVITY: Something happens.",
+  "detections": null
+ },
+ {
+  "filename": "coopcam_egglaying_2026-10-09T09_04_00.mp4",
+  "source": "s3://x/coopcam_egglaying_2026-10-09T09_04_00.mp4",
+  "start_sec": 0,
+  "reasoning": "LIGHTING: day\nTOTAL: 4\nEVENT: laying\nWHERE: nest_box\nMOVER: chicken\nACTIVITY: Something happens.",
+  "detections": null
+ },
+ {
+  "filename": "coopcam_egglaying_2026-10-09T09_04_15.mp4",
+  "source": "s3://x/coopcam_egglaying_2026-10-09T09_04_15.mp4",
+  "start_sec": 0,
+  "reasoning": "LIGHTING: day\nTOTAL: 4\nEVENT: laying\nWHERE: nest_box\nMOVER: chicken\nACTIVITY: Something happens.",
+  "detections": null
+ }
+]

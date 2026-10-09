@@ -1,0 +1,217 @@
+<title>Shepherd</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one phone-width column, a morning report you read top to bottom:
+   headline -> the night on a timeline -> what matters -> what was filtered -> how it decided. */
+:root {
+  --bg: #eef2ea;          /* pale sage, daylight in the run */
+  --surface: #ffffff;
+  --ink: #15241b;         /* pine */
+  --muted: #56655a;
+  --line: #d3dccf;
+  --straw: #b9860f;       /* accent: straw / hay */
+  --high: #b8321f;
+  --low: #a8670a;
+  --good: #2f7444;
+  --high-bg: #fbe9e5;
+  --low-bg: #fbf0dc;
+  --good-bg: #e3f1e6;
+  --night: #233128;
+  --nightband: #dfe5dc;
+  --display: "Bricolage Grotesque", "Arial Narrow", system-ui, sans-serif;
+  --body: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d1510; --surface: #152019; --ink: #e6eee3; --muted: #9db0a2; --line: #26362c;
+    --straw: #e2b448; --high: #f07a62; --low: #e8a94a; --good: #6cc488;
+    --high-bg: #3a1a14; --low-bg: #33260f; --good-bg: #13301d; --night: #0a0f0c; --nightband: #1c2a21;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d1510; --surface: #152019; --ink: #e6eee3; --muted: #9db0a2; --line: #26362c;
+  --straw: #e2b448; --high: #f07a62; --low: #e8a94a; --good: #6cc488;
+  --high-bg: #3a1a14; --low-bg: #33260f; --good-bg: #13301d; --night: #0a0f0c; --nightband: #1c2a21;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font: 17px/1.5 var(--body); }
+.wrap { max-width: 760px; margin: 0 auto; padding-inline: 18px; padding-block: 28px 64px; display: grid; gap: 34px; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; }
+.eyebrow { font: 600 12px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.brand { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.brand h1 { font-size: 22px; font-weight: 800; letter-spacing: -.01em; }
+.brand h1 span { color: var(--straw); }
+
+.head { display: grid; gap: 10px; }
+.head .big { font-size: clamp(40px, 9vw, 68px); line-height: .98; font-weight: 800; letter-spacing: -.025em; }
+.head .big b { color: var(--high); font-weight: 800; }
+.head p { margin: 0; color: var(--muted); max-width: 60ch; }
+.sample { justify-self: start; background: var(--low-bg); color: var(--low); border: 1px solid currentColor; border-radius: 4px; padding: 3px 8px; font: 600 12px var(--mono); }
+
+.reportText { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px 20px; display: grid; gap: 10px; }
+.reportText pre { margin: 0; white-space: pre-wrap; font: 16px/1.6 var(--body); }
+.reportText .by { font: 12px var(--mono); color: var(--muted); }
+
+/* Timeline of the night */
+.tl { display: grid; gap: 8px; }
+.track { position: relative; height: 64px; border-radius: 8px; background: var(--nightband); overflow: hidden; }
+.track .dark { position: absolute; top: 0; bottom: 0; background: var(--night); }
+.track .dot { position: absolute; top: 50%; width: 14px; height: 14px; margin: -7px 0 0 -7px; border-radius: 50%; border: 2px solid var(--bg); background: var(--muted); }
+.track .dot.HIGH { background: var(--high); width: 18px; height: 18px; margin: -9px 0 0 -9px; }
+.track .dot.LOW { background: var(--low); }
+.track .dot.INFO { background: var(--good); }
+.ticks { position: relative; height: 18px; font: 12px var(--mono); color: var(--muted); }
+.ticks span { position: absolute; transform: translateX(-50%); white-space: nowrap; }
+.ticks span:first-child { transform: none; }
+.ticks span:last-child { transform: translateX(-100%); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 14px; color: var(--muted); }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: 0; }
+
+/* Event cards */
+.events { display: grid; gap: 18px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; display: grid; }
+.card .bar { padding: 10px 18px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; font: 600 13px var(--mono); }
+.card.HIGH .bar { background: var(--high-bg); color: var(--high); }
+.card.LOW .bar { background: var(--low-bg); color: var(--low); }
+.card.INFO .bar { background: var(--good-bg); color: var(--good); }
+.card .bar .when { margin-left: auto; color: var(--ink); }
+.card .body { padding: 16px 18px 18px; display: grid; gap: 12px; min-width: 0; }
+.card h3 { font-size: 24px; font-weight: 800; line-height: 1.15; }
+.card p { margin: 0; max-width: 62ch; }
+.badge { display: inline-flex; align-items: center; gap: 6px; font: 600 12px var(--mono); border-radius: 999px; padding: 4px 10px; border: 1px solid var(--line); color: var(--muted); justify-self: start; }
+.badge.ok { color: var(--good); border-color: currentColor; }
+.player { display: grid; gap: 8px; }
+.player video { width: 100%; max-width: 100%; aspect-ratio: 16 / 9; background: #000; border-radius: 8px; display: block; }
+.strip { display: flex; gap: 6px; flex-wrap: wrap; }
+.strip button { font: 12px var(--mono); padding: 5px 9px; border-radius: 6px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); cursor: pointer; }
+.strip button[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); color: var(--bg); }
+.strip button:focus-visible, summary:focus-visible, a:focus-visible { outline: 3px solid var(--straw); outline-offset: 2px; }
+details { border-top: 1px solid var(--line); padding-top: 10px; }
+summary { cursor: pointer; font: 600 13px var(--mono); color: var(--muted); }
+.ev { display: grid; gap: 6px; margin-top: 10px; overflow-x: auto; }
+.ev table { border-collapse: collapse; font: 13px/1.4 var(--mono); width: 100%; min-width: 520px; }
+.ev th, .ev td { text-align: left; padding: 5px 8px; border-bottom: 1px solid var(--line); vertical-align: top; font-variant-numeric: tabular-nums; }
+.ev th { color: var(--muted); font-weight: 600; }
+
+/* Noise */
+.noise { display: grid; gap: 12px; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.tile { display: grid; gap: 4px; min-width: 0; }
+.tile video { width: 100%; aspect-ratio: 16 / 9; border-radius: 6px; background: #000; display: block; }
+.tile span { font: 12px var(--mono); color: var(--muted); overflow-wrap: anywhere; }
+
+.how { display: grid; gap: 10px; color: var(--muted); font-size: 15px; }
+.how ol { margin: 0; padding-left: 20px; display: grid; gap: 4px; }
+.how a { color: var(--ink); }
+.empty { color: var(--muted); }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto; transition: none !important; } }
+</style>
+
+<div class="wrap" id="app">
+  <div class="brand">
+    <h1>Shepherd<span>.</span></h1>
+    <div class="eyebrow">Morning report · coop cam 1</div>
+  </div>
+  <div class="head"><div class="big">Reading last night's clips…</div></div>
+</div>
+
+<script>
+const $ = (s, el = document) => el.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const thumb = f => "thumbs/" + f.replace(/\.mp4$/, ".jpg");
+const clipTime = f => { const m = f.match(/(\d{4}-\d{2}-\d{2})T(\d{2})_(\d{2})_(\d{2})/); return m ? new Date(`${m[1]}T${m[2]}:${m[3]}:${m[4]}`) : null; };
+const hm = d => d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
+const LABEL = { HIGH: "HIGH · wake up now", LOW: "LOW · worth watching", INFO: "GOOD NEWS" };
+
+function video(f, cls = "") {
+  return `<video class="${cls}" src="clips/${esc(f)}" poster="${esc(thumb(f))}" muted loop playsinline controls preload="metadata"></video>`;
+}
+
+function timeline(data) {
+  const all = [...data.clips].map(c => ({ ...c, t: clipTime(c.clip) })).filter(c => c.t);
+  if (!all.length) return "";
+  const pr = {};
+  data.result.events.forEach(e => e.clips.forEach(f => { if (!pr[f] || e.priority === "HIGH") pr[f] = e.priority; }));
+  const t0 = new Date(all[0].t); t0.setMinutes(0, 0, 0);
+  const t1 = new Date(all[all.length - 1].t); t1.setHours(t1.getHours() + 1, 0, 0, 0);
+  const span = t1 - t0, pct = t => ((t - t0) / span * 100).toFixed(2);
+  // Dark from sunset to first light in Montclair-area NJ on Oct 8–9 (6:29 PM, 6:32 AM).
+  const d = data.dark || { from: "2026-10-08T18:29:00", to: "2026-10-09T06:32:00" };
+  const a = Math.max(0, pct(new Date(d.from))), b = Math.min(100, pct(new Date(d.to)));
+  const dots = all.map(c => `<div class="dot ${pr[c.clip] || ""}" style="left:${pct(c.t)}%" title="${esc(hm(c.t))} · ${esc(c.event || "can't tell")}"></div>`).join("");
+  const ticks = [];
+  for (let t = new Date(t0); t <= t1; t.setHours(t.getHours() + 3)) ticks.push(`<span style="left:${pct(t)}%">${hm(t).replace(":00", "")}</span>`);
+  return `<section class="tl" aria-label="Clips over the night">
+    <div class="eyebrow">Every clip the camera recorded</div>
+    <div class="track"><div class="dark" style="left:${a}%;width:${b - a}%"></div>${dots}</div>
+    <div class="ticks">${ticks.join("")}</div>
+    <div class="legend"><span><i style="background:var(--high)"></i>wake up now</span><span><i style="background:var(--low)"></i>worth watching</span><span><i style="background:var(--good)"></i>good news</span><span><i style="background:var(--muted)"></i>filtered</span><span><i style="background:var(--night)"></i>dark, sunset to first light</span></div>
+  </section>`;
+}
+
+function card(e, i) {
+  const span = e.start === e.end ? e.start : `${e.start} – ${e.end}`;
+  const rows = e.evidence.map(x => `<tr><td>${esc(x.time)}</td><td>${esc(x.event ?? "can't tell")}</td><td>${esc(x.where ?? "")}</td><td>${esc(x.chickens_cosmos ?? "–")} / ${esc(x.birds_yolo ?? "–")}</td><td>${esc(x.activity)}</td></tr>`).join("");
+  const buttons = e.clips.length > 1 ? `<div class="strip" role="group" aria-label="Clips">${e.clips.map((f, j) =>
+    `<button type="button" data-card="${i}" data-clip="${esc(f)}" aria-pressed="${j === 0}">${esc(hm(clipTime(f)))}</button>`).join("")}</div>` : "";
+  return `<article class="card ${e.priority}">
+    <div class="bar"><span>${LABEL[e.priority]}</span><span class="when mono">${esc(span)}</span></div>
+    <div class="body">
+      <h3>${esc(e.title)}</h3>
+      <p>${esc(e.why)}</p>
+      <span class="badge ${e.confirmed ? "ok" : ""}">${e.confirmed ? "✓ confirmed: " + esc(e.confirmed_by) : "unconfirmed, check the clip"}</span>
+      <div class="player">${video(e.clips[0])}${buttons}</div>
+      <details><summary>What Shepherd saw (${e.clip_count} clip${e.clip_count > 1 ? "s" : ""})</summary>
+        <div class="ev"><table><thead><tr><th>Time</th><th>Cosmos</th><th>Where</th><th>Birds C/Y</th><th>Activity</th></tr></thead><tbody>${rows}</tbody></table></div>
+      </details>
+    </div>
+  </article>`;
+}
+
+function render(data) {
+  const r = data.result, n = r.events_that_matter;
+  const sample = /sample/i.test(data.data_source || "");
+  const by = data.report.source === "template" ? "Plain template (no language model)" : `Written by ${esc(data.report.source)} on W&B Inference, numbers checked against the evidence`;
+  const matter = r.events.filter(e => e.priority !== "INFO");
+  const good = r.events.filter(e => e.priority === "INFO");
+  $("#app").innerHTML = `
+  <div class="brand"><h1>Shepherd<span>.</span></h1><div class="eyebrow">Morning report · coop cam 1</div></div>
+  <section class="head">
+    ${sample ? `<span class="sample">SAMPLE DATA · stand-in Cosmos output until the real run lands</span>` : ""}
+    <div class="big">${r.clips_recorded} clips recorded.<br><b>${n} ${n === 1 ? "matters" : "matter"}.</b></div>
+    <p>From ${esc(r.first_clip)} yesterday to ${esc(r.last_clip)} today. NVIDIA Cosmos watched every clip, YOLO counted the birds, and Shepherd's rules decided what you need to see.</p>
+  </section>
+  <section class="reportText"><div class="eyebrow">Read this with your coffee</div><pre>${esc(data.report.text)}</pre><div class="by">${by}</div></section>
+  ${timeline(data)}
+  <section class="events">${[...matter, ...good].map(card).join("") || `<p class="empty">Quiet night. Nothing needs you.</p>`}</section>
+  <section class="noise">
+    <div class="eyebrow">Filtered: ${r.noise.length} clip${r.noise.length === 1 ? "" : "s"} of normal chicken business</div>
+    <div class="tiles">${r.noise.map(x => `<div class="tile">${video(x.clip)}<span>${esc(x.time)} · ${esc(x.event)}${x.where ? " · " + esc(x.where) : ""}</span></div>`).join("")}</div>
+    ${r.cant_tell.length ? `<p class="empty">Can't tell: ${r.cant_tell.length} clip(s). Shepherd won't guess; take a look.</p>` : ""}
+  </section>
+  <section class="how">
+    <div class="eyebrow">How it decided</div>
+    <ol>
+      <li>Our clips went through the VAST DataEngine pipeline into VastDB.</li>
+      <li>NVIDIA Cosmos Reason described every clip with our coop prompt; YOLO counted the birds.</li>
+      <li>Shepherd's rules grouped repeat clips into one event and set the priority. The language model only words the report; if it writes a number that isn't in the evidence, its text is thrown away.</li>
+    </ol>
+    ${data.trace_url ? `<a href="${esc(data.trace_url)}" target="_blank" rel="noopener">See every decision in W&B Weave ↗</a>` : ""}
+  </section>`;
+  document.querySelectorAll(".strip button").forEach(btn => btn.addEventListener("click", () => {
+    const art = btn.closest(".card"), v = $("video", art), f = btn.dataset.clip;
+    v.src = "clips/" + f; v.poster = thumb(f); v.play().catch(() => {});
+    art.querySelectorAll(".strip button").forEach(b => b.setAttribute("aria-pressed", String(b === btn)));
+  }));
+}
+
+fetch("report.json").then(r => r.json()).then(render).catch(() => {
+  $(".head").innerHTML = `<div class="big">No report yet.</div><p>Run <span class="mono">python3 -m shepherd.agent</span> to build report.json.</p>`;
+});
+</script>

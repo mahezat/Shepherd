@@ -1,0 +1,450 @@
+{
+  "report": {
+    "text": "16 clips recorded. 2 things that matter.\nHIGH: Fight through the fence, in the dark, 6:20 AM to 6:22 AM (3 clips). Birds fighting can injure each other; nobody was there to break it up.\nLOW: A hen was pecked while in the nest box, 8:47 AM (1 clip). Nest-box bullying can put a hen off laying. Worth watching, not urgent.\nGood news: Hen in the nest box, likely laying, 8:47 AM to 9:04 AM (6 clips). No clip shows the egg, so Shepherd says likely.\nFiltered: 7 clips of normal chicken business.",
+    "source": "template",
+    "reason": "no WANDB_API_KEY"
+  },
+  "result": {
+    "clips_recorded": 16,
+    "clips_that_matter": 4,
+    "events_that_matter": 2,
+    "flock_size_seen": 7,
+    "events": [
+      {
+        "kind": "fight",
+        "priority": "HIGH",
+        "title": "Fight through the fence, in the dark",
+        "start": "6:20 AM",
+        "end": "6:22 AM",
+        "start_iso": "2026-10-09T06:20:41",
+        "end_iso": "2026-10-09T06:22:30",
+        "clips": [
+          "coopcam_fight3_2026-10-09T06_20_41.mp4",
+          "coopcam_fight2_2026-10-09T06_20_59.mp4",
+          "coopcam_fight_2026-10-09T06_22_30.mp4"
+        ],
+        "clip_count": 3,
+        "confirmed": true,
+        "confirmed_by": "3 clips agree",
+        "why": "Birds fighting can injure each other; nobody was there to break it up.",
+        "evidence": [
+          {
+            "clip": "coopcam_fight3_2026-10-09T06_20_41.mp4",
+            "time": "6:20 AM",
+            "event": "fight",
+            "lighting": "night",
+            "where": "fence",
+            "mover": "chicken",
+            "chickens_cosmos": 3,
+            "birds_yolo": 2,
+            "activity": "Something happens."
+          },
+          {
+            "clip": "coopcam_fight2_2026-10-09T06_20_59.mp4",
+            "time": "6:20 AM",
+            "event": "fight",
+            "lighting": "night",
+            "where": "fence",
+            "mover": "chicken",
+            "chickens_cosmos": 3,
+            "birds_yolo": null,
+            "activity": "Something happens."
+          },
+          {
+            "clip": "coopcam_fight_2026-10-09T06_22_30.mp4",
+            "time": "6:22 AM",
+            "event": "fight",
+            "lighting": "night",
+            "where": "floor",
+            "mover": "chicken",
+            "chickens_cosmos": 3,
+            "birds_yolo": null,
+            "activity": "Something happens."
+          }
+        ],
+        "night": true
+      },
+      {
+        "kind": "peck",
+        "priority": "LOW",
+        "title": "A hen was pecked while in the nest box",
+        "start": "8:47 AM",
+        "end": "8:47 AM",
+        "start_iso": "2026-10-09T08:47:56",
+        "end_iso": "2026-10-09T08:47:56",
+        "clips": [
+          "coopcam_egglaying_2026-10-09T08_47_56.mp4"
+        ],
+        "clip_count": 1,
+        "confirmed": true,
+        "confirmed_by": "YOLO sees 2+ birds",
+        "why": "Nest-box bullying can put a hen off laying. Worth watching, not urgent.",
+        "evidence": [
+          {
+            "clip": "coopcam_egglaying_2026-10-09T08_47_56.mp4",
+            "time": "8:47 AM",
+            "event": "peck",
+            "lighting": "day",
+            "where": "nest_box",
+            "mover": "chicken",
+            "chickens_cosmos": 5,
+            "birds_yolo": 2,
+            "activity": "Something happens."
+          }
+        ]
+      },
+      {
+        "kind": "laying",
+        "priority": "INFO",
+        "title": "Hen in the nest box, likely laying",
+        "start": "8:47 AM",
+        "end": "9:04 AM",
+        "start_iso": "2026-10-09T08:47:56",
+        "end_iso": "2026-10-09T09:04:15",
+        "clips": [
+          "coopcam_egglaying_2026-10-09T08_47_56.mp4",
+          "coopcam_egglaying_2026-10-09T08_57_49.mp4",
+          "coopcam_egglaying_2026-10-09T09_03_08.mp4",
+          "coopcam_egglaying_2026-10-09T09_03_45.mp4",
+          "coopcam_egglaying_2026-10-09T09_04_00.mp4",
+          "coopcam_egglaying_2026-10-09T09_04_15.mp4"
+        ],
+        "clip_count": 6,
+        "confirmed": true,
+        "confirmed_by": "6 clips",
+        "why": "No clip shows the egg, so Shepherd says likely.",
+        "evidence": [
+          {
+            "clip": "coopcam_egglaying_2026-10-09T08_47_56.mp4",
+            "time": "8:47 AM",
+            "event": "peck",
+            "lighting": "day",
+            "where": "nest_box",
+            "mover": "chicken",
+            "chickens_cosmos": 5,
+            "birds_yolo": 2,
+            "activity": "Something happens."
+          },
+          {
+            "clip": "coopcam_egglaying_2026-10-09T08_57_49.mp4",
+            "time": "8:57 AM",
+            "event": "laying",
+            "lighting": "day",
+            "where": "nest_box",
+            "mover": "chicken",
+            "chickens_cosmos": 4,
+            "birds_yolo": null,
+            "activity": "Something happens."
+          },
+          {
+            "clip": "coopcam_egglaying_2026-10-09T09_03_08.mp4",
+            "time": "9:03 AM",
+            "event": "laying",
+            "lighting": "day",
+            "where": "nest_box",
+            "mover": "chicken",
+            "chickens_cosmos": 4,
+            "birds_yolo": null,
+            "activity": "Something happens."
+          },
+          {
+            "clip": "coopcam_egglaying_2026-10-09T09_03_45.mp4",
+            "time": "9:03 AM",
+            "event": "laying",
+            "lighting": "day",
+            "where": "nest_box",
+            "mover": "chicken",
+            "chickens_cosmos": 4,
+            "birds_yolo": null,
+            "activity": "Something happens."
+          },
+          {
+            "clip": "coopcam_egglaying_2026-10-09T09_04_00.mp4",
+            "time": "9:04 AM",
+            "event": "laying",
+            "lighting": "day",
+            "where": "nest_box",
+            "mover": "chicken",
+            "chickens_cosmos": 4,
+            "birds_yolo": null,
+            "activity": "Something happens."
+          },
+          {
+            "clip": "coopcam_egglaying_2026-10-09T09_04_15.mp4",
+            "time": "9:04 AM",
+            "event": "laying",
+            "lighting": "day",
+            "where": "nest_box",
+            "mover": "chicken",
+            "chickens_cosmos": 4,
+            "birds_yolo": null,
+            "activity": "Something happens."
+          }
+        ]
+      }
+    ],
+    "noise": [
+      {
+        "clip": "coopcam_2026-10-08T15_34_34.mp4",
+        "time": "3:34 PM",
+        "event": "normal",
+        "lighting": "day",
+        "where": "floor",
+        "mover": "chicken",
+        "chickens_cosmos": 6,
+        "birds_yolo": null,
+        "activity": "Something happens."
+      },
+      {
+        "clip": "coopcam_2026-10-08T15_35_00.mp4",
+        "time": "3:35 PM",
+        "event": "normal",
+        "lighting": "day",
+        "where": "floor",
+        "mover": "chicken",
+        "chickens_cosmos": 7,
+        "birds_yolo": null,
+        "activity": "Something happens."
+      },
+      {
+        "clip": "coopcam_2026-10-08T21_51_00.mp4",
+        "time": "9:51 PM",
+        "event": "shifting",
+        "lighting": "night",
+        "where": "perch",
+        "mover": "chicken",
+        "chickens_cosmos": 2,
+        "birds_yolo": null,
+        "activity": "Something happens."
+      },
+      {
+        "clip": "coopcam_2026-10-08T21_52_00.mp4",
+        "time": "9:52 PM",
+        "event": "shifting",
+        "lighting": "night",
+        "where": "perch",
+        "mover": "chicken",
+        "chickens_cosmos": 2,
+        "birds_yolo": null,
+        "activity": "Something happens."
+      },
+      {
+        "clip": "coopcam_2026-10-08T21_53_00.mp4",
+        "time": "9:53 PM",
+        "event": "shifting",
+        "lighting": "night",
+        "where": "perch",
+        "mover": "chicken",
+        "chickens_cosmos": 2,
+        "birds_yolo": null,
+        "activity": "Something happens."
+      },
+      {
+        "clip": "coopcam_2026-10-08T21_54_00.mp4",
+        "time": "9:54 PM",
+        "event": "shifting",
+        "lighting": "night",
+        "where": "perch",
+        "mover": "chicken",
+        "chickens_cosmos": 2,
+        "birds_yolo": null,
+        "activity": "Something happens."
+      },
+      {
+        "clip": "coopcam_2026-10-08T21_55_00.mp4",
+        "time": "9:55 PM",
+        "event": "shifting",
+        "lighting": "night",
+        "where": "perch",
+        "mover": "chicken",
+        "chickens_cosmos": 2,
+        "birds_yolo": null,
+        "activity": "Something happens."
+      }
+    ],
+    "cant_tell": [],
+    "first_clip": "3:34 PM",
+    "last_clip": "9:04 AM"
+  },
+  "clips": [
+    {
+      "clip": "coopcam_2026-10-08T15_34_34.mp4",
+      "time": "3:34 PM",
+      "event": "normal",
+      "lighting": "day",
+      "where": "floor",
+      "mover": "chicken",
+      "chickens_cosmos": 6,
+      "birds_yolo": null,
+      "activity": "Something happens."
+    },
+    {
+      "clip": "coopcam_2026-10-08T15_35_00.mp4",
+      "time": "3:35 PM",
+      "event": "normal",
+      "lighting": "day",
+      "where": "floor",
+      "mover": "chicken",
+      "chickens_cosmos": 7,
+      "birds_yolo": null,
+      "activity": "Something happens."
+    },
+    {
+      "clip": "coopcam_2026-10-08T21_51_00.mp4",
+      "time": "9:51 PM",
+      "event": "shifting",
+      "lighting": "night",
+      "where": "perch",
+      "mover": "chicken",
+      "chickens_cosmos": 2,
+      "birds_yolo": null,
+      "activity": "Something happens."
+    },
+    {
+      "clip": "coopcam_2026-10-08T21_52_00.mp4",
+      "time": "9:52 PM",
+      "event": "shifting",
+      "lighting": "night",
+      "where": "perch",
+      "mover": "chicken",
+      "chickens_cosmos": 2,
+      "birds_yolo": null,
+      "activity": "Something happens."
+    },
+    {
+      "clip": "coopcam_2026-10-08T21_53_00.mp4",
+      "time": "9:53 PM",
+      "event": "shifting",
+      "lighting": "night",
+      "where": "perch",
+      "mover": "chicken",
+      "chickens_cosmos": 2,
+      "birds_yolo": null,
+      "activity": "Something happens."
+    },
+    {
+      "clip": "coopcam_2026-10-08T21_54_00.mp4",
+      "time": "9:54 PM",
+      "event": "shifting",
+      "lighting": "night",
+      "where": "perch",
+      "mover": "chicken",
+      "chickens_cosmos": 2,
+      "birds_yolo": null,
+      "activity": "Something happens."
+    },
+    {
+      "clip": "coopcam_2026-10-08T21_55_00.mp4",
+      "time": "9:55 PM",
+      "event": "shifting",
+      "lighting": "night",
+      "where": "perch",
+      "mover": "chicken",
+      "chickens_cosmos": 2,
+      "birds_yolo": null,
+      "activity": "Something happens."
+    },
+    {
+      "clip": "coopcam_fight3_2026-10-09T06_20_41.mp4",
+      "time": "6:20 AM",
+      "event": "fight",
+      "lighting": "night",
+      "where": "fence",
+      "mover": "chicken",
+      "chickens_cosmos": 3,
+      "birds_yolo": 2,
+      "activity": "Something happens."
+    },
+    {
+      "clip": "coopcam_fight2_2026-10-09T06_20_59.mp4",
+      "time": "6:20 AM",
+      "event": "fight",
+      "lighting": "night",
+      "where": "fence",
+      "mover": "chicken",
+      "chickens_cosmos": 3,
+      "birds_yolo": null,
+      "activity": "Something happens."
+    },
+    {
+      "clip": "coopcam_fight_2026-10-09T06_22_30.mp4",
+      "time": "6:22 AM",
+      "event": "fight",
+      "lighting": "night",
+      "where": "floor",
+      "mover": "chicken",
+      "chickens_cosmos": 3,
+      "birds_yolo": null,
+      "activity": "Something happens."
+    },
+    {
+      "clip": "coopcam_egglaying_2026-10-09T08_47_56.mp4",
+      "time": "8:47 AM",
+      "event": "peck",
+      "lighting": "day",
+      "where": "nest_box",
+      "mover": "chicken",
+      "chickens_cosmos": 5,
+      "birds_yolo": 2,
+      "activity": "Something happens."
+    },
+    {
+      "clip": "coopcam_egglaying_2026-10-09T08_57_49.mp4",
+      "time": "8:57 AM",
+      "event": "laying",
+      "lighting": "day",
+      "where": "nest_box",
+      "mover": "chicken",
+      "chickens_cosmos": 4,
+      "birds_yolo": null,
+      "activity": "Something happens."
+    },
+    {
+      "clip": "coopcam_egglaying_2026-10-09T09_03_08.mp4",
+      "time": "9:03 AM",
+      "event": "laying",
+      "lighting": "day",
+      "where": "nest_box",
+      "mover": "chicken",
+      "chickens_cosmos": 4,
+      "birds_yolo": null,
+      "activity": "Something happens."
+    },
+    {
+      "clip": "coopcam_egglaying_2026-10-09T09_03_45.mp4",
+      "time": "9:03 AM",
+      "event": "laying",
+      "lighting": "day",
+      "where": "nest_box",
+      "mover": "chicken",
+      "chickens_cosmos": 4,
+      "birds_yolo": null,
+      "activity": "Something happens."
+    },
+    {
+      "clip": "coopcam_egglaying_2026-10-09T09_04_00.mp4",
+      "time": "9:04 AM",
+      "event": "laying",
+      "lighting": "day",
+      "where": "nest_box",
+      "mover": "chicken",
+      "chickens_cosmos": 4,
+      "birds_yolo": null,
+      "activity": "Something happens."
+    },
+    {
+      "clip": "coopcam_egglaying_2026-10-09T09_04_15.mp4",
+      "time": "9:04 AM",
+      "event": "laying",
+      "lighting": "day",
+      "where": "nest_box",
+      "mover": "chicken",
+      "chickens_cosmos": 4,
+      "birds_yolo": null,
+      "activity": "Something happens."
+    }
+  ],
+  "trace_url": null,
+  "model": "meta-llama/Llama-3.3-70B-Instruct",
+  "data_source": "sample_segments.json"
+}
