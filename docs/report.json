@@ -1,18 +1,8 @@
 {
   "report": {
-    "text": "16 clips recorded. 1 thing that matters.\nHIGH: Fight, in the dark, 6:22 AM (1 clip). Birds fighting can injure each other; nobody was there to break it up.\nGood news: Hen in the nest box, likely laying, 8:47 AM to 9:04 AM (6 clips). No clip shows the egg, so Shepherd says likely.\nFiltered: 9 clips of normal chicken business.",
-    "source": "template",
-    "rejected": [
-      {
-        "text": "16 clips recorded. 1 that matter.\nHIGH: 6:22 AM Fight, in the dark\nLOW: 8:47 AM Hen in the nest box, likely laying\nFiltered: 9 noise clips",
-        "why": "it dropped an event or changed a priority (HIGH / LOW / Good news) that the rules set"
-      },
-      {
-        "text": "16 clips recorded. 1 that matter.\nHIGH: 6:22 AM Fight, in the dark\nLOW: 8:47 AM Hen in the nest box, likely laying\nGood news: 8:47 AM Hen in the nest box, likely laying\nFiltered: 9 noise clips",
-        "why": "it dropped an event or changed a priority (HIGH / LOW / Good news) that the rules set"
-      }
-    ],
-    "reason": "model text rejected twice: it dropped an event or changed a priority (HIGH / LOW / Good news) that the rules set"
+    "text": "16 clips recorded. 1 that matter.\nHIGH: 6:22 AM Birds fighting can injure each other; nobody was there to break it up.\nGood news: 8:47 AM Hen in the nest box, likely laying.\nFiltered: 9 noise clips",
+    "source": "nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B",
+    "rejected": []
   },
   "result": {
     "clips_recorded": 16,
@@ -33,7 +23,7 @@
         ],
         "clip_count": 1,
         "confirmed": true,
-        "confirmed_by": "full frame flagged a disturbance; zoomed in, Cosmos saw a fight",
+        "confirmed_by": "full frame flagged a disturbance; Cosmos saw a fight in the center and 4x slow motion view",
         "why": "Birds fighting can injure each other; nobody was there to break it up.",
         "evidence": [
           {
@@ -49,7 +39,8 @@
             "form_event": "disturbance",
             "zoomed": {
               "fight": [
-                "center"
+                "center",
+                "slow-motion full"
               ],
               "peck": []
             },
@@ -610,7 +601,8 @@
       "form_event": "disturbance",
       "zoomed": {
         "fight": [
-          "center"
+          "center",
+          "slow-motion full"
         ],
         "peck": []
       },
@@ -747,7 +739,7 @@
       }
     }
   ],
-  "trace_url": "https://wandb.ai/maxmoud/shepherd/r/call/01a12151-18ca-7f6c-87f2-102b727e7ed3",
+  "trace_url": "https://wandb.ai/maxmoud/shepherd/r/call/01a12160-0c13-7df7-96da-23b420b85961",
   "model": "nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B",
   "data_source": "segments.json"
 }

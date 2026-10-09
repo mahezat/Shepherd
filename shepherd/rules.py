@@ -266,7 +266,8 @@ def _confirmed(run: list[Clip], kind: str) -> tuple[bool, str]:
         return True, f"{len(run)} clips agree"
     c = run[0]
     if kind == "fight" and c.zoomed.get("fight") and c.form_event in ("disturbance", "fight", "peck"):
-        return True, f"full frame flagged a {c.form_event}; zoomed in, Cosmos saw a fight"
+        views = " and ".join(c.zoomed["fight"]).replace("slow-motion full", "4x slow motion")
+        return True, f"full frame flagged a {c.form_event}; Cosmos saw a fight in the {views} view"
     if kind in ("fight", "peck") and any((c.birds_yolo or 0) >= 2 for c in run):
         return True, "YOLO sees 2+ birds"
     if kind == "disturbance" and run[0].mover in ("other_animal", "person"):
