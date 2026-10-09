@@ -17,6 +17,12 @@ norm() {  # $1 in, $2 out: 1920x1080, 30 fps, H.264 + AAC (adds silence if the i
   fi
 }
 norm intro.mp4 "$T/1.mp4"
+if [ -f music.mp3 ]; then  # music under the intro only (music.mp3 is not committed); fades out before the live demo
+  D=$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$T/1.mp4")
+  ffmpeg -v error -y -i "$T/1.mp4" -i music.mp3 -filter_complex \
+    "[1:a]atrim=0:$D,asetpts=PTS-STARTPTS,volume=0.85,afade=t=in:d=0.4,afade=t=out:st=$(echo "$D - 2.5" | bc):d=2.5,aresample=48000[a]" \
+    -map 0:v -map "[a]" -c:v copy -c:a aac -ar 48000 -ac 2 -shortest "$T/1m.mp4" && mv "$T/1m.mp4" "$T/1.mp4"
+fi
 if [ -n "$DEMO" ]; then
   norm "$DEMO" "$T/2.mp4"; OUT=shepherd-demo.mp4
 else

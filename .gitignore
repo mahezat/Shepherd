@@ -2,3 +2,4 @@ out/
 .env
 __pycache__/
 *.pyc
+video/music.mp3
