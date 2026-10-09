@@ -11,9 +11,9 @@
   --ink: #15241b;         /* pine */
   --muted: #56655a;
   --line: #d3dccf;
-  --straw: #b9860f;       /* accent: straw / hay */
+  --straw: #8f6a0c;       /* accent: straw / hay (darkened to pass 3:1 for focus rings) */
   --high: #b8321f;
-  --low: #a8670a;
+  --low: #8a5208;
   --good: #2f7444;
   --high-bg: #fbe9e5;
   --low-bg: #fbf0dc;
@@ -42,14 +42,17 @@
 body { background: var(--bg); color: var(--ink); font: 17px/1.5 var(--body); }
 .wrap { max-width: 760px; margin: 0 auto; padding-inline: 18px; padding-block: 28px 64px; display: grid; gap: 34px; }
 h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; }
-.eyebrow { font: 600 12px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+p, li, .reportText pre { text-wrap: pretty; }
+.eyebrow, .when, .ticks, .badge, .tile span, .by, .strip button, .big { font-variant-numeric: tabular-nums; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.eyebrow { font: 600 12px/1.3 var(--mono); text-transform: uppercase; color: var(--muted); margin: 0; }
 .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
 .brand { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-.brand h1 { font-size: 22px; font-weight: 800; letter-spacing: -.01em; }
+.brand h1 { font-size: 22px; font-weight: 800; }
 .brand h1 span { color: var(--straw); }
 
 .head { display: grid; gap: 10px; }
-.head .big { font-size: clamp(40px, 9vw, 68px); line-height: .98; font-weight: 800; letter-spacing: -.025em; }
+.head .big { font-size: clamp(40px, 9vw, 68px); line-height: .98; font-weight: 800; }
 .head .big b { color: var(--high); font-weight: 800; }
 .head p { margin: 0; color: var(--muted); max-width: 60ch; }
 .sample { justify-self: start; background: var(--low-bg); color: var(--low); border: 1px solid currentColor; border-radius: 4px; padding: 3px 8px; font: 600 12px var(--mono); }
@@ -91,7 +94,7 @@ h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; }
 .strip { display: flex; gap: 6px; flex-wrap: wrap; }
 .strip button { font: 12px var(--mono); padding: 5px 9px; border-radius: 6px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); cursor: pointer; }
 .strip button[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); color: var(--bg); }
-.strip button:focus-visible, summary:focus-visible, a:focus-visible { outline: 3px solid var(--straw); outline-offset: 2px; }
+.strip button:focus-visible, summary:focus-visible, a:focus-visible, video:focus-visible { outline: 3px solid var(--straw); outline-offset: 2px; }
 details { border-top: 1px solid var(--line); padding-top: 10px; }
 summary { cursor: pointer; font: 600 13px var(--mono); color: var(--muted); }
 .ev { display: grid; gap: 6px; margin-top: 10px; overflow-x: auto; }
@@ -110,16 +113,20 @@ summary { cursor: pointer; font: 600 13px var(--mono); color: var(--muted); }
 .how ol { margin: 0; padding-left: 20px; display: grid; gap: 4px; }
 .how a { color: var(--ink); }
 .empty { color: var(--muted); }
+.skel { display: grid; gap: 14px; }
+.skel i { display: block; height: 18px; border-radius: 6px; background: var(--line); }
+.skel i.h { height: 64px; width: 80%; }
+.skel i.box { height: 140px; }
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto; transition: none !important; } }
 </style>
 
-<div class="wrap" id="app">
+<main class="wrap" id="app" aria-busy="true">
   <div class="brand">
-    <h1>Shepherd<span>.</span></h1>
-    <div class="eyebrow">Morning report · coop cam 1</div>
+    <h1>Shepherd<span aria-hidden="true">.</span></h1>
+    <p class="eyebrow">Morning report · coop cam 1</p>
   </div>
-  <div class="head"><div class="big">Reading last night's clips…</div></div>
-</div>
+  <div class="head skel" role="status"><span class="sr-only">Loading the morning report</span><i class="h"></i><i></i><i class="box"></i></div>
+</main>
 
 <script>
 const $ = (s, el = document) => el.querySelector(s);
@@ -130,7 +137,8 @@ const hm = d => d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digi
 const LABEL = { HIGH: "HIGH · wake up now", LOW: "LOW · worth watching", INFO: "GOOD NEWS" };
 
 function video(f, cls = "") {
-  return `<video class="${cls}" src="clips/${esc(f)}" poster="${esc(thumb(f))}" muted loop playsinline controls preload="metadata"></video>`;
+  const t = clipTime(f);
+  return `<video class="${cls}" src="clips/${esc(f)}" poster="${esc(thumb(f))}" muted loop playsinline controls preload="metadata" aria-label="Coop camera clip recorded at ${esc(t ? hm(t) : f)}"></video>`;
 }
 
 function timeline(data) {
@@ -147,28 +155,31 @@ function timeline(data) {
   const dots = all.map(c => `<div class="dot ${pr[c.clip] || ""}" style="left:${pct(c.t)}%" title="${esc(hm(c.t))} · ${esc(c.event || "can't tell")}"></div>`).join("");
   const ticks = [];
   for (let t = new Date(t0); t <= t1; t.setHours(t.getHours() + 3)) ticks.push(`<span style="left:${pct(t)}%">${hm(t).replace(":00", "")}</span>`);
-  return `<section class="tl" aria-label="Clips over the night">
-    <div class="eyebrow">Every clip the camera recorded</div>
-    <div class="track"><div class="dark" style="left:${a}%;width:${b - a}%"></div>${dots}</div>
-    <div class="ticks">${ticks.join("")}</div>
-    <div class="legend"><span><i style="background:var(--high)"></i>wake up now</span><span><i style="background:var(--low)"></i>worth watching</span><span><i style="background:var(--good)"></i>good news</span><span><i style="background:var(--muted)"></i>filtered</span><span><i style="background:var(--night)"></i>dark, sunset to first light</span></div>
+  const counts = { HIGH: 0, LOW: 0, INFO: 0 };
+  all.forEach(c => { if (pr[c.clip]) counts[pr[c.clip]]++; });
+  const summary = `${all.length} clips from ${hm(all[0].t)} to ${hm(all[all.length - 1].t)}: ${counts.HIGH} wake up now, ${counts.LOW} worth watching, ${counts.INFO} good news, ${all.length - counts.HIGH - counts.LOW - counts.INFO} filtered.`;
+  return `<section class="tl" aria-labelledby="tl-h">
+    <h2 class="eyebrow" id="tl-h">Every clip the camera recorded</h2>
+    <div class="track" role="img" aria-label="${esc(summary)}"><div class="dark" style="left:${a}%;width:${b - a}%"></div>${dots}</div>
+    <div class="ticks" aria-hidden="true">${ticks.join("")}</div>
+    <div class="legend" aria-hidden="true"><span><i style="background:var(--high)"></i>wake up now</span><span><i style="background:var(--low)"></i>worth watching</span><span><i style="background:var(--good)"></i>good news</span><span><i style="background:var(--muted)"></i>filtered</span><span><i style="background:var(--night)"></i>dark, sunset to first light</span></div>
   </section>`;
 }
 
 function card(e, i) {
   const span = e.start === e.end ? e.start : `${e.start} – ${e.end}`;
   const rows = e.evidence.map(x => `<tr><td>${esc(x.time)}</td><td>${esc(x.event ?? "can't tell")}</td><td>${esc(x.where ?? "")}</td><td>${esc(x.chickens_cosmos ?? "–")} / ${esc(x.birds_yolo ?? "–")}</td><td>${esc(x.activity)}${x.zoomed && (x.zoomed.fight || []).length ? ` <b>Zoomed: fight seen in ${esc(x.zoomed.fight.join(", "))} tile.</b>` : ""}${x.zoomed && (x.zoomed.peck || []).length ? ` <b>Zoomed: peck seen in ${esc(x.zoomed.peck.join(", "))} tile.</b>` : ""}</td></tr>`).join("");
-  const buttons = e.clips.length > 1 ? `<div class="strip" role="group" aria-label="Clips">${e.clips.map((f, j) =>
-    `<button type="button" data-card="${i}" data-clip="${esc(f)}" aria-pressed="${j === 0}">${esc(hm(clipTime(f)))}</button>`).join("")}</div>` : "";
+  const buttons = e.clips.length > 1 ? `<div class="strip" role="group" aria-label="Clips in this event">${e.clips.map((f, j) =>
+    `<button type="button" data-card="${i}" data-clip="${esc(f)}" aria-pressed="${j === 0}" aria-label="Play the ${esc(hm(clipTime(f)))} clip">${esc(hm(clipTime(f)))}</button>`).join("")}</div>` : "";
   return `<article class="card ${e.priority}">
     <div class="bar"><span>${LABEL[e.priority]}</span><span class="when mono">${esc(span)}</span></div>
     <div class="body">
       <h3>${esc(e.title)}</h3>
       <p>${esc(e.why)}</p>
-      <span class="badge ${e.confirmed ? "ok" : ""}">${e.confirmed ? "✓ confirmed: " + esc(e.confirmed_by) : "unconfirmed, check the clip"}</span>
+      <span class="badge ${e.confirmed ? "ok" : ""}">${e.confirmed ? `<span aria-hidden="true">✓</span> confirmed: ${esc(e.confirmed_by)}` : "unconfirmed, check the clip"}</span>
       <div class="player">${video(e.clips[0])}${buttons}</div>
       <details><summary>What Shepherd saw (${e.clip_count} clip${e.clip_count > 1 ? "s" : ""})</summary>
-        <div class="ev"><table><thead><tr><th>Time</th><th>Cosmos</th><th>Where</th><th>Birds C/Y</th><th>Activity</th></tr></thead><tbody>${rows}</tbody></table></div>
+        <div class="ev"><table><thead><tr><th scope="col">Time</th><th scope="col">Cosmos</th><th scope="col">Where</th><th scope="col"><abbr title="Cosmos count / YOLO count">Birds C/Y</abbr></th><th scope="col">Activity</th></tr></thead><tbody>${rows}</tbody></table></div>
       </details>
     </div>
   </article>`;
@@ -181,33 +192,34 @@ function render(data) {
   const by = data.report.source === "template"
     ? (rej.length ? `Written by Shepherd's rules. ${esc(data.model)} on W&B Inference drafted it ${rej.length}×; each draft was rejected because ${esc(rej[rej.length - 1].why)}.` : "Written by Shepherd's rules (no language model).")
     : `Written by ${esc(data.report.source)} on W&B Inference; every number and priority checked against the rules.`;
-  const rejHtml = rej.length ? `<details><summary>See the rejected draft</summary><pre class="mono" style="font-size:13px">${esc(rej[rej.length - 1].text)}</pre></details>` : "";
+  const rejHtml = rej.length ? `<details><summary>See the rejected draft</summary><pre class="mono" style="font-size:13px;white-space:pre-wrap">${esc(rej[rej.length - 1].text)}</pre></details>` : "";
   const matter = r.events.filter(e => e.priority !== "INFO");
   const good = r.events.filter(e => e.priority === "INFO");
   $("#app").innerHTML = `
-  <div class="brand"><h1>Shepherd<span>.</span></h1><div class="eyebrow">Morning report · coop cam 1</div></div>
+  <div class="brand"><h1>Shepherd<span aria-hidden="true">.</span></h1><p class="eyebrow">Morning report · coop cam 1</p></div>
   <section class="head">
     ${sample ? `<span class="sample">SAMPLE DATA · stand-in Cosmos output until the real run lands</span>` : ""}
-    <div class="big">${r.clips_recorded} clips recorded.<br><b>${n} ${n === 1 ? "matters" : "matter"}.</b></div>
+    <h2 class="big">${r.clips_recorded} clips recorded.<br><b>${n} ${n === 1 ? "matters" : "matter"}.</b></h2>
     <p>From ${esc(r.first_clip)} yesterday to ${esc(r.last_clip)} today. NVIDIA Cosmos watched every clip, zooming in where the action was too small to see, and Shepherd's rules decided what you need to see.</p>
   </section>
-  <section class="reportText"><div class="eyebrow">Read this with your coffee</div><pre>${esc(data.report.text)}</pre><div class="by">${by}</div>${rejHtml}</section>
+  <section class="reportText" aria-labelledby="rt-h"><h2 class="eyebrow" id="rt-h">Read this with your coffee</h2><pre>${esc(data.report.text)}</pre><div class="by">${by}</div>${rejHtml}</section>
   ${timeline(data)}
-  <section class="events">${[...matter, ...good].map(card).join("") || `<p class="empty">Quiet night. Nothing needs you.</p>`}</section>
-  <section class="noise">
-    <div class="eyebrow">Filtered: ${r.noise.length} clip${r.noise.length === 1 ? "" : "s"} of normal chicken business</div>
+  <section class="events" aria-labelledby="ev-h"><h2 class="sr-only" id="ev-h">What happened</h2>${[...matter, ...good].map(card).join("") || `<p class="empty">Quiet night. Nothing needs you. The filtered clips are below if you want to check.</p>`}</section>
+  <section class="noise" aria-labelledby="nz-h">
+    <h2 class="eyebrow" id="nz-h">Filtered: ${r.noise.length} clip${r.noise.length === 1 ? "" : "s"} of normal chicken business</h2>
     <div class="tiles">${r.noise.map(x => `<div class="tile">${video(x.clip)}<span>${esc(x.time)} · ${esc(x.event)}${x.where ? " · " + esc(x.where) : ""}</span></div>`).join("")}</div>
     ${r.cant_tell.length ? `<p class="empty">Can't tell: ${r.cant_tell.length} clip(s). Shepherd won't guess; take a look.</p>` : ""}
   </section>
-  <section class="how">
-    <div class="eyebrow">How it decided</div>
+  <section class="how" aria-labelledby="how-h">
+    <h2 class="eyebrow" id="how-h">How it decided</h2>
     <ol>
       <li>Our own coop clips, 3:34 PM to 9:04 AM, uploaded to the VAST AI OS.</li>
       <li>NVIDIA Cosmos Reason (on CoreWeave GPUs) described every clip, answered yes/no questions about fights, pecks and the nest box, and re-checked 5 zoomed tiles of each clip for action too small to see at full frame. YOLO counted the birds.</li>
       <li>Shepherd's rules grouped repeat clips into one event and set the priority. The language model only words the report; if it writes a number that isn't in the evidence, its text is thrown away.</li>
     </ol>
-    ${data.trace_url ? `<a href="${esc(data.trace_url)}" target="_blank" rel="noopener">See every decision in W&B Weave ↗</a>` : ""}
+    ${data.trace_url ? `<a href="${esc(data.trace_url)}" target="_blank" rel="noopener">See every decision in W&B Weave <span aria-hidden="true">↗</span><span class="sr-only">(opens in a new tab)</span></a>` : ""}
   </section>`;
+  $("#app").setAttribute("aria-busy", "false");
   document.querySelectorAll(".strip button").forEach(btn => btn.addEventListener("click", () => {
     const art = btn.closest(".card"), v = $("video", art), f = btn.dataset.clip;
     v.src = "clips/" + f; v.poster = thumb(f); v.play().catch(() => {});
@@ -216,6 +228,8 @@ function render(data) {
 }
 
 fetch("report.json").then(r => r.json()).then(render).catch(() => {
-  $(".head").innerHTML = `<div class="big">No report yet.</div><p>Run <span class="mono">python3 -m shepherd.agent</span> to build report.json.</p>`;
+  $("#app").setAttribute("aria-busy", "false");
+  const head = $(".head"); head.classList.remove("skel");
+  head.innerHTML = `<h2 class="big">No report yet.</h2><p>Run <span class="mono">python3 -m shepherd.agent</span>, then reload this page.</p>`;
 });
 </script>
