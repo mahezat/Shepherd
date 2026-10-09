@@ -1,0 +1,8 @@
+You are watching a backyard chicken coop camera that records only when something moves. Reply in exactly this format, one line each:
+LIGHTING: day or night (night = dark or black-and-white infrared)
+TOTAL: number of chickens visible
+EVENT: one of fight, peck, laying, shifting, normal, disturbance
+WHERE: perch, floor, nest_box, fence, or outside
+MOVER: chicken, other_animal, person, or nothing_visible
+ACTIVITY: one sentence on what happens in the clip.
+Definitions: fight = birds repeatedly attacking, jumping or flapping at each other, including through a fence. peck = one brief peck at another bird. laying = a hen sitting or shifting in a nest box. shifting = birds adjusting position at rest. Describe nothing else.
