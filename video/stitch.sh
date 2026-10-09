@@ -30,7 +30,7 @@ else
     -vf "drawtext=fontfile=/usr/share/fonts/truetype/courierprime/u-4k0q2lgwslOqpF_6gQ8kELY7pMf-c.ttf:text='[ your live demo goes here ]':fontcolor=0xa63a2b:fontsize=64:x=(w-tw)/2:y=(h-th)/2" \
     -c:v libx264 -pix_fmt yuv420p -c:a aac "$T/2.mp4"; OUT=shepherd-preview.mp4
 fi
-norm terminal.mp4 "$T/3.mp4"
+norm terminal_narrated.mp4 "$T/3.mp4"
 norm architecture.mp4 "$T/4.mp4"
 printf "file '%s'\n" "$T/1.mp4" "$T/2.mp4" "$T/3.mp4" "$T/4.mp4" > "$T/list.txt"
 ffmpeg -v error -y -f concat -safe 0 -i "$T/list.txt" -c copy "$OUT"

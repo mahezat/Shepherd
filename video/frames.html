@@ -141,6 +141,9 @@
   .ans p { margin:0 0 12px; font-size:28px; line-height:1.35; color:var(--muted); }
   .ans .q2 { color:var(--ink); }
   .ans .by { font-size:22px; font-weight:700; text-transform:uppercase; color:var(--grassdk); letter-spacing:1px; }
+  .tcap { position:absolute; right:56px; bottom:56px; width:720px; background:var(--cream); border:10px solid var(--barn); outline:4px solid var(--trim); outline-offset:-18px;
+          padding:26px 32px; font-size:31px; line-height:1.35; font-weight:700; color:var(--ink); display:flex; gap:22px; align-items:flex-start; }
+  .tcap .n { flex:none; width:52px; height:52px; background:var(--barn); color:var(--trim); display:grid; place-items:center; font-size:30px; }
 </style></head>
 <body>
 <div class="f" id="f"></div>
@@ -273,6 +276,15 @@ const STEPS = {
   a7: [["n-weave"], LOW, "<b>W&amp;B Weave</b> traces every step: what Cosmos answered, which rule fired, and why."],
   a8: [["n-cam","n-vast","n-cosmos","n-rules","n-nemo","n-report","n-db","n-weave"], LOW, "The alert goes <b>straight to the farmer's phone</b>, with the real clip: the rooster fight at 6:22 AM, so the birds get checked first thing."],
 };
+// Narration for the recorded terminal run (bottom-right corner). Times are in video/narrate.py.
+const TCAP = {
+  tcap1: ["1", "Our 16 real clips from the coop camera."],
+  tcap2: ["2", "Shepherd reads what Cosmos saw in every clip, applies the rules, and NVIDIA Nemotron on W&amp;B writes the report."],
+  tcap3: ["2", "The report: 1 thing that matters. The guard checked every number and priority before accepting it."],
+  tcap4: ["3", "The farmer asks in plain English. Nemotron searches what Cosmos saw in every clip."],
+  tcap5: ["3", "9:04 AM, a hen in the nest box, with the real clips. The guard threw out one draft first."],
+  tcap6: ["4", "The rules tests and the search guard tests pass."],
+};
 const ORDER = ["i1","i3","iw","i4","i5","phone","ask","i6","end"];
 let CUR = "";
 const board = inner => {
@@ -339,7 +351,7 @@ function render(id) {
   if (id === "i4") { f.innerHTML = board(`<h1 class="logo">Shepherd</h1><p class="sub">Reads every clip your farm camera records and tells you which ones matter.</p>`);
     f.querySelector(".board").style.top = "36%"; }  // sits higher so the chickens below stay in view
   if (id === "i5") f.innerHTML = board(`<div class="hole3" style="width:1440px;height:194px"></div><h2 class="h">16 real clips recorded.<br><span class="r">1 matters.</span></h2><p class="sub">A rooster fight at 6:22 AM, in the dark, with nobody awake.</p>`);
-  if (id === "i6") f.innerHTML = board(`<div class="two">
+  if (id === "i6") f.innerHTML = board(`<h2 class="h" style="font-size:72px">Who Shepherd is for</h2><div class="two">
       <div class="a"><h3>The animals</h3><p>A hurt bird gets found in the morning, not days later. Fights get noticed before they turn into injuries.</p></div>
       <div class="b"><h3>The farmer</h3><p>The night watch a small farm can't afford to hire, on the camera they already own.</p></div></div>`);
   if (id === "ask" || id === "ask_ans" || id.startsWith("ask_t")) {
@@ -363,6 +375,7 @@ function render(id) {
       const b = f.querySelector(".board"); b.style.background = "transparent"; b.style.border = "14px solid transparent"; b.style.outlineColor = "transparent";
     }
   }
+  if (TCAP[id]) f.innerHTML = `<div class="tcap"><span class="n">${TCAP[id][0]}</span>${TCAP[id][1]}</div>`;
   if (STEPS[id]) {
     const [on, low, cap] = STEPS[id];
     f.innerHTML = `<div class="arch"><div class="title"><h1>How Shepherd works</h1><div class="meta">16 real coop clips &middot; Fredon, NJ</div></div>${NODES}${low}<div class="cap">${cap}</div></div>`;

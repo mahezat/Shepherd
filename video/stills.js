@@ -12,7 +12,7 @@ const fs = require('fs');
     await p.screenshot({ path: `frames/${id}.png` });
   }
   await p.setViewportSize({ width: 1920, height: 1080 });
-  const ids = ['i1','i3','iw','split','split_hot','fightzoom','phone','ask','ask_ans','i4','i5','i6','a1','a2','a3','a4','a5','a6','a7','a8','end'];
+  const ids = ['i1','i3','iw','split','split_hot','fightzoom','phone','ask','ask_ans','i4','i5','i6','tcap1','tcap2','tcap3','tcap4','tcap5','tcap6','a1','a2','a3','a4','a5','a6','a7','a8','end'];
   for (const id of ids) {
     await p.evaluate(i => window.render(i), id);
     await p.evaluate(() => document.fonts.ready); await p.waitForTimeout(120);
