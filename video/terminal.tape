@@ -1,15 +1,17 @@
 # Shepherd: a real run, recorded with VHS (charmbracelet/vhs).
 Output terminal.mp4
 Set Shell "bash"
-Set FontSize 30
+Set FontSize 26
+Set FontFamily "Courier Prime"
+Set LineHeight 1.25
 Set Width 1920
 Set Height 1080
 Set Padding 60
-Set Theme { "name": "Shepherd", "background": "#0d1510", "foreground": "#e6eee3", "cursor": "#e2b448", "selection": "#26362c", "black": "#0d1510", "red": "#f07a62", "green": "#6cc488", "yellow": "#e2b448", "blue": "#9db0a2", "magenta": "#e8a94a", "cyan": "#9db0a2", "white": "#e6eee3", "brightBlack": "#56655a", "brightRed": "#f07a62", "brightGreen": "#6cc488", "brightYellow": "#e2b448", "brightBlue": "#9db0a2", "brightMagenta": "#e8a94a", "brightCyan": "#9db0a2", "brightWhite": "#ffffff" }
+Set Theme { "name": "Shepherd Ledger", "background": "#2b2118", "foreground": "#efe6d2", "cursor": "#d9a441", "selection": "#4a3a2a", "black": "#2b2118", "red": "#e07a5f", "green": "#a3c585", "yellow": "#d9a441", "blue": "#9fb8cc", "magenta": "#d9a441", "cyan": "#c9b89a", "white": "#efe6d2", "brightBlack": "#8a7a62", "brightRed": "#e07a5f", "brightGreen": "#a3c585", "brightYellow": "#e8c069", "brightBlue": "#9fb8cc", "brightMagenta": "#e8c069", "brightCyan": "#c9b89a", "brightWhite": "#fffaf0" }
 Set TypingSpeed 45ms
 
 Hide
-Type "cd /home/claude/shepherd && set -a && . /home/claude/.shepherd.env && set +a && export WANDB_ENTITY=maxmoud WANDB_PROJECT=shepherd WEAVE_PRINT_CALL_LINK=false PS1='\[\e[38;2;226;180;72m\]shepherd \[\e[0m\]$ ' && clear" Enter
+Type "cd /home/claude/shepherd && set -a && . /home/claude/.shepherd.env && set +a && export WANDB_ENTITY=maxmoud WANDB_PROJECT=shepherd WEAVE_PRINT_CALL_LINK=false PS1='\[\e[38;2;217;164;65m\]shepherd@fredon-nj \[\e[0m\]$ ' && clear" Enter
 Sleep 500ms
 Show
 

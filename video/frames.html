@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=block">
+<style>
+  /* Rustic, techy: kraft paper, barn red, hay, field green, denim; ledger rules drawn with SVG lines (no gradients). One font. */
+  :root { --paper:#efe6d2; --card:#f7f1e3; --ink:#2b2118; --muted:#6b5a45; --rule:#d9cdb3; --barn:#a63a2b; --hay:#b9801a; --field:#4f6b3a; --denim:#3f6a8a; --walnut:#2b2118; }
+  * { box-sizing:border-box; }
+  html, body { margin:0; width:1920px; height:1080px; overflow:hidden; font-family:"Courier Prime", "Courier New", monospace; color:var(--ink); }
+  body { background:var(--paper); }
+  body.clear { background:transparent; }
+  .rules { position:absolute; inset:0; }
+  .frame { position:absolute; inset:0; }
+  .tag { display:inline-block; border:3px solid currentColor; padding:4px 14px; font-weight:700; font-size:26px; text-transform:uppercase; }
+  .center { position:absolute; inset:0; display:grid; place-items:center; text-align:center; }
+  .stack { display:grid; gap:34px; justify-items:center; }
+  .h { font-size:92px; font-weight:700; line-height:1.12; margin:0; max-width:1600px; }
+  .h .barn { color:var(--barn); }
+  .sub { font-size:40px; color:var(--muted); margin:0; max-width:1400px; line-height:1.35; }
+  .stamp { position:absolute; left:110px; top:90px; font-size:26px; color:var(--muted); text-transform:uppercase; font-weight:700; }
+  .stamp b { color:var(--barn); }
+  .logo { font-size:200px; font-weight:700; margin:0; line-height:1; }
+  .logo span { color:var(--hay); }
+
+  /* split-screen overlay (transparent page) */
+  .bar { position:absolute; left:0; right:0; top:0; height:118px; background:var(--walnut); color:var(--paper); display:flex; align-items:center; justify-content:space-between; padding:0 70px; }
+  .bar .loc { font-size:38px; font-weight:700; }
+  .bar .loc b { color:var(--hay); }
+  .bar .rec { font-size:30px; display:flex; align-items:center; gap:14px; }
+  .bar .rec i { display:inline-block; width:22px; height:22px; border-radius:50%; background:var(--barn); }
+  .ts { position:absolute; font-size:32px; font-weight:700; background:var(--walnut); color:var(--paper); padding:4px 14px; }
+  .ts.hot { background:var(--barn); }
+
+  /* architecture */
+  .title { position:absolute; top:70px; left:110px; right:110px; display:flex; justify-content:space-between; align-items:baseline; border-bottom:3px solid var(--ink); padding-bottom:18px; }
+  .title h1 { font-size:58px; margin:0; font-weight:700; }
+  .title h1 span { color:var(--hay); }
+  .title .meta { font-size:26px; color:var(--muted); text-transform:uppercase; font-weight:700; }
+  .pipe { position:absolute; top:220px; left:110px; right:110px; display:grid; grid-template-columns: 1fr 30px 1.1fr 30px 1.4fr 30px 1.1fr 30px 1.25fr 30px 1fr; }
+  .node { background:var(--card); border:3px solid var(--rule); padding:20px 18px; display:grid; gap:10px; align-content:start; color:var(--muted); }
+  .node .who { font-size:19px; font-weight:700; text-transform:uppercase; }
+  .node h3 { margin:0; font-size:30px; line-height:1.1; }
+  .node p, .node li { font-size:20px; line-height:1.35; margin:0; }
+  .node ul { margin:0; padding-left:22px; }
+  .node.on { border-color:var(--ink); color:var(--ink); background:#fffaf0; }
+  .node.on.vast { border-color:var(--denim); } .node.on.nv { border-color:var(--field); } .node.on.wb { border-color:var(--hay); } .node.on.us { border-color:var(--barn); }
+  .node.on .who { color:var(--ink); }
+  .vast.on .who { color:var(--denim); } .nv.on .who { color:var(--field); } .wb.on .who { color:var(--hay); } .us.on .who { color:var(--barn); }
+  .arrow { display:grid; place-items:center; font-size:32px; color:var(--muted); font-weight:700; }
+  .low { position:absolute; top:640px; left:110px; right:110px; display:grid; grid-template-columns:1fr 1fr; gap:40px; }
+  .panel { background:var(--card); border:3px solid var(--rule); padding:22px 26px; display:grid; gap:8px; color:var(--muted); min-height:170px; }
+  .panel .who { font-size:19px; font-weight:700; text-transform:uppercase; }
+  .panel h3 { margin:0; font-size:30px; }
+  .panel p { margin:0; font-size:21px; line-height:1.35; }
+  .panel.on { color:var(--ink); background:#fffaf0; }
+  .panel.on.vast { border-color:var(--denim); } .panel.on.vast .who { color:var(--denim); }
+  .panel.on.wb { border-color:var(--hay); } .panel.on.wb .who { color:var(--hay); }
+  .zoom { position:absolute; top:600px; left:110px; right:110px; height:268px; background:#fffaf0; border:3px solid var(--field); display:grid; grid-template-columns:392px 1fr; gap:34px; padding:22px; align-items:center; }
+  .zoom .hole { width:392px; height:220px; background:var(--walnut); }
+  .zoom p { margin:0; font-size:27px; line-height:1.4; }
+  .zoom .q { color:var(--muted); font-size:24px; }
+  .zoom .yes { color:var(--barn); font-weight:700; }
+  .cap { position:absolute; left:110px; right:110px; bottom:70px; font-size:38px; line-height:1.35; border-top:3px solid var(--ink); padding-top:22px; }
+  .cap b { color:var(--barn); }
+</style></head>
+<body>
+<svg class="rules" id="rules" width="1920" height="1080" aria-hidden="true"></svg>
+<div class="frame" id="f"></div>
+<script>
+// Ledger rule lines: plain SVG lines, no gradients.
+function ledger(on) {
+  const s = document.getElementById("rules"); s.innerHTML = "";
+  if (!on) return;
+  for (let y = 60; y < 1080; y += 60) s.insertAdjacentHTML("beforeend", `<line x1="0" x2="1920" y1="${y}" y2="${y}" stroke="#e3d8c0" stroke-width="2"/>`);
+  s.insertAdjacentHTML("beforeend", `<line x1="80" x2="80" y1="0" y2="1080" stroke="#d8b9a6" stroke-width="3"/>`);
+}
+const NODES = `
+  <div class="pipe">
+    <div class="node us" id="n-cam"><div class="who">Our coop</div><h3>Motion camera</h3><p>A clip every time something moves. 16 clips overnight.</p></div>
+    <div class="arrow">&gt;</div>
+    <div class="node vast" id="n-vast"><div class="who">VAST AI OS</div><h3>Video data layer</h3><p>Clips upload into the VAST AI OS: storage and the DataEngine pipeline.</p></div>
+    <div class="arrow">&gt;</div>
+    <div class="node nv" id="n-cosmos"><div class="who">NVIDIA Cosmos on CoreWeave</div><h3>Cosmos Reason and YOLO11</h3>
+      <ul><li>Describe each clip</li><li>Yes or no: fight, peck, nest box</li><li>5 zoomed tiles</li><li>4x slow motion</li></ul></div>
+    <div class="arrow">&gt;</div>
+    <div class="node us" id="n-rules"><div class="who">Shepherd</div><h3>Rules decide</h3><p>Group repeat clips. Set urgency. Two signals to confirm. Unsure means "can't tell".</p></div>
+    <div class="arrow">&gt;</div>
+    <div class="node nv" id="n-nemo"><div class="who">NVIDIA Nemotron on W&amp;B</div><h3>Writes the report</h3><p>A guard rejects any draft that invents a number or an alert.</p></div>
+    <div class="arrow">&gt;</div>
+    <div class="node us" id="n-report"><div class="who">The farmer</div><h3>Morning report</h3><p>16 clips recorded. 1 matters. The clip behind every line.</p></div>
+  </div>`;
+const LOW = `
+  <div class="low">
+    <div class="panel vast" id="n-db"><div class="who">VastDB table: shepherd_events</div><h3>Every event, stored</h3><p>Written with its evidence, model provenance and Weave link, then read back in a separate transaction to verify.</p></div>
+    <div class="panel wb" id="n-weave"><div class="who">W&amp;B Weave</div><h3>Every decision, traced</h3><p>Every Cosmos answer, every rule that fired, every rejected draft and the reason.</p></div>
+  </div>`;
+const ZOOM = `
+  <div class="zoom"><div class="hole"></div>
+    <div><p class="q">6:22 AM clip. Question: do two birds fight?</p>
+    <p>Full frame: "NO."</p>
+    <p class="yes">Zoomed center tile: "YES. Two birds flap at each other in the back of the pen."</p></div></div>`;
+const STEPS = {
+  a1: [["n-cam"], 0, "A <b>motion camera</b> on our coop records a clip every time something moves: <b>16 clips</b> from 3:34 PM to 9:04 AM."],
+  a2: [["n-vast"], 0, "Every clip goes into the <b>VAST AI OS</b>, the data layer for the footage and for everything Shepherd finds in it."],
+  a3: [["n-cosmos"], 1, "<b>NVIDIA Cosmos Reason</b> on CoreWeave GPUs checks each clip four ways. At full frame the fight was a few pixels in infrared. The <b>zoomed tile</b> caught it."],
+  a4: [["n-rules"], 0, "<b>Shepherd's rules</b> make the call: repeat clips become one event, urgency is tiered, and nothing is confirmed without two signals."],
+  a5: [["n-nemo"], 0, "<b>NVIDIA Nemotron</b> on W&amp;B Inference writes the report. Earlier today it added an alert that wasn't there, twice. Shepherd's guard <b>rejected both drafts</b>."],
+  a6: [["n-db"], 0, "Every event is written to <b>VastDB</b> with its evidence, then <b>read back to verify</b> it was stored."],
+  a7: [["n-weave"], 0, "<b>W&amp;B Weave</b> traces every step: what Cosmos answered, which rule fired, and why."],
+  a8: [["n-cam","n-vast","n-cosmos","n-rules","n-nemo","n-report","n-db","n-weave"], 0, "The farmer gets one report: <b>16 clips recorded. 1 matters.</b> The rooster fight at 6:22 AM, with the clip."],
+};
+function render(id) {
+  const f = document.getElementById("f");
+  document.body.classList.remove("clear"); ledger(true);
+  if (id === "i1") f.innerHTML = `<div class="center"><div class="stack"><div class="tag" style="color:var(--barn)">Field report</div><h2 class="h" style="max-width:1500px">Most video agents watch people, cars and forklifts.</h2></div></div>`;
+  if (id === "i2") f.innerHTML = `<div class="center"><div class="stack"><h2 class="h">We built one for<br><span class="barn">a chicken coop.</span></h2></div></div>`;
+  if (id === "split") {
+    document.body.classList.add("clear"); ledger(false);
+    f.innerHTML = `<div class="bar"><div class="loc">All footage recorded live from our chicken coop in <b>Fredon, NJ</b></div><div class="rec"><i></i>Oct 8 to Oct 9</div></div>
+      <div class="ts" style="left:137px;top:545px">3:35 PM</div><div class="ts" style="left:987px;top:545px">9:51 PM</div>
+      <div class="ts hot" style="left:137px;top:1016px">6:22 AM</div><div class="ts" style="left:987px;top:1016px">8:47 AM</div>`;
+  }
+  if (id === "i4") f.innerHTML = `<div class="center"><div class="stack"><h1 class="logo">Shepherd<span>.</span></h1><p class="sub">Reads every clip your farm camera records and tells you which ones matter.</p></div></div>`;
+  if (id === "i5") f.innerHTML = `<div class="center"><div class="stack"><h2 class="h">16 clips recorded.<br><span class="barn">1 matters.</span></h2><p class="sub">A rooster fight at 6:22 AM, in the dark, with nobody awake.</p></div></div>`;
+  if (STEPS[id]) {
+    const [on, zoom, cap] = STEPS[id];
+    f.innerHTML = `<div class="title"><h1>How Shepherd works<span>.</span></h1><div class="meta">Real run. 16 coop clips. Fredon, NJ</div></div>${NODES}${zoom ? ZOOM : LOW}<div class="cap">${cap}</div>`;
+    on.forEach(n => document.getElementById(n)?.classList.add("on"));
+  }
+  if (id === "end") f.innerHTML = `<div class="center"><div class="stack"><h1 class="logo" style="font-size:150px">Shepherd<span>.</span></h1>
+    <p class="sub">github.com/mahezat/Shepherd</p>
+    <p class="sub" style="font-size:30px">VAST AI OS &nbsp;|&nbsp; NVIDIA Cosmos &amp; Nemotron &nbsp;|&nbsp; CoreWeave &nbsp;|&nbsp; Weights &amp; Biases &nbsp;|&nbsp; Cursor</p></div></div>`;
+}
+window.render = render;
+</script>
+</body></html>

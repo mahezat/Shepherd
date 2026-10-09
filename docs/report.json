@@ -1,13 +1,8 @@
 {
   "report": {
-    "text": "16 clips recorded. 1 thing that matters.\n\nHIGH: Fight, in the dark at 6:22 AM. Birds fighting can injure each other; nobody was there to break it up.\n\nGood news: Hen in the nest box, likely laying at 8:47 AM. No clip shows the egg, so Shepherd says likely.\n\nFiltered: 9 noise clips",
+    "text": "16 clips recorded. 1 thing that matters.\n\nHIGH: Fight, in the dark at 6:22 AM. Birds fighting can injure each other; nobody was there to break it up.\n\nGood news: Hen in the nest box, likely laying at 8:47 AM. No clip shows the egg, so Shepherd says likely.\n\nFiltered: 9 noise clips.",
     "source": "nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B",
-    "rejected": [
-      {
-        "text": "16 clips recorded. 1 that matter.\n\nHIGH: Fight, in the dark at 6:22 AM. Birds fighting can injure each other; nobody was there to break it up.\n\nLOW: Hen in the nest box, likely laying at 8:47 AM. No clip shows the egg, so Shepherd says likely.\n\nFiltered: 9 noise clips",
-        "why": "it dropped or renamed an event, or changed a priority (HIGH / LOW / Good news) that the rules set"
-      }
-    ]
+    "rejected": []
   },
   "result": {
     "clips_recorded": 16,
@@ -744,7 +739,7 @@
       }
     }
   ],
-  "trace_url": "https://wandb.ai/maxmoud/shepherd/r/call/01a12194-06ef-7f0f-ba00-f67203ad9488",
+  "trace_url": "https://wandb.ai/maxmoud/shepherd/r/call/01a121a2-59a9-7866-967b-70dc24b5c4f6",
   "model": "nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B",
   "data_source": "segments.json"
 }
