@@ -32,6 +32,16 @@ else
 fi
 norm terminal_narrated.mp4 "$T/3.mp4"
 norm architecture.mp4 "$T/4.mp4"
+if [ -f music.mp3 ]; then  # the song again after the live demo: from its start under the terminal run, continuing through the architecture
+  D3=$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$T/3.mp4")
+  D4=$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$T/4.mp4")
+  ffmpeg -v error -y -i "$T/3.mp4" -i music.mp3 -filter_complex \
+    "[1:a]atrim=0:$D3,asetpts=PTS-STARTPTS,volume=0.85,afade=t=in:d=1.0,aresample=48000[a]" \
+    -map 0:v -map "[a]" -c:v copy -c:a aac -ar 48000 -ac 2 -shortest "$T/3m.mp4" && mv "$T/3m.mp4" "$T/3.mp4"
+  ffmpeg -v error -y -i "$T/4.mp4" -i music.mp3 -filter_complex \
+    "[1:a]atrim=$D3:$(echo "$D3 + $D4" | bc),asetpts=PTS-STARTPTS,volume=0.85,afade=t=out:st=$(echo "$D4 - 3" | bc):d=3,aresample=48000[a]" \
+    -map 0:v -map "[a]" -c:v copy -c:a aac -ar 48000 -ac 2 -shortest "$T/4m.mp4" && mv "$T/4m.mp4" "$T/4.mp4"
+fi
 printf "file '%s'\n" "$T/1.mp4" "$T/2.mp4" "$T/3.mp4" "$T/4.mp4" > "$T/list.txt"
 ffmpeg -v error -y -f concat -safe 0 -i "$T/list.txt" -c copy "$OUT"
 echo "wrote video/$OUT ($(ffprobe -v error -show_entries format=duration -of csv=p=0 "$OUT" | cut -d. -f1)s)"
