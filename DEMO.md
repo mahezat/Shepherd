@@ -56,7 +56,7 @@ Everything below is what Shepherd actually produced on our 16 real clips today.
 - **Why chickens?** "It's our footage, and nobody else has it. The same rules work for anything a farmer can't watch all night: goats, sheep, a barn."
 - **Didn't a chicken show up in SF?** "That one was crossing the road. Ours are picking fights."
 - **What did it miss?** "Be honest: there was also one peck in the nest box at 8:47, and the small model didn't catch it, even zoomed in. Two other fight clips came back normal too. We show what Cosmos actually said; we didn't tune it to the answer."
-- **Did you use the VAST pipeline?** "We uploaded through it, but the indexing pipeline stalled for everyone around 11 (the dashboard was down), so we called the same Cosmos and YOLO endpoints directly." (Update this if your teammate gets VastDB working.)
+- **Did you use VAST?** "We uploaded all 16 clips into the VAST AI OS at 15:04 UTC. The DataEngine indexing and the VastDB endpoint were unreachable for our team during the event (HTTP 000; staff notified), so we called the same Cosmos and YOLO GPU endpoints directly. The VastDB writer is in the repo (vast/write_events.py): it stores every event with its evidence and reads it back to verify." (If the write succeeds after lunch, say: "and the events are in VastDB, table shepherd_events.")
 - **Privacy?** "A coop camera: no people. I work in GRC; we kept it that way on purpose."
 - **What's next?** A bedtime roll call, sick-bird checks, phone alerts, and the bigger Cosmos model for small, far-away action.
 
