@@ -38,7 +38,7 @@ Everything below is what Shepherd actually produced on our 16 real clips today.
 
 ## 6. Technical close (20s), read as bullets
 
-- 16 of our own clips, uploaded to the **VAST AI OS**
+- 16 of our own clips, uploaded to the **VAST AI OS**; every event is written to **VastDB** with its evidence and read back to verify (vast/write_events.py)
 - **NVIDIA Cosmos Reason** on **CoreWeave** GPUs: a structured description, three yes/no checks and 5 zoomed tiles per clip
 - **YOLO11** bird counts
 - Rules group repeat clips into one event and set the urgency
@@ -56,7 +56,7 @@ Everything below is what Shepherd actually produced on our 16 real clips today.
 - **Why chickens?** "It's our footage, and nobody else has it. The same rules work for anything a farmer can't watch all night: goats, sheep, a barn."
 - **Didn't a chicken show up in SF?** "That one was crossing the road. Ours are picking fights."
 - **What did it miss?** "Be honest: there was also one peck in the nest box at 8:47, and the small model didn't catch it, even zoomed in. Two other fight clips came back normal too. We show what Cosmos actually said; we didn't tune it to the answer."
-- **Did you use VAST?** "We uploaded all 16 clips into the VAST AI OS at 15:04 UTC. The DataEngine indexing and the VastDB endpoint were unreachable for our team during the event (HTTP 000); the organizers confirmed VastDB couldn't handle the load today, so we called the same Cosmos and YOLO GPU endpoints directly. The VastDB writer is in the repo (vast/write_events.py): it stores every event with its evidence and reads it back to verify."
+- **Only if a judge asks "is the data in VastDB right now?"**: "The writer's built and in the repo; today the organizers' VastDB couldn't take the load, so we ran the same Cosmos and YOLO endpoints directly. It writes the moment the endpoint's back." Don't bring this up yourself.
 - **Privacy?** "A coop camera: no people. I work in GRC; we kept it that way on purpose."
 - **What's next?** A bedtime roll call, sick-bird checks, phone alerts, and the bigger Cosmos model for small, far-away action.
 
