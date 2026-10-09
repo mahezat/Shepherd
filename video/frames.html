@@ -2,174 +2,223 @@
 <html lang="en"><head><meta charset="utf-8">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=block">
 <style>
-  /* Rustic, techy: kraft paper, barn red, hay, field green, denim; ledger rules drawn with SVG lines (no gradients). One font. */
-  :root { --paper:#efe6d2; --card:#f7f1e3; --ink:#2b2118; --muted:#6b5a45; --rule:#d9cdb3; --barn:#a63a2b; --hay:#b9801a; --field:#4f6b3a; --denim:#3f6a8a; --walnut:#2b2118; }
+  /* Barn palette, flat shapes only (no gradients). One font: Courier Prime. */
+  :root { --barn:#9e2b25; --barndk:#6e1c18; --trim:#f7f3ea; --cream:#fbf6ea; --ink:#2a1a14; --muted:#6b5442;
+          --hay:#d9a441; --haydk:#b8862c; --wood:#8b5a2b; --wooddk:#5e3b1c; --grass:#6b8e3a; --grassdk:#4f6b2a; --sky:#cfe3e8; --denim:#3f6a8a; }
   * { box-sizing:border-box; }
-  html, body { margin:0; width:1920px; height:1080px; overflow:hidden; font-family:"Courier Prime", "Courier New", monospace; color:var(--ink); }
-  body { background:var(--paper); }
-  body.clear { background:transparent; }
-  .rules { position:absolute; inset:0; }
-  .frame { position:absolute; inset:0; }
-  .tag { display:inline-block; border:3px solid currentColor; padding:4px 14px; font-weight:700; font-size:26px; text-transform:uppercase; }
-  .center { position:absolute; inset:0; display:grid; place-items:center; text-align:center; }
-  .stack { display:grid; gap:34px; justify-items:center; }
-  .h { font-size:92px; font-weight:700; line-height:1.12; margin:0; max-width:1600px; }
-  .h .barn { color:var(--barn); }
-  .sub { font-size:40px; color:var(--muted); margin:0; max-width:1400px; line-height:1.35; }
-  .stamp { position:absolute; left:110px; top:90px; font-size:26px; color:var(--muted); text-transform:uppercase; font-weight:700; }
-  .stamp b { color:var(--barn); }
-  .logo { font-size:200px; font-weight:700; margin:0; line-height:1; }
-  .logo span { color:var(--hay); }
+  html, body { margin:0; width:1920px; height:1080px; overflow:hidden; font-family:"Courier Prime", "Courier New", monospace; color:var(--ink); background:transparent; }
+  body.bgpage { width:2400px; }
+  .f { position:absolute; inset:0; }
+  .board { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); background:var(--cream); border:14px solid var(--barn);
+           outline:6px solid var(--trim); outline-offset:-26px; padding:70px 90px; text-align:center; display:grid; gap:30px; justify-items:center; width:max-content; max-width:1640px; }
+  .tag { display:inline-block; background:var(--barn); color:var(--trim); padding:6px 18px; font-weight:700; font-size:28px; text-transform:uppercase; }
+  .tag.green { background:var(--grassdk); }
+  .h { font-size:84px; font-weight:700; line-height:1.12; margin:0; max-width:1440px; }
+  .h .r { color:var(--barn); }
+  .sub { font-size:38px; color:var(--muted); margin:0; max-width:1380px; line-height:1.35; }
+  .logo { font-size:190px; font-weight:700; margin:0; line-height:1; color:var(--barn); }
+  .two { display:grid; grid-template-columns:1fr 1fr; gap:60px; text-align:left; width:1400px; }
+  .two div { border-top:8px solid var(--ink); padding-top:18px; }
+  .two h3 { margin:0 0 12px; font-size:46px; }
+  .two p { margin:0; font-size:34px; line-height:1.35; color:var(--muted); }
+  .two .a h3 { color:var(--grassdk); } .two .b h3 { color:var(--barn); }
+  .real { background:var(--ink); color:var(--trim); font-size:26px; font-weight:700; padding:6px 14px; text-transform:uppercase; }
 
-  /* rustic frame: a fence rail around paper scenes, a stamped label, plank seams on walnut bars (lines, no gradients) */
-  .rail { position:absolute; inset:0; border:22px solid var(--walnut); pointer-events:none; }
-  .rail::after { content:""; position:absolute; inset:8px; border:3px solid var(--hay); }
-  .stampbox { position:absolute; left:120px; top:96px; transform:rotate(-2.5deg); border:4px double var(--barn); color:var(--barn); padding:8px 18px;
-              font-size:26px; font-weight:700; text-transform:uppercase; }
-  .tagline { position:absolute; right:120px; bottom:92px; font-size:24px; color:var(--muted); text-transform:uppercase; font-weight:700; }
-  .twocol { display:grid; grid-template-columns:1fr 1fr; gap:60px; max-width:1560px; text-align:left; }
-  .twocol div { border-top:6px solid var(--ink); padding-top:20px; }
-  .twocol h3 { margin:0 0 14px; font-size:44px; }
-  .twocol p { margin:0; font-size:36px; line-height:1.35; color:var(--muted); }
-  .twocol .a h3 { color:var(--field); } .twocol .f h3 { color:var(--barn); }
-
-  /* split-screen overlay (transparent page) */
-  .bar { position:absolute; left:0; right:0; top:0; height:118px; background:var(--walnut); border-bottom:6px solid var(--hay); color:var(--paper); display:flex; align-items:center; justify-content:space-between; padding:0 70px; }
-  .bar .loc { font-size:38px; font-weight:700; }
-  .bar .loc b { color:var(--hay); }
-  .bar .rec { font-size:30px; display:flex; align-items:center; gap:14px; }
-  .bar .rec i { display:inline-block; width:22px; height:22px; border-radius:50%; background:var(--barn); }
-  .ts { position:absolute; font-size:32px; font-weight:700; background:var(--walnut); color:var(--paper); padding:4px 14px; }
+  .bar { position:absolute; left:0; right:0; top:0; height:112px; background:var(--barn); color:var(--trim); display:flex; align-items:center; justify-content:space-between; padding:0 70px; border-bottom:8px solid var(--trim); }
+  .bar .loc { font-size:36px; font-weight:700; }
+  .bar .rec { font-size:30px; font-weight:700; display:flex; align-items:center; gap:14px; }
+  .bar .rec i { width:22px; height:22px; border-radius:50%; background:var(--trim); display:inline-block; }
+  .ts { position:absolute; font-size:30px; font-weight:700; background:var(--ink); color:var(--trim); padding:4px 12px; }
   .ts.hot { background:var(--barn); }
-  .wash { position:absolute; background:rgba(239,230,210,.62); }
-  .hotbox { position:absolute; border:10px solid var(--barn); }
-  .ring { position:absolute; border:7px solid var(--barn); border-radius:50%; }
-  .callout { position:absolute; background:var(--barn); color:#fffaf0; font-size:36px; font-weight:700; padding:14px 22px; line-height:1.3; max-width:760px; }
-  .zbar { position:absolute; left:0; right:0; bottom:0; background:var(--walnut); color:var(--paper); padding:28px 70px; font-size:44px; font-weight:700; border-top:6px solid var(--barn); }
-  .zbar b { color:#f2a08f; }
-  .ztag { position:absolute; left:70px; top:60px; background:var(--barn); color:#fffaf0; font-size:34px; font-weight:700; padding:10px 20px; text-transform:uppercase; }
+  .tilebox { position:absolute; border:8px solid var(--trim); }
+  .wash { position:absolute; background:rgba(251,246,234,.66); }
+  .hotbox { position:absolute; border:12px solid var(--barn); }
+  .ring { position:absolute; border:8px solid var(--barn); border-radius:50%; }
+  .callout { position:absolute; background:var(--barn); color:var(--trim); font-size:36px; font-weight:700; padding:16px 24px; line-height:1.3; max-width:760px; border:5px solid var(--trim); }
+  .zbar { position:absolute; left:0; right:0; bottom:0; background:var(--barn); color:var(--trim); padding:28px 70px; font-size:44px; font-weight:700; border-top:8px solid var(--trim); }
+  .ztag { position:absolute; left:60px; top:50px; display:flex; gap:12px; }
+
+  /* phone */
+  .phonewrap { position:absolute; inset:0; display:grid; grid-template-columns:1fr 1fr; align-items:center; padding:0 150px; gap:80px; }
+  .phonecopy { background:var(--cream); border:14px solid var(--barn); outline:6px solid var(--trim); outline-offset:-26px; padding:60px 70px; display:grid; gap:26px; }
+  .phonecopy h2 { margin:0; font-size:70px; line-height:1.12; }
+  .phonecopy h2 span { color:var(--barn); }
+  .phonecopy p { margin:0; font-size:34px; color:var(--muted); line-height:1.35; }
+  .phone { justify-self:center; width:470px; height:940px; background:var(--ink); border-radius:64px; padding:22px; position:relative; }
+  .screen { width:100%; height:100%; background:#f4efe4; border-radius:46px; overflow:hidden; display:grid; grid-template-rows:auto auto 1fr; }
+  .notch { width:150px; height:30px; background:var(--ink); border-radius:0 0 18px 18px; justify-self:center; }
+  .status { display:flex; justify-content:space-between; padding:8px 44px 0; font-size:22px; font-weight:700; }
+  .thread { padding:24px 22px; display:grid; gap:16px; align-content:start; }
+  .who2 { text-align:center; font-size:22px; color:var(--muted); font-weight:700; border-bottom:2px solid #ddd3c0; padding-bottom:16px; }
+  .who2 b { display:block; color:var(--ink); font-size:28px; }
+  .msg { background:#fff; border:3px solid #e4d8bf; border-radius:26px 26px 26px 6px; padding:18px 20px; font-size:24px; line-height:1.35; }
+  .msg b { color:var(--barn); }
+  .msg .lnk { color:var(--denim); text-decoration:underline; }
+  .time { font-size:19px; color:var(--muted); text-align:center; }
+  .preview { position:absolute; top:-58px; left:50%; transform:translateX(-50%); background:var(--trim); color:var(--muted); font-size:22px; font-weight:700; padding:6px 14px; text-transform:uppercase; border:3px solid var(--muted); white-space:nowrap; }
 
   /* architecture */
-  .title { position:absolute; top:70px; left:110px; right:110px; display:flex; justify-content:space-between; align-items:baseline; border-bottom:3px solid var(--ink); padding-bottom:18px; }
-  .title h1 { font-size:58px; margin:0; font-weight:700; }
-  .title h1 span { color:var(--hay); }
-  .title .meta { font-size:26px; color:var(--muted); text-transform:uppercase; font-weight:700; }
-  .pipe { position:absolute; top:220px; left:110px; right:110px; display:grid; grid-template-columns: 1fr 30px 1.1fr 30px 1.4fr 30px 1.1fr 30px 1.25fr 30px 1fr; }
-  .node { background:var(--card); border:3px solid var(--rule); padding:20px 18px; display:grid; gap:10px; align-content:start; color:var(--muted); }
-  .node .who { font-size:19px; font-weight:700; text-transform:uppercase; }
-  .node h3 { margin:0; font-size:30px; line-height:1.1; }
-  .node p, .node li { font-size:20px; line-height:1.35; margin:0; }
-  .node ul { margin:0; padding-left:22px; }
-  .node.on { border-color:var(--ink); color:var(--ink); background:#fffaf0; }
-  .node.on.vast { border-color:var(--denim); } .node.on.nv { border-color:var(--field); } .node.on.wb { border-color:var(--hay); } .node.on.us { border-color:var(--barn); }
-  .node.on .who { color:var(--ink); }
-  .vast.on .who { color:var(--denim); } .nv.on .who { color:var(--field); } .wb.on .who { color:var(--hay); } .us.on .who { color:var(--barn); }
-  .arrow { display:grid; place-items:center; font-size:32px; color:var(--muted); font-weight:700; }
-  .low { position:absolute; top:640px; left:110px; right:110px; display:grid; grid-template-columns:1fr 1fr; gap:40px; }
-  .panel { background:var(--card); border:3px solid var(--rule); padding:22px 26px; display:grid; gap:8px; color:var(--muted); min-height:170px; }
-  .panel .who { font-size:19px; font-weight:700; text-transform:uppercase; }
-  .panel h3 { margin:0; font-size:30px; }
-  .panel p { margin:0; font-size:21px; line-height:1.35; }
-  .panel.on { color:var(--ink); background:#fffaf0; }
+  .arch { position:absolute; left:60px; right:60px; top:50px; bottom:50px; background:var(--cream); border:12px solid var(--barn); outline:5px solid var(--trim); outline-offset:-22px; }
+  .title { position:absolute; top:46px; left:60px; right:60px; display:flex; justify-content:space-between; align-items:baseline; border-bottom:4px solid var(--ink); padding-bottom:14px; }
+  .title h1 { font-size:54px; margin:0; font-weight:700; color:var(--barn); }
+  .title .meta { font-size:24px; color:var(--muted); text-transform:uppercase; font-weight:700; }
+  .pipe { position:absolute; top:150px; left:60px; right:60px; display:grid; grid-template-columns: 1fr 26px 1.1fr 26px 1.4fr 26px 1.3fr 26px 1.25fr 26px 1fr; }
+  .node { background:#fffdf7; border:3px solid #e4d8bf; padding:18px 16px; display:grid; gap:9px; align-content:start; color:#9a8a76; }
+  .node .who { font-size:18px; font-weight:700; text-transform:uppercase; }
+  .node h3 { margin:0; font-size:28px; line-height:1.1; }
+  .node p, .node li { font-size:19px; line-height:1.35; margin:0; }
+  .node ul { margin:0; padding-left:20px; }
+  .node.on { color:var(--ink); background:#fff; border-width:4px; }
+  .node.on.vast { border-color:var(--denim); } .node.on.nv { border-color:var(--grassdk); } .node.on.us { border-color:var(--barn); }
+  .vast.on .who { color:var(--denim); } .nv.on .who { color:var(--grassdk); } .us.on .who { color:var(--barn); }
+  .arrow { display:grid; place-items:center; font-size:30px; color:var(--muted); font-weight:700; }
+  .low { position:absolute; top:560px; left:60px; right:60px; display:grid; grid-template-columns:1fr 1fr; gap:36px; }
+  .panel { background:#fffdf7; border:3px solid #e4d8bf; padding:20px 24px; display:grid; gap:8px; color:#9a8a76; min-height:160px; align-content:start; }
+  .panel .who { font-size:18px; font-weight:700; text-transform:uppercase; }
+  .panel h3 { margin:0; font-size:28px; }
+  .panel p { margin:0; font-size:20px; line-height:1.35; }
+  .panel.on { color:var(--ink); background:#fff; border-width:4px; }
   .panel.on.vast { border-color:var(--denim); } .panel.on.vast .who { color:var(--denim); }
-  .panel.on.wb { border-color:var(--hay); } .panel.on.wb .who { color:var(--hay); }
-  .zoom { position:absolute; top:600px; left:110px; right:110px; height:268px; background:#fffaf0; border:3px solid var(--field); display:grid; grid-template-columns:392px 1fr; gap:34px; padding:22px; align-items:center; }
-  .zoom .hole { width:392px; height:220px; background:var(--walnut); }
-  .zoom p { margin:0; font-size:27px; line-height:1.4; }
-  .zoom .q { color:var(--muted); font-size:24px; }
+  .panel.on.wb { border-color:var(--hay); } .panel.on.wb .who { color:var(--haydk); }
+  .panel.on.jev { border-color:var(--barn); } .panel.on.jev .who { color:var(--barn); }
+  .zoom { position:absolute; top:540px; left:60px; right:60px; height:262px; background:#fff; border:4px solid var(--grassdk); display:grid; grid-template-columns:384px 1fr; gap:30px; padding:20px; align-items:center; }
+  .zoom .hole { width:384px; height:216px; background:var(--ink); }
+  .zoom p { margin:0; font-size:26px; line-height:1.4; }
+  .zoom .q { color:var(--muted); font-size:23px; }
   .zoom .yes { color:var(--barn); font-weight:700; }
-  .cap { position:absolute; left:110px; right:110px; bottom:70px; font-size:38px; line-height:1.35; border-top:3px solid var(--ink); padding-top:22px; }
+  .cap { position:absolute; left:60px; right:60px; bottom:40px; font-size:34px; line-height:1.35; border-top:4px solid var(--ink); padding-top:18px; }
   .cap b { color:var(--barn); }
 </style></head>
 <body>
-<svg class="rules" id="rules" width="1920" height="1080" aria-hidden="true"></svg>
-<div class="frame" id="f"></div>
+<div class="f" id="f"></div>
 <script>
-// Ledger rule lines: plain SVG lines, no gradients.
-function ledger(on) {
-  const s = document.getElementById("rules"); s.innerHTML = "";
-  if (!on) return;
-  for (let y = 60; y < 1080; y += 60) s.insertAdjacentHTML("beforeend", `<line x1="0" x2="1920" y1="${y}" y2="${y}" stroke="#e3d8c0" stroke-width="2"/>`);
-  s.insertAdjacentHTML("beforeend", `<line x1="80" x2="80" y1="0" y2="1080" stroke="#d8b9a6" stroke-width="3"/>`);
+const W = 2400, H = 1080;
+function rnd(seed) { let s = seed; return () => (s = (s * 16807) % 2147483647) / 2147483647; }
+function bgHay() {
+  let s = `<rect width="${W}" height="${H}" fill="#cfe3e8"/>`;
+  s += `<path d="M0 520 C 400 470, 800 560, 1200 500 S 2000 470, 2400 520 L2400 1080 L0 1080 Z" fill="#a8c46a"/>`;
+  s += `<rect y="600" width="${W}" height="480" fill="#d9b96a"/>`;
+  for (let y = 640; y < H; y += 38) s += `<line x1="0" x2="${W}" y1="${y}" y2="${y}" stroke="#c9a654" stroke-width="5"/>`;
+  for (const [x, y, r] of [[220,700,150],[560,760,175],[980,690,135],[1380,780,190],[1760,705,145],[2150,770,170]]) {
+    s += `<ellipse cx="${x}" cy="${y + r * 0.9}" rx="${r * 1.05}" ry="${r * 0.22}" fill="#b8902f"/>`;
+    s += `<circle cx="${x}" cy="${y}" r="${r}" fill="#e2b04a" stroke="#b8862c" stroke-width="8"/>`;
+    for (let k = 1; k <= 4; k++) s += `<circle cx="${x}" cy="${y}" r="${r * k / 5}" fill="none" stroke="#c9952f" stroke-width="5"/>`;
+  }
+  return s + `<circle cx="2050" cy="170" r="70" fill="#f4d27a"/>`;
 }
+function bgFence() {
+  let s = `<rect width="${W}" height="${H}" fill="#cfe3e8"/><rect y="640" width="${W}" height="440" fill="#6b8e3a"/>`;
+  for (let x = 0; x < W; x += 46) s += `<line x1="${x}" x2="${x + 18}" y1="${H}" y2="${H - 60}" stroke="#58772f" stroke-width="5"/>`;
+  s += `<path d="M0 640 C 500 600, 900 660, 1400 615 S 2100 630, 2400 600 L2400 640 L0 640 Z" fill="#7da14a"/>`;
+  for (const y of [470, 640]) s += `<rect x="0" y="${y}" width="${W}" height="60" fill="#8b5a2b"/><line x1="0" x2="${W}" y1="${y + 20}" y2="${y + 20}" stroke="#6f4622" stroke-width="4"/><line x1="0" x2="${W}" y1="${y + 42}" y2="${y + 42}" stroke="#a06b37" stroke-width="3"/>`;
+  for (let x = 90; x < W; x += 300) s += `<rect x="${x}" y="380" width="70" height="560" fill="#7a4d25"/><rect x="${x}" y="380" width="70" height="20" fill="#5e3b1c"/><line x1="${x + 24}" x2="${x + 24}" y1="400" y2="930" stroke="#6a421f" stroke-width="4"/>`;
+  return s;
+}
+function bgCow() {
+  const r = rnd(7);
+  let s = `<rect width="${W}" height="${H}" fill="#f7f3ea"/>`;
+  for (let i = 0; i < 26; i++) {
+    const cx = r() * W, cy = r() * H, R = 60 + r() * 120, n = 8, pts = [];
+    for (let k = 0; k < n; k++) { const a = (k / n) * Math.PI * 2, rr = R * (0.7 + r() * 0.45); pts.push([cx + Math.cos(a) * rr, cy + Math.sin(a) * rr * 0.8]); }
+    // smooth closed blob: quadratic curves through the midpoints
+    const mid = (a, b) => [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
+    let m = mid(pts[n - 1], pts[0]), d = `M${m[0].toFixed(1)} ${m[1].toFixed(1)}`;
+    for (let k = 0; k < n; k++) { const q = mid(pts[k], pts[(k + 1) % n]); d += ` Q${pts[k][0].toFixed(1)} ${pts[k][1].toFixed(1)} ${q[0].toFixed(1)} ${q[1].toFixed(1)}`; }
+    s += `<path d="${d} Z" fill="#2a1a14"/>`;
+  }
+  return s;
+}
+
 const NODES = `
   <div class="pipe">
-    <div class="node us" id="n-cam"><div class="who">Our coop</div><h3>Motion camera</h3><p>A clip every time something moves. 16 clips overnight.</p></div>
+    <div class="node us" id="n-cam"><div class="who">Our coop</div><h3>Motion camera</h3><p>Real clips, every time something moves. 16 overnight.</p></div>
     <div class="arrow">&gt;</div>
     <div class="node vast" id="n-vast"><div class="who">VAST AI OS</div><h3>Video data layer</h3><p>Clips upload into the VAST AI OS: storage and the DataEngine pipeline.</p></div>
     <div class="arrow">&gt;</div>
     <div class="node nv" id="n-cosmos"><div class="who">NVIDIA Cosmos on CoreWeave</div><h3>Cosmos Reason and YOLO11</h3>
       <ul><li>Describe each clip</li><li>Yes or no: fight, peck, nest box</li><li>5 zoomed tiles</li><li>4x slow motion</li></ul></div>
     <div class="arrow">&gt;</div>
-    <div class="node us" id="n-rules"><div class="who">Shepherd</div><h3>Rules decide</h3><p>Group repeat clips. Set urgency. Two signals to confirm. Unsure means "can't tell".</p></div>
+    <div class="node us" id="n-rules"><div class="who">Shepherd + Jev</div><h3>Rules and triage</h3><p>Rules group repeat clips and set urgency. Jev sorts each event: noise, or wake the farmer.</p></div>
     <div class="arrow">&gt;</div>
     <div class="node nv" id="n-nemo"><div class="who">NVIDIA Nemotron on W&amp;B</div><h3>Writes the report</h3><p>A guard rejects any draft that invents a number or an alert.</p></div>
     <div class="arrow">&gt;</div>
-    <div class="node us" id="n-report"><div class="who">The farmer</div><h3>Morning report</h3><p>16 clips recorded. 1 matters. The clip behind every line.</p></div>
+    <div class="node us" id="n-report"><div class="who">The farmer's phone</div><h3>Alert and report</h3><p>16 clips recorded. 1 matters. The real clip behind every line.</p></div>
   </div>`;
 const LOW = `
   <div class="low">
-    <div class="panel vast" id="n-db"><div class="who">VastDB table: shepherd_events</div><h3>Every event, stored</h3><p>Written with its evidence, model provenance and Weave link, then read back in a separate transaction to verify.</p></div>
+    <div class="panel vast" id="n-db"><div class="who">VastDB table: shepherd_events</div><h3>Every event, stored</h3><p>Written with its evidence, model provenance and Weave link, then read back to verify.</p></div>
     <div class="panel wb" id="n-weave"><div class="who">W&amp;B Weave</div><h3>Every decision, traced</h3><p>Every Cosmos answer, every rule that fired, every rejected draft and the reason.</p></div>
+  </div>`;
+const JEV = `
+  <div class="low">
+    <div class="panel jev on"><div class="who">Jev by TypeSafe AI: a decision model</div><h3>Noise, or wake the farmer?</h3>
+      <p>Jev doesn't write text. It answers typed yes or no questions with a probability, much faster than a language model. That makes it the quick filter between Cosmos's findings and the farmer's phone.</p></div>
+    <div class="panel jev on"><div class="who">Without a filter</div><h3>Alert fatigue</h3>
+      <p>A motion camera on a coop fires all night. Farmers turn the alerts off, and then the one that matters gets missed. Only what needs a person gets through.</p></div>
   </div>`;
 const ZOOM = `
   <div class="zoom"><div class="hole"></div>
-    <div><p class="q">6:22 AM clip. Question: do two birds fight?</p>
+    <div><p class="q">Real 6:22 AM clip. Question: do two birds fight?</p>
     <p>Full frame: "NO."</p>
     <p class="yes">Zoomed center tile: "YES. Two birds flap at each other in the back of the pen."</p></div></div>`;
 const STEPS = {
-  a1: [["n-cam"], 0, "A <b>motion camera</b> on our coop records a clip every time something moves: <b>16 clips</b> from 3:34 PM to 9:04 AM."],
-  a2: [["n-vast"], 0, "Every clip goes into the <b>VAST AI OS</b>, the data layer for the footage and for everything Shepherd finds in it."],
-  a3: [["n-cosmos"], 1, "<b>NVIDIA Cosmos Reason</b> on CoreWeave GPUs checks each clip four ways. At full frame the fight was a few pixels in infrared. The <b>zoomed tile</b> caught it."],
-  a4: [["n-rules"], 0, "<b>Shepherd's rules</b> make the call: repeat clips become one event, urgency is tiered, and nothing is confirmed without two signals."],
-  a5: [["n-nemo"], 0, "<b>NVIDIA Nemotron</b> on W&amp;B Inference writes the report. Earlier today it added an alert that wasn't there, twice. Shepherd's guard <b>rejected both drafts</b>."],
-  a6: [["n-db"], 0, "Every event is written to <b>VastDB</b> with its evidence, then <b>read back to verify</b> it was stored."],
-  a7: [["n-weave"], 0, "<b>W&amp;B Weave</b> traces every step: what Cosmos answered, which rule fired, and why."],
-  a8: [["n-cam","n-vast","n-cosmos","n-rules","n-nemo","n-report","n-db","n-weave"], 0, "The farmer wakes up to one report: <b>16 clips recorded. 1 matters.</b> The rooster fight at 6:22 AM, with the clip, so the birds get checked first thing."],
+  a1: [["n-cam"], LOW, "A <b>motion camera</b> on our coop in Fredon, NJ records a real clip every time something moves: <b>16 clips</b> from 3:34 PM to 9:04 AM."],
+  a2: [["n-vast"], LOW, "Every clip goes into the <b>VAST AI OS</b>, the data layer for the footage and for everything Shepherd finds in it."],
+  a3: [["n-cosmos"], ZOOM, "<b>NVIDIA Cosmos Reason</b> on CoreWeave GPUs checks each clip four ways. At full frame the fight was a few pixels in infrared. The <b>zoomed tile</b> caught it."],
+  a4: [["n-rules"], JEV, "<b>Shepherd's rules</b> group repeat clips and set urgency. <b>Jev</b>, a fast decision model, cuts the noise: it decides which events are worth waking the farmer for."],
+  a5: [["n-nemo"], LOW, "<b>NVIDIA Nemotron</b> on W&amp;B Inference writes the report. Earlier today it added an alert that wasn't there, twice. Shepherd's guard <b>rejected both drafts</b>."],
+  a6: [["n-db"], LOW, "Every event is written to <b>VastDB</b> with its evidence, then <b>read back to verify</b> it was stored."],
+  a7: [["n-weave"], LOW, "<b>W&amp;B Weave</b> traces every step: what Cosmos answered, which rule fired, and why."],
+  a8: [["n-cam","n-vast","n-cosmos","n-rules","n-nemo","n-report","n-db","n-weave"], LOW, "The alert goes <b>straight to the farmer's phone</b>, with the real clip: the rooster fight at 6:22 AM, so the birds get checked first thing."],
 };
-const RAIL = `<div class="rail"></div><div class="stampbox">Field report &middot; Fredon, NJ</div>`;
+const board = inner => `<div class="board">${inner}</div>`;
 function render(id) {
   const f = document.getElementById("f");
-  document.body.classList.remove("clear"); ledger(true);
-  if (id === "i3") f.innerHTML = RAIL + `<div class="center"><div class="stack"><div class="tag" style="color:var(--barn)">The problem</div>
-    <h2 class="h" style="font-size:76px;max-width:1550px">On a small farm, nobody is awake at 6 AM watching the coop.</h2>
-    <p class="sub">Fights, injuries and predators happen while the farmer sleeps. By morning it's too late to help.</p></div></div>`;
-  if (id === "i6") f.innerHTML = RAIL + `<div class="center"><div class="stack"><div class="tag" style="color:var(--field)">Who it's for</div>
-    <div class="twocol"><div class="a"><h3>The animals</h3><p>A hurt bird gets found in the morning, not days later. Fights get noticed before they turn into injuries.</p></div>
-    <div class="f"><h3>The farmer</h3><p>The night watch a small farm can't afford to hire, on the camera they already own.</p></div></div></div></div>`;
-  if (id === "split_hot") {
-    document.body.classList.add("clear"); ledger(false);
-    f.innerHTML = `<div class="wash" style="left:125px;top:140px;width:820px;height:461px"></div>
+  document.body.className = id.startsWith("bg-") ? "bgpage" : "";
+  if (id === "bg-hay") return f.innerHTML = `<svg width="${W}" height="${H}">${bgHay()}</svg>`;
+  if (id === "bg-fence") return f.innerHTML = `<svg width="${W}" height="${H}">${bgFence()}</svg>`;
+  if (id === "bg-cow") return f.innerHTML = `<svg width="${W}" height="${H}">${bgCow()}</svg>`;
+  if (id === "i1") f.innerHTML = board(`<h2 class="h">Most video agents watch people, cars and forklifts.</h2><p class="sub">We built one for a chicken coop.</p>`);
+  if (id === "i3") f.innerHTML = board(`<div class="tag">The problem</div><h2 class="h" style="font-size:72px">On a small farm, nobody is awake at 6 AM watching the coop.</h2>
+    <p class="sub">Fights, injuries and predators happen while the farmer sleeps.</p>`);
+  if (id === "iw") f.innerHTML = board(`<h2 class="h" style="font-size:64px">No animal should be hurt or lose its life because farm alerts haven't caught up to the cameras farmers already own.</h2>`);
+  if (id === "split") f.innerHTML = `<div class="bar"><div class="loc">Real clips, recorded live from our chicken coop in Fredon, NJ</div><div class="rec"><i></i>Oct 8 to Oct 9</div></div>
+      <div class="tilebox" style="left:117px;top:132px;width:836px;height:477px"></div><div class="tilebox" style="left:967px;top:132px;width:836px;height:477px"></div>
+      <div class="tilebox" style="left:117px;top:603px;width:836px;height:477px"></div><div class="tilebox" style="left:967px;top:603px;width:836px;height:477px"></div>
+      <div class="ts" style="left:137px;top:545px">Real &middot; 3:35 PM</div><div class="ts" style="left:987px;top:545px">Real &middot; 9:51 PM</div>
+      <div class="ts hot" style="left:137px;top:1016px">Real &middot; 6:22 AM</div><div class="ts" style="left:987px;top:1016px">Real &middot; 8:47 AM</div>`;
+  if (id === "split_hot") f.innerHTML = `<div class="wash" style="left:125px;top:140px;width:820px;height:461px"></div>
       <div class="wash" style="left:975px;top:140px;width:820px;height:461px"></div>
       <div class="wash" style="left:975px;top:611px;width:820px;height:461px"></div>
-      <div class="hotbox" style="left:115px;top:601px;width:840px;height:481px"></div>
+      <div class="hotbox" style="left:113px;top:599px;width:844px;height:485px"></div>
       <div class="ring" style="left:420px;top:745px;width:190px;height:140px"></div>
       <div class="callout" style="left:1010px;top:690px">6:22 AM, in the dark.<br>Two roosters fighting through the fence. Nobody awake.</div>`;
-  }
-  if (id === "fightzoom") {
-    document.body.classList.add("clear"); ledger(false);
-    f.innerHTML = `<div class="ztag">Zoomed in &middot; 6:22 AM</div><div class="ring" style="left:735px;top:330px;width:450px;height:340px;border-width:9px"></div>
-      <div class="zbar">This is what Shepherd caught: <b>two roosters fighting</b>, before sunrise, with nobody there to stop it.</div>`;
-  }
-  if (id === "i1") f.innerHTML = RAIL + `<div class="center"><div class="stack"><div class="tag" style="color:var(--barn)">Field report</div><h2 class="h" style="max-width:1500px">Most video agents watch people, cars and forklifts.</h2></div></div>`;
-  if (id === "i2") f.innerHTML = RAIL + `<div class="center"><div class="stack"><h2 class="h">We built one for<br><span class="barn">a chicken coop.</span></h2></div></div>`;
-  if (id === "split") {
-    document.body.classList.add("clear"); ledger(false);
-    f.innerHTML = `<div class="bar"><div class="loc">All footage recorded live from our chicken coop in <b>Fredon, NJ</b></div><div class="rec"><i></i>Oct 8 to Oct 9</div></div>
-      <div class="ts" style="left:137px;top:545px">3:35 PM</div><div class="ts" style="left:987px;top:545px">9:51 PM</div>
-      <div class="ts hot" style="left:137px;top:1016px">6:22 AM</div><div class="ts" style="left:987px;top:1016px">8:47 AM</div>`;
-  }
-  if (id === "i4") f.innerHTML = RAIL + `<div class="center"><div class="stack"><h1 class="logo">Shepherd<span>.</span></h1><p class="sub">Reads every clip your farm camera records and tells you which ones matter.</p></div></div>`;
-  if (id === "i5") f.innerHTML = RAIL + `<div class="center"><div class="stack"><h2 class="h">16 clips recorded.<br><span class="barn">1 matters.</span></h2><p class="sub">A rooster fight at 6:22 AM, in the dark, with nobody awake.</p></div></div>`;
+  if (id === "fightzoom") f.innerHTML = `<div class="ztag"><span class="real" style="background:var(--barn)">Real clip</span><span class="real">Zoomed in &middot; 6:22 AM &middot; Fredon, NJ</span></div>
+      <div class="ring" style="left:735px;top:330px;width:450px;height:340px;border-width:10px"></div>
+      <div class="zbar">This is what Shepherd caught: two roosters fighting, before sunrise, with nobody there to stop it.</div>`;
+  if (id === "phone") f.innerHTML = `<div class="phonewrap">
+      <div class="phonecopy"><h2>Alerts go <span>straight to the farmer's phone.</span></h2>
+        <p>Only the events that need a person. The real clip is one tap away.</p></div>
+      <div class="phone"><div class="preview">Alert preview</div><div class="screen"><div class="notch"></div>
+        <div class="status"><span>6:23</span><span>LTE</span></div>
+        <div class="thread"><div class="who2"><b>Shepherd</b>Coop cam, Fredon NJ</div>
+          <div class="time">Today 6:23 AM</div>
+          <div class="msg"><b>HIGH: fight in the coop.</b> Two roosters fighting through the fence at 6:22 AM, in the dark. Confirmed by 2 signals.</div>
+          <div class="msg">See the real clip: <span class="lnk">mahezat.github.io/Shepherd</span></div>
+        </div></div></div></div>`;
+  if (id === "i4") f.innerHTML = board(`<h1 class="logo">Shepherd</h1><p class="sub">Reads every clip your farm camera records and tells you which ones matter.</p>`);
+  if (id === "i5") f.innerHTML = board(`<h2 class="h">16 real clips recorded.<br><span class="r">1 matters.</span></h2><p class="sub">A rooster fight at 6:22 AM, in the dark, with nobody awake.</p>`);
+  if (id === "i6") f.innerHTML = board(`<div class="tag green">Who it's for</div><div class="two">
+      <div class="a"><h3>The animals</h3><p>A hurt bird gets found in the morning, not days later. Fights get noticed before they turn into injuries.</p></div>
+      <div class="b"><h3>The farmer</h3><p>The night watch a small farm can't afford to hire, on the camera they already own.</p></div></div>`);
   if (STEPS[id]) {
-    const [on, zoom, cap] = STEPS[id];
-    f.innerHTML = `<div class="rail"></div><div class="title"><h1>How Shepherd works<span>.</span></h1><div class="meta">Real run. 16 coop clips. Fredon, NJ</div></div>${NODES}${zoom ? ZOOM : LOW}<div class="cap">${cap}</div>`;
+    const [on, low, cap] = STEPS[id];
+    f.innerHTML = `<div class="arch"><div class="title"><h1>How Shepherd works</h1><div class="meta">16 real coop clips &middot; Fredon, NJ</div></div>${NODES}${low}<div class="cap">${cap}</div></div>`;
     on.forEach(n => document.getElementById(n)?.classList.add("on"));
   }
-  if (id === "end") f.innerHTML = RAIL + `<div class="center"><div class="stack"><h1 class="logo" style="font-size:150px">Shepherd<span>.</span></h1>
-    <p class="sub">Built for animal welfare and small farmers.</p>
+  if (id === "end") f.innerHTML = board(`<h1 class="logo" style="font-size:150px">Shepherd</h1><p class="sub">Built for animal welfare and small farmers.</p>
     <p class="sub">github.com/mahezat/Shepherd</p>
-    <p class="sub" style="font-size:30px">VAST AI OS &nbsp;|&nbsp; NVIDIA Cosmos &amp; Nemotron &nbsp;|&nbsp; CoreWeave &nbsp;|&nbsp; Weights &amp; Biases &nbsp;|&nbsp; Cursor</p></div></div>`;
+    <p class="sub" style="font-size:27px">VAST AI OS &nbsp;|&nbsp; NVIDIA Cosmos &amp; Nemotron &nbsp;|&nbsp; CoreWeave &nbsp;|&nbsp; Weights &amp; Biases &nbsp;|&nbsp; Jev by TypeSafe &nbsp;|&nbsp; Cursor</p>`);
 }
 window.render = render;
 </script>
