@@ -133,6 +133,14 @@ def yolo_birds(detections: Any) -> Optional[int]:
     return best if found_any else None
 
 
+def yes(answer: str | None) -> Optional[bool]:
+    """Cosmos's answer to a direct question: True for YES, False for NO, None if missing."""
+    w = re.findall(r"[a-z]+", (answer or "").lower())
+    if not w:
+        return None
+    return True if w[0] == "yes" else False if w[0] == "no" else None
+
+
 # ---------------------------------------------------------------- clips
 
 @dataclass
@@ -148,12 +156,15 @@ class Clip:
     activity: str
     sources: list = field(default_factory=list)
     replies: list = field(default_factory=list)
+    checks: dict = field(default_factory=dict)   # Cosmos's answers to the direct questions
+    form_event: Optional[str] = None             # what the long-form reply said, before the checks
 
     def evidence(self) -> dict:
         return {
             "clip": self.filename, "time": fmt_time(self.time), "event": self.event,
             "lighting": self.lighting, "where": self.where, "mover": self.mover,
             "chickens_cosmos": self.total, "birds_yolo": self.birds_yolo, "activity": self.activity,
+            "form_event": self.form_event, "checks": self.checks,
         }
 
 
@@ -183,18 +194,42 @@ def build_clips(segments: list[dict]) -> list[Clip]:
         else:
             event, lead = None, {"activity": ""}
 
+        # The direct yes/no questions beat the long form: the small Cosmos model
+        # calls almost everything "normal" in the form but answers questions well.
+        checks = {}
+        for s in segs:
+            for k, a in (s.get("checks") or {}).items():
+                if a and k not in checks:
+                    checks[k] = a
+        form_event = event
+        where = lead.get("where") if good else None
+        mover = lead.get("mover") if good else None
+        if event == "disturbance" and mover == "chicken":
+            event = "normal"   # a chicken moving is not a disturbance
+        if yes(checks.get("fight")):
+            event = "fight"
+        elif yes(checks.get("peck")):
+            event = "peck"
+            if yes(checks.get("nest")):
+                where = "nest_box"
+        elif yes(checks.get("nest")) and event in (None, "normal", "shifting", "laying"):
+            event, where = "laying", "nest_box"
+        if checks and event is None:
+            event = "normal"
+
         counts = [c for c in (yolo_birds(s.get("detections")) for s in segs) if c is not None]
         totals = [p["total"] for p in good if p["total"] is not None]
         clips.append(Clip(
             filename=name, time=t, event=event,
             lighting=most_common("lighting"),
-            where=lead.get("where") if good else None,
-            mover=lead.get("mover") if good else None,
+            where=where,
+            mover=mover,
             total=max(totals) if totals else None,
             birds_yolo=max(counts) if counts else None,
             activity=lead.get("activity", ""),
             sources=[s.get("source") for s in segs],
             replies=[s.get("reasoning") or "" for s in segs],
+            checks=checks, form_event=form_event,
         ))
     clips.sort(key=lambda c: c.time)
     return clips
@@ -247,7 +282,8 @@ def decide(clips: list[Clip]) -> dict:
     events: list[dict] = []
 
     # HIGH: something that isn't a chicken moved
-    dist = [c for c in clips if c.event == "disturbance" or c.mover in ("other_animal", "person")]
+    dist = [c for c in clips if c.mover in ("other_animal", "person")
+            or (c.event == "disturbance" and c.mover not in ("chicken",))]
     for run in _runs(dist, FIGHT_GAP):
         who = "a person" if any(c.mover == "person" for c in run) else "another animal"
         night = any(c.lighting == "night" for c in run)

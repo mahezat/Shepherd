@@ -112,5 +112,31 @@ class Decide(unittest.TestCase):
         self.assertIn("Filtered: 7 clips", text)
 
 
+class Checks(unittest.TestCase):
+    """The direct yes/no questions override the long-form reply."""
+
+    def test_fight_check_overrides_normal(self):
+        s = seg("coopcam_2026-10-09T06_20_41.mp4", reply("night", 2, "normal", "perch"))
+        s["checks"] = {"fight": "YES. Two birds jump at each other behind the fence.", "peck": "NO.", "nest": "NO."}
+        c = build_clips([s])[0]
+        self.assertEqual((c.event, c.form_event), ("fight", "normal"))
+
+    def test_peck_in_crate(self):
+        s = seg("coopcam_2026-10-09T08_47_56.mp4", reply("day", 4, "normal", "floor"))
+        s["checks"] = {"fight": "No.", "peck": "Yes, the brown hen pecks the hen in the crate.", "nest": "Yes."}
+        r = decide(build_clips([s]))
+        self.assertEqual(r["events"][0]["kind"], "peck")
+        self.assertIn("nest box", r["events"][0]["title"])
+
+    def test_nest_check_makes_laying(self):
+        s = seg("coopcam_2026-10-09T09_03_08.mp4", reply("day", 4, "normal", "floor"))
+        s["checks"] = {"fight": "NO", "peck": "NO", "nest": "YES, a hen sits in the black crate."}
+        self.assertEqual(decide(build_clips([s]))["events"][0]["kind"], "laying")
+
+    def test_chicken_disturbance_is_not_high(self):
+        s = seg("coopcam_2026-10-09T06_22_30.mp4", reply("night", 2, "disturbance", "floor", mover="chicken"))
+        self.assertEqual(decide(build_clips([s]))["events"], [])
+
+
 if __name__ == "__main__":
     unittest.main()
