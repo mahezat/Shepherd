@@ -107,19 +107,24 @@ def ask_yolo(clip):
     return None if "_error" in r else r
 
 
-rows = []
-clips = sorted((ROOT / "clips").glob("*.mp4"))
-for i, clip in enumerate(clips, 1):
-    text, how = ask_cosmos(clip)
-    det = ask_yolo(clip)
-    rows.append({"filename": clip.name, "original_video": None, "source": f"clips/{clip.name}",
-                 "start_sec": 0, "end_sec": None, "reasoning": text, "detections": det,
-                 "raw": {"cosmos_input": how, "cosmos_model": MODEL, "path": "direct-to-GPU-endpoint"}})
-    line = " ".join(text.split())[:80] if text else how
-    print(f"[{i}/{len(clips)}] {clip.name[-24:-4]}  {line}", flush=True)
+def main():
+    rows = []
+    clips = sorted((ROOT / "clips").glob("*.mp4"))
+    for i, clip in enumerate(clips, 1):
+        text, how = ask_cosmos(clip)
+        det = ask_yolo(clip)
+        rows.append({"filename": clip.name, "original_video": None, "source": f"clips/{clip.name}",
+                     "start_sec": 0, "end_sec": None, "reasoning": text, "detections": det,
+                     "raw": {"cosmos_input": how, "cosmos_model": MODEL, "path": "direct-to-GPU-endpoint"}})
+        line = " ".join(text.split())[:80] if text else how
+        print(f"[{i}/{len(clips)}] {clip.name[-24:-4]}  {line}", flush=True)
 
-DATA.mkdir(exist_ok=True)
-(DATA / "segments.json").write_text(json.dumps(rows, indent=1, default=str))
-ok = sum(1 for r in rows if r["reasoning"])
-print(f"\nwrote data/segments.json: Cosmos answered {ok}/{len(rows)} clips")
-print("Next: bash ~/shepherd/scripts/vm_push.sh")
+    DATA.mkdir(exist_ok=True)
+    (DATA / "segments.json").write_text(json.dumps(rows, indent=1, default=str))
+    ok = sum(1 for r in rows if r["reasoning"])
+    print(f"\nwrote data/segments.json: Cosmos answered {ok}/{len(rows)} clips")
+    print("Next: bash ~/shepherd/scripts/vm_push.sh")
+
+
+if __name__ == "__main__":
+    main()
