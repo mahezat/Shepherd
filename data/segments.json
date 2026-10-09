@@ -6853,7 +6853,21 @@
   "checks": {
    "fight": "NO",
    "peck": "NO. No chicken pecks at another chicken in the video.",
-   "nest": "NO. The black plastic crate is on the floor, but no hen is sitting inside it."
+   "nest": "NO. The black plastic crate is on the floor, but no hen is sitting inside it.",
+   "fight_zoom": {
+    "top-left": "NO. No birds are seen fighting, jumping at, chasing, flapping at, or attacking each other in the video.",
+    "top-right": "NO. No birds are seen fighting, jumping at, chasing, flapping at, or attacking each other.",
+    "bottom-left": "NO, there is no fighting between any birds in the video.",
+    "bottom-right": "NO",
+    "center": "NO"
+   },
+   "peck_zoom": {
+    "top-left": "NO. No chicken pecks at another chicken in the video.",
+    "top-right": "No. No chicken pecks at another chicken in the video.",
+    "bottom-left": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-right": "NO. No chicken pecks at another chicken in the video.",
+    "center": "NO. No chicken pecks at another chicken in the video."
+   }
   }
  },
  {
@@ -10452,7 +10466,21 @@
   "checks": {
    "fight": "NO. No birds are seen fighting, jumping at, chasing, flapping at, or attacking each other.",
    "peck": "NO. No chicken pecks at another chicken in the video.",
-   "nest": "NO. The black plastic crate is on the floor, but no hen is sitting inside it."
+   "nest": "NO. The black plastic crate is on the floor, but no hen is sitting inside it.",
+   "fight_zoom": {
+    "top-left": "NO. No birds are seen fighting, jumping at, chasing, flapping at, or attacking each other in the video.",
+    "top-right": "NO. No birds are seen fighting, jumping at, chasing, flapping at, or attacking each other in the video.",
+    "bottom-left": "NO, the two birds do not interact with each other.",
+    "bottom-right": "NO",
+    "center": "NO. No two birds are seen fighting, jumping at, chasing, flapping at, or attacking each other."
+   },
+   "peck_zoom": {
+    "top-left": "NO. No chicken pecks at another chicken in the video.",
+    "top-right": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-left": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-right": "NO. No chicken pecks at another chicken in the video.",
+    "center": "NO. No chicken pecks at another chicken in the video."
+   }
   }
  },
  {
@@ -12501,7 +12529,21 @@
   "checks": {
    "fight": "NO. No birds fight, jump at, chase, flap at, or attack each other.",
    "peck": "NO. No chicken pecks at another chicken in the video.",
-   "nest": "NO. The black plastic crate is empty and serves as a nest box."
+   "nest": "NO. The black plastic crate is empty and serves as a nest box.",
+   "fight_zoom": {
+    "top-left": "NO",
+    "top-right": "NO, there is no interaction between any animals in the video.",
+    "bottom-left": "NO",
+    "bottom-right": "NO. No birds are visible in the video.",
+    "center": "NO, there is no interaction between the birds."
+   },
+   "peck_zoom": {
+    "top-left": "NO. No chicken pecks at another chicken in the video.",
+    "top-right": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-left": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-right": "NO. No chicken pecks at another chicken in the video.",
+    "center": "NO. No chicken pecks at another chicken in the video."
+   }
   }
  },
  {
@@ -14318,7 +14360,21 @@
   "checks": {
    "fight": "NO. No birds fight, jump at, chase, flap at, or attack each other.",
    "peck": "NO. No chicken pecks at another chicken in the video.",
-   "nest": "No. The hen is perched on the wooden railing, not inside the crate."
+   "nest": "No. The hen is perched on the wooden railing, not inside the crate.",
+   "fight_zoom": {
+    "top-left": "NO",
+    "top-right": "NO, there are no birds fighting in this video.",
+    "bottom-left": "NO, there is no interaction between the two birds.",
+    "bottom-right": "NO",
+    "center": "NO"
+   },
+   "peck_zoom": {
+    "top-left": "NO. No chicken pecks at another chicken in the video.",
+    "top-right": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-left": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-right": "NO. No chicken pecks at another chicken in the video.",
+    "center": "NO. No chicken pecks at another chicken in the video."
+   }
   }
  },
  {
@@ -15689,7 +15745,21 @@
   "checks": {
    "fight": "NO",
    "peck": "NO. No chicken pecks at another chicken in the video.",
-   "nest": "NO. The black plastic crate is empty."
+   "nest": "NO. The black plastic crate is empty.",
+   "fight_zoom": {
+    "top-left": "NO",
+    "top-right": "NO",
+    "bottom-left": "NO",
+    "bottom-right": "NO. No birds are visible in the video.",
+    "center": "NO. No birds are seen fighting, jumping at, chasing, flapping at, or attacking each other in the video."
+   },
+   "peck_zoom": {
+    "top-left": "NO. No chicken pecks at another chicken in the video.",
+    "top-right": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-left": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-right": "NO. No chicken pecks at another chicken in the video.",
+    "center": "NO. No chicken pecks at another chicken in the video."
+   }
   }
  },
  {
@@ -17394,7 +17464,21 @@
   "checks": {
    "fight": "NO, there is no interaction between any birds.",
    "peck": "NO. No chicken pecks at another chicken in the video.",
-   "nest": "No. The black plastic crate is empty and serves as a nest box."
+   "nest": "No. The black plastic crate is empty and serves as a nest box.",
+   "fight_zoom": {
+    "top-left": "NO, there is no interaction between any birds.",
+    "top-right": "NO. No birds are visible in the video.",
+    "bottom-left": "NO",
+    "bottom-right": "NO. No birds are seen fighting, jumping at, chasing, flapping at, or attacking each other.",
+    "center": "NO"
+   },
+   "peck_zoom": {
+    "top-left": "NO. No chicken pecks at another chicken in the video.",
+    "top-right": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-left": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-right": "NO. No chicken pecks at another chicken in the video.",
+    "center": "NO. No chicken pecks at another chicken in the video."
+   }
   }
  },
  {
@@ -18725,7 +18809,21 @@
   "checks": {
    "fight": "NO, there is no interaction between the birds.",
    "peck": "NO. No chicken pecks at another chicken in the video.",
-   "nest": "No. The black plastic crate is empty and serves as a nest box."
+   "nest": "No. The black plastic crate is empty and serves as a nest box.",
+   "fight_zoom": {
+    "top-left": "NO",
+    "top-right": "NO. No birds are visible in the video.",
+    "bottom-left": "NO. No birds are seen fighting, jumping at, chasing, flapping at, or attacking each other in the video.",
+    "bottom-right": "NO",
+    "center": "NO"
+   },
+   "peck_zoom": {
+    "top-left": "NO. No chicken pecks at another chicken in the video.",
+    "top-right": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-left": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-right": "NO. No chicken pecks at another chicken in the video.",
+    "center": "NO. No chicken pecks at another chicken in the video."
+   }
   }
  },
  {
@@ -21980,7 +22078,21 @@
   "checks": {
    "fight": "NO. No birds are seen fighting, jumping at, chasing, flapping at, or attacking each other.",
    "peck": "NO. No chicken pecks at another chicken in the video.",
-   "nest": "Yes. A hen is sitting inside the black plastic crate on the floor."
+   "nest": "Yes. A hen is sitting inside the black plastic crate on the floor.",
+   "fight_zoom": {
+    "top-left": "NO",
+    "top-right": "NO",
+    "bottom-left": "NO",
+    "bottom-right": "NO. No birds fight, jump at, chase, flap at, or attack each other in the video.",
+    "center": "NO, there is no bird fighting."
+   },
+   "peck_zoom": {
+    "top-left": "NO. No chicken pecks at another chicken in the video.",
+    "top-right": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-left": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-right": "NO. No chicken pecks at another chicken in the video.",
+    "center": "NO. No chicken pecks at another chicken in the video."
+   }
   }
  },
  {
@@ -30091,7 +30203,21 @@
   "checks": {
    "fight": "NO, the two birds do not interact with each other.",
    "peck": "NO. No chicken pecks at another chicken in the video.",
-   "nest": "Yes. A hen is sitting inside the black plastic crate on the floor."
+   "nest": "Yes. A hen is sitting inside the black plastic crate on the floor.",
+   "fight_zoom": {
+    "top-left": "NO. No birds are seen fighting, jumping at, chasing, flapping at, or attacking each other.",
+    "top-right": "NO. No two birds are seen fighting, jumping at, chasing, flapping at, or attacking each other in the video.",
+    "bottom-left": "NO",
+    "bottom-right": "NO. No birds are seen fighting, jumping at, chasing, flapping at, or attacking each other in the video.",
+    "center": "NO. No birds fight, jump at, chase, flap at, or attack each other."
+   },
+   "peck_zoom": {
+    "top-left": "NO. No chicken pecks at another chicken in the video.",
+    "top-right": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-left": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-right": "No. There is no interaction between the chickens in the video.",
+    "center": "NO. No chicken pecks at another chicken in the video."
+   }
   }
  },
  {
@@ -37696,7 +37822,21 @@
   "checks": {
    "fight": "NO, there is no fighting or aggressive interaction between any birds in the video.",
    "peck": "NO. No chicken pecks at another chicken in the video.",
-   "nest": "Yes, a hen is sitting inside the black crate."
+   "nest": "Yes, a hen is sitting inside the black crate.",
+   "fight_zoom": {
+    "top-left": "NO. No birds are seen fighting, jumping at, chasing, flapping at, or attacking each other.",
+    "top-right": "NO. No birds are visible in the video.",
+    "bottom-left": "NO",
+    "bottom-right": "NO, there is no interaction between the birds.",
+    "center": "NO, there is no fighting or aggressive interaction between any birds in the video."
+   },
+   "peck_zoom": {
+    "top-left": "NO. No chicken pecks at another chicken in the video.",
+    "top-right": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-left": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-right": "NO. No chicken pecks at another chicken in the video.",
+    "center": "NO. No chicken pecks at another chicken in the video."
+   }
   }
  },
  {
@@ -40793,7 +40933,21 @@
   "checks": {
    "fight": "NO. No two birds are seen fighting, jumping at, chasing, flapping at, or attacking each other.",
    "peck": "NO. No chicken is seen pecking at another chicken in the video.",
-   "nest": "Yes. A hen is sitting inside the black plastic crate on the floor."
+   "nest": "Yes. A hen is sitting inside the black plastic crate on the floor.",
+   "fight_zoom": {
+    "top-left": "NO. No birds are seen fighting, jumping at, chasing, flapping at, or attacking each other.",
+    "top-right": "NO. No birds are seen fighting, jumping at, chasing, flapping at, or attacking each other in the video.",
+    "bottom-left": "NO",
+    "bottom-right": "NO",
+    "center": "NO, there is no clear evidence of two birds fighting, jumping at, chasing, flapping at, or attacking each other more than once in the video."
+   },
+   "peck_zoom": {
+    "top-left": "NO. No chicken pecks at another chicken in the video.",
+    "top-right": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-left": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-right": "NO. No chicken pecks at another chicken in the video.",
+    "center": "NO. No chicken pecks at another chicken in the video."
+   }
   }
  },
  {
@@ -46184,7 +46338,21 @@
   "checks": {
    "fight": "NO. No two birds are seen fighting, jumping at, chasing, flapping at, or attacking each other.",
    "peck": "NO. No chicken pecks at another chicken in the video.",
-   "nest": "Yes. A hen is sitting inside the black plastic crate on the floor."
+   "nest": "Yes. A hen is sitting inside the black plastic crate on the floor.",
+   "fight_zoom": {
+    "top-left": "NO. No birds are seen fighting, jumping at, chasing, flapping at, or attacking each other.",
+    "top-right": "NO. No birds are seen fighting, jumping at, chasing, flapping at, or attacking each other.",
+    "bottom-left": "NO",
+    "bottom-right": "NO, there is no interaction between the birds.",
+    "center": "NO. No birds are seen fighting, jumping at, chasing, flapping at, or attacking each other."
+   },
+   "peck_zoom": {
+    "top-left": "NO. No chicken pecks at another chicken in the video.",
+    "top-right": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-left": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-right": "NO. No chicken pecks at another chicken in the video.",
+    "center": "NO. No chicken pecks at another chicken in the video."
+   }
   }
  },
  {
@@ -51721,7 +51889,21 @@
   "checks": {
    "fight": "NO. No birds are seen fighting, jumping at, chasing, flapping at, or attacking each other.",
    "peck": "NO. No chicken pecks at another chicken in the video.",
-   "nest": "Yes. A hen is sitting inside the black plastic crate on the floor."
+   "nest": "Yes. A hen is sitting inside the black plastic crate on the floor.",
+   "fight_zoom": {
+    "top-left": "NO. No birds are seen fighting, jumping at, chasing, flapping at, or attacking each other.",
+    "top-right": "NO. No birds are seen fighting or attacking each other in the video.",
+    "bottom-left": "NO",
+    "bottom-right": "NO, there is no interaction between the birds.",
+    "center": "NO, there is no fighting between any birds in the video."
+   },
+   "peck_zoom": {
+    "top-left": "NO. No chicken pecks at another chicken in the video.",
+    "top-right": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-left": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-right": "NO. No chicken pecks at another chicken in the video.",
+    "center": "NO. No chicken pecks at another chicken in the video."
+   }
   }
  },
  {
@@ -53360,7 +53542,21 @@
   "checks": {
    "fight": "NO. No birds are seen fighting, jumping at, chasing, flapping at, or attacking each other.",
    "peck": "NO. No chicken pecks at another chicken in the video.",
-   "nest": "No. The black plastic crate is empty and serves as a nest box, with no hen inside."
+   "nest": "No. The black plastic crate is empty and serves as a nest box, with no hen inside.",
+   "fight_zoom": {
+    "top-left": "NO, there is no interaction between any birds.",
+    "top-right": "NO",
+    "bottom-left": "NO",
+    "bottom-right": "NO. No birds are visible in the video.",
+    "center": "NO"
+   },
+   "peck_zoom": {
+    "top-left": "NO. No chicken pecks at another chicken in the video.",
+    "top-right": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-left": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-right": "NO. No chicken pecks at another chicken in the video.",
+    "center": "NO. No chicken pecks at another chicken in the video."
+   }
   }
  },
  {
@@ -54613,7 +54809,21 @@
   "checks": {
    "fight": "NO, there is no interaction between any birds.",
    "peck": "NO. No chicken pecks at another chicken in the video.",
-   "nest": "NO. The black plastic crate is empty."
+   "nest": "NO. The black plastic crate is empty.",
+   "fight_zoom": {
+    "top-left": "NO. No birds fight, jump at, chase, flap at or attack each other.",
+    "top-right": "NO",
+    "bottom-left": "NO",
+    "bottom-right": "NO",
+    "center": "NO. No two birds are seen fighting, jumping at, chasing, flapping at, or attacking each other in the video."
+   },
+   "peck_zoom": {
+    "top-left": "NO. No chicken pecks at another chicken in the video.",
+    "top-right": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-left": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-right": "NO. No chicken pecks at another chicken in the video.",
+    "center": "NO. No chicken pecks at another chicken in the video."
+   }
   }
  },
  {
@@ -55988,7 +56198,21 @@
   "checks": {
    "fight": "NO. No birds fight, jump at, chase, flap at, or attack each other.",
    "peck": "NO. No chicken pecks at another chicken in the video.",
-   "nest": "NO. The black plastic crate is empty."
+   "nest": "NO. The black plastic crate is empty.",
+   "fight_zoom": {
+    "top-left": "NO",
+    "top-right": "NO, there are no birds fighting, jumping at, chasing, flapping at, or attacking each other in the video.",
+    "bottom-left": "NO. No birds are visible in the video.",
+    "bottom-right": "NO. No birds are visible in the video.",
+    "center": "YES. Two birds flap at each other in the back of the pen."
+   },
+   "peck_zoom": {
+    "top-left": "NO. No chicken pecks at another chicken in the video.",
+    "top-right": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-left": "NO. No chicken pecks at another chicken in the video.",
+    "bottom-right": "NO. No chicken pecks at another chicken in the video.",
+    "center": "NO. No chicken pecks at another chicken in the video."
+   }
   }
  }
 ]
