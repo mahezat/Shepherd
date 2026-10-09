@@ -151,7 +151,8 @@ def main():
     parser.add_argument('--segments',type=Path,default=ROOT/'data/segments.json')
     parser.add_argument('--write',action='store_true',help='After reviewing the printed target and columns, create/insert/read back the event rows')
     args = parser.parse_args()
-    rows = build_rows(args.report.read_bytes(),args.segments.read_bytes() if args.segments.exists() else None)
+    report_bytes = args.report.read_bytes()
+    rows = build_rows(report_bytes,args.segments.read_bytes() if args.segments.exists() else None)
     config = load_config(args.config)
     require(config,('VDB_SCHEMA','VASTDB_BUCKET'))
     plan = {'team':config['USERNAME'],'bucket':config['VASTDB_BUCKET'],'schema':config['VDB_SCHEMA'],'table':TABLE,'columns':COLUMNS,'event_count':len(rows),'snapshot_id':rows[0]['snapshot_id'] if rows else None,
@@ -161,7 +162,7 @@ def main():
     if not args.write: return
     outcome = persist(config,rows)
     result = {**{k:plan[k] for k in ['team','bucket','schema','table','snapshot_id','event_count']},**outcome,'written_at_utc':datetime.now(timezone.utc).isoformat(),
-        'source_report_sha256':sha(args.report.read_bytes()),'pipeline_indexing_verified_by_this_write':False,'semantic_search_verified_by_this_write':False}
+        'source_report_sha256':sha(report_bytes),'pipeline_indexing_verified_by_this_write':False,'semantic_search_verified_by_this_write':False}
     emit_receipt('vast-write-receipt.json',result)
 
 

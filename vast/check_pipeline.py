@@ -95,8 +95,8 @@ def main():
     if args.pods: result['team_pods'] = pod_status(config)
     emit_receipt('vast-pipeline-check.json',result)
     if args.export_if_processing and result['pipeline_processing_verified']:
-        # Keep the direct-GPU output safe: the existing exporter can replace it
-        # with a partial result. Do not alter or reimplement the teammate script.
+        # Preserve the report's input snapshot before invoking the teammate-owned
+        # exporter. Recent versions write data/segments_pipeline.json separately.
         source = ROOT/'data/segments.json'
         backup = ROOT/'out'/('segments-before-vast-export-'+datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S')+'.json')
         if source.exists(): backup.write_bytes(source.read_bytes())

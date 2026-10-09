@@ -26,7 +26,7 @@ If at least one of the uploaded clips has completed reasoning, the wrapper runs 
 python3 -u scripts/vm_ingest.py --export
 ```
 
-It first backs up the current direct-GPU segment file under ignored `out/`, because the export script can replace it with a partial result. It records the exporter exit code and rechecks readiness. Do not push that export's application/data changes without coordinating with the teammate.
+It first backs up the report's current direct-GPU input snapshot under ignored `out/`. The teammate's latest exporter writes `data/segments_pipeline.json` separately. The wrapper records the exporter exit code and rechecks readiness. Do not push that export's application/data changes without coordinating with the teammate.
 
 Evidence goes to `out/vast-pipeline-check.json`. If processing remains unverified, show event staff that receipt and ask:
 
