@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@400;600&display=block">
+<style>
+  :root { --bg:#0d1510; --ink:#e6eee3; --muted:#9db0a2; --straw:#e2b448; --high:#f07a62; --good:#6cc488; }
+  html, body { margin:0; width:1920px; height:1080px; background:var(--bg); color:var(--ink); overflow:hidden; font-family:"Atkinson Hyperlegible", sans-serif; }
+  .scene { position:absolute; inset:0; display:grid; place-items:center; opacity:0; transition:opacity .6s ease-out; }
+  .scene.on { opacity:1; }
+  h1, h2 { font-family:"Bricolage Grotesque", sans-serif; margin:0; text-align:center; font-weight:800; }
+  .line { font-size:84px; line-height:1.08; max-width:1500px; }
+  .line .dim { color:var(--muted); }
+  .big { font-size:200px; }
+  .big span { color:var(--straw); }
+  .sub { font-size:44px; color:var(--muted); text-align:center; margin-top:28px; max-width:1300px; }
+  .mono { font-family:"IBM Plex Mono", monospace; font-size:28px; color:var(--muted); text-transform:uppercase; }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; width:1640px; }
+  .grid figure { margin:0; position:relative; }
+  .grid video { width:100%; border-radius:14px; display:block; }
+  .grid figcaption { position:absolute; left:18px; bottom:16px; font-family:"IBM Plex Mono", monospace; font-size:26px; background:rgba(13,21,16,.78); padding:6px 12px; border-radius:6px; }
+  .grid .hot figcaption { color:var(--high); }
+  .stack { display:grid; gap:26px; justify-items:center; }
+  .result { font-size:150px; line-height:1; }
+  .result b { color:var(--high); }
+</style></head>
+<body>
+<section class="scene" id="s1"><h2 class="line">Every video agent watches<br><span class="dim">people, cars and forklifts.</span></h2></section>
+<section class="scene" id="s2"><h2 class="line">Nobody's watching<br>the animals.</h2></section>
+<section class="scene" id="s3">
+  <div class="stack">
+    <div class="mono">Real footage · our coop · last night</div>
+    <div class="grid">
+      <figure><video src="media/coopcam_2026-10-08T15_35_00.webm" muted loop autoplay></video><figcaption>3:35 PM</figcaption></figure>
+      <figure><video src="media/coopcam_2026-10-08T21_51_55.webm" muted loop autoplay></video><figcaption>9:51 PM</figcaption></figure>
+      <figure class="hot"><video src="media/coopcam_fight_2026-10-09T06_22_30.webm" muted loop autoplay></video><figcaption>6:22 AM</figcaption></figure>
+      <figure><video src="media/coopcam_egglaying_2026-10-09T08_47_56.webm" muted loop autoplay></video><figcaption>8:47 AM</figcaption></figure>
+    </div>
+  </div>
+</section>
+<section class="scene" id="s4">
+  <div class="stack">
+    <h1 class="big">Shepherd<span>.</span></h1>
+    <p class="sub">Reads every clip your farm camera records, and tells you the ones that matter.</p>
+  </div>
+</section>
+<section class="scene" id="s5">
+  <div class="stack">
+    <h2 class="result">16 clips recorded.<br><b>1 matters.</b></h2>
+    <p class="sub">A rooster fight at 6:22 AM, in the dark, with nobody awake.</p>
+  </div>
+</section>
+<script>
+  // Timeline in seconds: [scene id, start, end]
+  const T = [["s1", 0.3, 3.4], ["s2", 3.8, 6.4], ["s3", 6.8, 12.6], ["s4", 13.0, 16.6], ["s5", 17.0, 21.0]];
+  let t0;
+  Promise.all([document.fonts.ready, ...[...document.querySelectorAll("video")].map(v => new Promise(r => v.readyState >= 3 ? r() : v.addEventListener("canplay", r, { once: true })))])
+    .then(() => { t0 = performance.now(); window.__t0wall = Date.now(); tick(); });
+  function tick() {
+    const t = (performance.now() - t0) / 1000;
+    for (const [id, a, b] of T) document.getElementById(id).classList.toggle("on", t >= a && t < b);
+    if (t < 22) requestAnimationFrame(tick); else window.__done = true;
+  }
+</script>
+</body></html>
