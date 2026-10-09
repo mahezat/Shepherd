@@ -208,8 +208,10 @@ def export(uploads):
                 "reasoning": text_of(s), "detections": det,
                 "raw": {k: v for k, v in s.items() if not isinstance(v, list) or len(v) < 50},
             })
-    (DATA / "segments.json").write_text(json.dumps(rows, indent=1, default=str))
-    print(f"\nwrote data/segments.json: {len(rows)} segments from {len(found)} clips")
+    # Separate file: never overwrite the direct-to-Cosmos results in data/segments.json.
+    if rows:
+        (DATA / "segments_pipeline.json").write_text(json.dumps(rows, indent=1, default=str))
+    print(f"\nwrote data/segments_pipeline.json: {len(rows)} segments from {len(found)} clips")
     if pending:
         print("NOT indexed yet:", ", ".join(pending), "\nRun again later with --export")
     print()
