@@ -213,7 +213,8 @@ def build_clips(segments: list[dict]) -> list[Clip]:
             hits = [name for name, a in tiles.items() if yes(a)]
             return hits
 
-        fight_tiles, peck_tiles = any_tile("fight_zoom"), any_tile("peck_zoom")
+        fight_tiles = any_tile("fight_zoom") + [f"slow-motion {t}" for t in any_tile("fight_slow")]
+        peck_tiles = any_tile("peck_zoom") + [f"slow-motion {t}" for t in any_tile("peck_slow")]
         zoomed = {"fight": fight_tiles, "peck": peck_tiles}
         if yes(checks.get("fight")) or fight_tiles:
             event = "fight"

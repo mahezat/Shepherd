@@ -41,16 +41,21 @@ def zoom_checks(clip):
     return res
 
 
-path = v.DATA / "segments.json"
-rows = json.loads(path.read_text())
-with ThreadPoolExecutor(max_workers=4) as pool:
-    results = list(pool.map(lambda r: zoom_checks(v.ROOT / "clips" / r["filename"]), rows))
-for i, (row, res) in enumerate(zip(rows, results), 1):
-    row.setdefault("checks", {}).update(res)
+def main():
+    path = v.DATA / "segments.json"
+    rows = json.loads(path.read_text())
+    with ThreadPoolExecutor(max_workers=4) as pool:
+        results = list(pool.map(lambda r: zoom_checks(v.ROOT / "clips" / r["filename"]), rows))
+    for i, (row, res) in enumerate(zip(rows, results), 1):
+        row.setdefault("checks", {}).update(res)
 
-    def yes_tiles(k):
-        return [t for t, a in res[k].items() if (a.split() or [""])[0].strip(".,").upper() == "YES"]
-    print(f"[{i}/{len(rows)}] {row['filename'][-24:-4]}  fight in: {yes_tiles('fight_zoom') or '-'}  "
-          f"peck in: {yes_tiles('peck_zoom') or '-'}", flush=True)
-path.write_text(json.dumps(rows, indent=1, default=str))
-print("\nupdated data/segments.json. Next: bash ~/shepherd/scripts/vm_push.sh")
+        def yes_tiles(k):
+            return [t for t, a in res[k].items() if (a.split() or [""])[0].strip(".,").upper() == "YES"]
+        print(f"[{i}/{len(rows)}] {row['filename'][-24:-4]}  fight in: {yes_tiles('fight_zoom') or '-'}  "
+              f"peck in: {yes_tiles('peck_zoom') or '-'}", flush=True)
+    path.write_text(json.dumps(rows, indent=1, default=str))
+    print("\nupdated data/segments.json. Next: bash ~/shepherd/scripts/vm_push.sh")
+
+
+if __name__ == "__main__":
+    main()
