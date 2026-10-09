@@ -36,6 +36,7 @@ def push(i, dur, amount=0.035):
 
 
 IN_AT, IN_D, RISE = 0.45, 0.7, 70   # cards arrive after the background has slid in, easing up into place
+SLIDE = 0.7                          # length of the slide into the next scene
 OUT_D = 0.35                         # and fade before the next slide, so the move between scenes is the landscape, not a slide deck
 
 
@@ -43,7 +44,7 @@ def motion(dur, enter=True, leave=True):
     """Overlay y expression: ease-out rise on entry (cubic), small ease-in lift on exit."""
     y = f"{RISE}*pow(1-min(max(t-{IN_AT},0)/{IN_D},1),3)" if enter else "0"
     if leave:
-        y += f"-24*pow(max(t-{dur - OUT_D},0)/{OUT_D},2)"
+        y += f"-24*pow(min(max(t-{dur - SLIDE - OUT_D},0)/{OUT_D},1),2)"
     return y
 
 
@@ -52,7 +53,7 @@ def fades(dur, enter=True, leave=True):
     if enter:
         f.append(f"fade=t=in:st={IN_AT}:d={IN_D * 0.7:.2f}:alpha=1")
     if leave:
-        f.append(f"fade=t=out:st={dur - OUT_D}:d={OUT_D}:alpha=1")
+        f.append(f"fade=t=out:st={dur - SLIDE - OUT_D}:d={OUT_D}:alpha=1")  # gone before the slide starts
     return ",".join(f) or "null"
 
 
