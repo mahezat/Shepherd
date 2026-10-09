@@ -36,8 +36,9 @@ def push(i, dur, amount=0.035):
 
 
 def card(name, bg, dur, direction=1):
+    """The card holds still; only the background drifts behind it."""
     out = TMP / f"{name}.mp4"
-    fc = f"{bg_pan(0, dur, direction)}[b];{push(1, dur)}[f];[b][f]overlay=0:0,format=yuv420p,settb=AVTB[v]"
+    fc = f"{bg_pan(0, dur, direction)}[b];[b][1:v]overlay=0:0,format=yuv420p,settb=AVTB[v]"
     run(["-loop", "1", "-t", str(dur), "-i", str(F / f"bg-{bg}.png"),
          "-loop", "1", "-t", str(dur), "-i", str(F / f"{name}.png"),
          "-filter_complex", fc, "-map", "[v]", "-t", str(dur), *ENC, str(out)])
@@ -77,6 +78,23 @@ def fight_zoom(dur=5.0):
           f"[z][1:v]overlay=0:0,format=yuv420p,settb=AVTB[v]")
     run(["-stream_loop", "-1", "-t", str(dur), "-i", str(FIGHT),
          "-loop", "1", "-t", str(dur), "-i", str(F / "fightzoom.png"),
+         "-filter_complex", fc, "-map", "[v]", "-t", str(dur), *ENC, str(out)])
+    return out
+
+
+def ask_scene(dur=7.5, answer_at=1.6):
+    """Plain-English search: the question sits in the box, then the answer and the real 9:04 AM clip appear."""
+    out = TMP / "ask.mp4"
+    x, y, w, h = json.loads((F / "hole_ask.json").read_text())
+    clip = CLIPS / "coopcam_egglaying_2026-10-09T09_04_15.mp4"
+    fc = (f"{bg_pan(0, dur)}[b];[b][1:v]overlay=0:0[q];"
+          f"[2:v]format=rgba,fade=t=in:st={answer_at}:d=0.5:alpha=1[a];[q][a]overlay=0:0[qa];"
+          f"[3:v]fps={FPS},scale={w}:{h},setsar=1,format=rgba,fade=t=in:st={answer_at}:d=0.5:alpha=1[c];"
+          f"[qa][c]overlay={x}:{y}:shortest=1,format=yuv420p,settb=AVTB[v]")
+    run(["-loop", "1", "-t", str(dur), "-i", str(F / "bg-cow.png"),
+         "-loop", "1", "-t", str(dur), "-i", str(F / "ask.png"),
+         "-loop", "1", "-t", str(dur), "-i", str(F / "ask_ans.png"),
+         "-stream_loop", "-1", "-t", str(dur), "-i", str(clip),
          "-filter_complex", fc, "-map", "[v]", "-t", str(dur), *ENC, str(out)])
     return out
 
@@ -123,6 +141,7 @@ if __name__ == "__main__":
         (card("i4", "hay", 3.6, -1), 3.6, SL),
         (card("i5", "fence", 4.0), 4.0, SL),
         (card("phone", "fence", 5.8, -1), 5.8, SL),
+        (ask_scene(7.5), 7.5, SL),
         (card("i6", "hay", 6.2), 6.2, FD),
     ]
     chain(intro, HERE / "intro.mp4")

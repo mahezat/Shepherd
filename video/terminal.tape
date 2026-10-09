@@ -20,5 +20,9 @@ Sleep 1.5s
 Type "python3 -m shepherd.agent 2>/dev/null | grep -vi weave" Sleep 400ms Enter
 Wait+Screen@40s /report by/
 Sleep 3s
-Type "python3 tests/test_rules.py 2>&1 | tail -3" Sleep 300ms Enter
+Type "clear" Enter
+Type "python3 -m shepherd.ask 'when was the last time a hen laid an egg?' 2>/dev/null | grep -vi weave" Sleep 400ms Enter
+Wait+Screen@40s /answered by/
+Sleep 4s
+Type "python3 tests/test_rules.py 2>&1 | tail -1; python3 tests/test_ask.py" Sleep 300ms Enter
 Sleep 3s

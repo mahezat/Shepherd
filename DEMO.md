@@ -29,6 +29,7 @@ Everything below is what Shepherd actually produced on our 16 real clips today.
 
 - Green card: **"Hen in the nest box, likely laying, 8:47 to 9:04 AM."**
 - Say: "Six clips of a hen shifting in the box. Shepherd reports one session, not six alerts. It says *likely*, because no clip shows the egg."
+- Then ask it, live in the terminal: `python3 -m shepherd.ask "when was the last time a hen laid an egg?"`. Say: "The farmer can just ask. Nemotron searches what Cosmos saw in every clip, by meaning: 9:04 AM, hen in the nest box, here are the clips. The guard checks every time it cites belongs to a real clip."
 
 ## 5. The guardrail (30s)
 
@@ -70,7 +71,7 @@ Everything below is what Shepherd actually produced on our 16 real clips today.
 
 ## Submission text (tokensand.com/vastnyc, closes 4:30)
 
-**Short:** Shepherd reads every clip a farm camera records and tells the farmer what matters. On 16 real clips from our coop, NVIDIA Cosmos (with a zoom pass for small, far-away action) found a rooster fight at 6:22 AM and a laying session, and filtered the rest. A guard rejected Nemotron's report drafts when they invented an alert.
+**Short:** Shepherd reads every clip a farm camera records and tells the farmer what matters. On 16 real clips from our coop, NVIDIA Cosmos (with a zoom pass for small, far-away action) found a rooster fight at 6:22 AM and a laying session, and filtered the rest. A guard rejected Nemotron's report drafts when they invented an alert. The farmer can also ask in plain English ("when was the last time a hen laid an egg?") and get the time and the real clips back.
 
 **Built with:** VAST AI OS, NVIDIA Cosmos Reason, YOLO11, CoreWeave GPUs, NVIDIA Nemotron on Weights & Biases Inference, W&B Weave, Cursor.
 

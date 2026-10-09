@@ -40,6 +40,7 @@ coop clips ──> NVIDIA Cosmos Reason (CoreWeave GPUs) ──> rules ──> N
 - **Four looks per clip.** The small Cosmos model calls almost everything "normal" in a long form but answers direct yes/no questions well. The fight was a few dozen pixels in infrared at the back fence, so Shepherd also checks 5 zoomed tiles and a 4× slow-motion copy of every clip. The zoom found the fight that full frame missed, and raised no false fights in the other 15 clips.
 - **Rules, not vibes** ([`shepherd/rules.py`](shepherd/rules.py)). Repeat clips become one event (fights within 10 min, nest-box sessions within 20). Urgency is tiered: HIGH (wake up now), LOW (worth watching), good news. An event is *confirmed* only when two signals agree. A clip Cosmos can't read is "can't tell", never a guess. Filename labels are never read; only the timestamp is (there's a test for it).
 - **A guard on the language model** ([`shepherd/agent.py`](shepherd/agent.py)). NVIDIA Nemotron on W&B Inference writes the report from the rules' output. Shepherd rejects any draft that adds a number, drops or renames an event, or changes a priority, gives the model one retry with the reason, then falls back to the rules' own text. During the event, Nemotron invented a second alert twice; both drafts were rejected, and the traces show it.
+- **Ask in plain English** ([`shepherd/ask.py`](shepherd/ask.py)). `python3 -m shepherd.ask "when was the last time a hen laid an egg?"` searches what Cosmos saw in every clip by meaning, not keywords: NVIDIA Nemotron reads the question and a one-line index per clip and picks the clips that answer it. The same kind of guard applies: it may only cite clips that exist, every time it writes must belong to a clip it cited, and it may not claim an egg (the camera can't see one). On our footage: *"9:04 AM on Oct 9, a hen was in the nest box, likely laying"*, with the 6 matching clips and Cosmos's words for each. Without a key, a small concept matcher answers and says so.
 - **Everything traced** in W&B Weave: every Cosmos answer, every rule, every draft and why it was accepted or rejected.
 - **VAST.** Our clips were uploaded to the VAST AI OS; [`vast/`](vast/) writes every event to a VastDB table (`shepherd_events`) with its evidence and provenance, then reads it back in a separate transaction to verify.
 
@@ -49,7 +50,7 @@ coop clips ──> NVIDIA Cosmos Reason (CoreWeave GPUs) ──> rules ──> N
 |---|---|
 | **VAST AI OS / VastDB** | Clip upload; event store with evidence and read-back verification |
 | **NVIDIA Cosmos Reason** | Sees: descriptions, yes/no checks, zoom and slow-motion passes |
-| **NVIDIA Nemotron** | Writes the morning report (via W&B Inference) |
+| **NVIDIA Nemotron** | Writes the morning report and answers plain-English questions (via W&B Inference) |
 | **YOLO11** | Bird counts |
 | **CoreWeave** | GPUs serving Cosmos and YOLO |
 | **Weights & Biases** | Inference (Nemotron) and Weave tracing |
@@ -69,7 +70,9 @@ python3 -u vast/write_events.py --write   # events -> VastDB
 pip install -r requirements.txt
 python3 -m shepherd.agent            # rules + Nemotron report + Weave  -> docs/report.json
 python3 scripts/build_site.py        # report page in docs/
+python3 -m shepherd.ask "when was the last time a hen laid an egg?"   # plain-English search
 python3 tests/test_rules.py          # 22 rule tests
+python3 tests/test_ask.py            # search guard tests
 ```
 
 ## Repo map

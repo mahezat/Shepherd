@@ -12,11 +12,13 @@ const fs = require('fs');
     await p.screenshot({ path: `frames/${id}.png` });
   }
   await p.setViewportSize({ width: 1920, height: 1080 });
-  const ids = ['i1','i3','iw','split','split_hot','fightzoom','phone','i4','i5','i6','a1','a2','a3','a4','a5','a6','a7','a8','end'];
+  const ids = ['i1','i3','iw','split','split_hot','fightzoom','phone','ask','ask_ans','i4','i5','i6','a1','a2','a3','a4','a5','a6','a7','a8','end'];
   for (const id of ids) {
     await p.evaluate(i => window.render(i), id);
     await p.evaluate(() => document.fonts.ready); await p.waitForTimeout(120);
     await p.screenshot({ path: `frames/${id}.png`, omitBackground: true });
+    if (id === 'ask_ans') { const r = await p.evaluate(() => { const b = document.querySelector('.hole2').getBoundingClientRect(); return [b.x, b.y, b.width, b.height].map(Math.round); });
+      fs.writeFileSync('frames/hole_ask.json', JSON.stringify(r)); }
     if (id === 'a3') { const r = await p.evaluate(() => { const b = document.querySelector('.hole').getBoundingClientRect(); return [b.x, b.y, b.width, b.height].map(Math.round); });
       fs.writeFileSync('frames/hole.json', JSON.stringify(r)); }
   }
