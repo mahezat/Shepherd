@@ -6,7 +6,7 @@ const fs = require('fs');
   const p = await b.newPage({ viewport: { width: 1920, height: 1080 } });
   await p.goto('http://localhost:8766/frames.html');
   await p.evaluate(() => document.fonts.ready);
-  for (const id of ['bg-hay', 'bg-fence', 'bg-cow']) {
+  for (const id of ['bg-hay', 'bg-hay-chickens', 'bg-fence', 'bg-cow']) {
     await p.setViewportSize({ width: 2400, height: 1080 });
     await p.evaluate(i => window.render(i), id); await p.waitForTimeout(100);
     await p.screenshot({ path: `frames/${id}.png` });
@@ -17,6 +17,8 @@ const fs = require('fs');
     await p.evaluate(i => window.render(i), id);
     await p.evaluate(() => document.fonts.ready); await p.waitForTimeout(120);
     await p.screenshot({ path: `frames/${id}.png`, omitBackground: true });
+    if (id === 'i5') { const r = await p.evaluate(() => { const b = document.querySelector('.hole3').getBoundingClientRect(); return [b.x, b.y, b.width, b.height].map(Math.round); });
+      fs.writeFileSync('frames/hole_gallery.json', JSON.stringify(r)); }
     if (id === 'ask_ans') { const r = await p.evaluate(() => { const b = document.querySelector('.hole2').getBoundingClientRect(); return [b.x, b.y, b.width, b.height].map(Math.round); });
       fs.writeFileSync('frames/hole_ask.json', JSON.stringify(r)); }
     if (id === 'a3') { const r = await p.evaluate(() => { const b = document.querySelector('.hole').getBoundingClientRect(); return [b.x, b.y, b.width, b.height].map(Math.round); });

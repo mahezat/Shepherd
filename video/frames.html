@@ -159,6 +159,49 @@ function bgHay() {
   }
   return s + `<circle cx="2050" cy="170" r="70" fill="#f4d27a"/>`;
 }
+// Original flat clip-art hen and chick (drawn here, not traced), dark outline, barn palette.
+const OL = "#3a2414";
+function hen({ body = "#f2b233", wing = "#d98a2e", tail = "#a85a26" } = {}) {
+  return `
+  <ellipse cx="200" cy="372" rx="120" ry="12" fill="${OL}" opacity=".18"/>
+  <g stroke="${OL}" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M178 300 L174 360 M174 360 L150 368 M174 360 L170 372 M174 360 L196 370 M226 296 L230 360 M230 360 L208 370 M230 360 L232 373 M230 360 L254 368" stroke-width="15"/>
+    <path d="M178 300 L174 360 M174 360 L150 368 M174 360 L170 372 M174 360 L196 370 M226 296 L230 360 M230 360 L208 370 M230 360 L232 373 M230 360 L254 368" stroke="#ef8a2b" stroke-width="7"/>
+  </g>
+  <g stroke="${OL}" stroke-width="8" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M112 175 C78 160 52 128 56 76 C78 92 92 104 102 116 C96 90 104 62 126 44 C140 76 146 104 142 138 C152 116 168 104 186 100 C184 130 170 160 150 180 Z" fill="${tail}"/>
+    <path d="M247 60 C238 34 258 22 266 40 C266 18 292 18 289 40 C298 26 318 38 303 62 Z" fill="#d9412b"/>
+    <path d="M312 88 L348 101 L312 114 Z" fill="#ef8a2b"/>
+    <path d="M120 300 C66 290 46 236 68 188 C84 158 112 150 142 152 C178 156 206 146 226 120 C228 86 236 58 264 50 C298 42 322 70 320 100 C318 130 304 150 302 176 C310 232 284 292 222 306 C188 314 150 312 120 300 Z" fill="${body}"/>
+    <path d="M309 116 C326 120 324 148 309 144 C301 136 302 122 309 116 Z" fill="#d9412b"/>
+    <path d="M118 206 C138 178 210 172 244 202 C250 234 218 266 172 266 C138 266 112 244 118 206 Z" fill="${wing}" stroke-width="6"/>
+  </g>
+  <g fill="none" stroke="${OL}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M138 244 C160 254 186 256 214 246"/><path d="M148 222 C170 232 198 232 230 222"/>
+    <path d="M224 132 q10 18 20 4 q10 18 20 4 q10 18 20 4 q9 16 18 5"/>
+  </g>
+  <circle cx="290" cy="88" r="8" fill="${OL}"/><circle cx="292.5" cy="85.5" r="2.6" fill="#fff"/>
+  <ellipse cx="282" cy="108" rx="9" ry="5" fill="#e8735a" opacity=".55"/>`;
+}
+function chick() {
+  return `
+  <ellipse cx="70" cy="148" rx="48" ry="7" fill="${OL}" opacity=".18"/>
+  <g stroke="${OL}" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M62 120 L60 142 L48 147 M60 142 L66 148 M82 120 L84 142 L74 147 M84 142 L92 147" stroke-width="10"/>
+    <path d="M62 120 L60 142 L48 147 M60 142 L66 148 M82 120 L84 142 L74 147 M84 142 L92 147" stroke="#ef8a2b" stroke-width="4.5"/>
+  </g>
+  <g stroke="${OL}" stroke-width="6" stroke-linejoin="round">
+    <path d="M22 66 L4 74 L22 82 Z" fill="#ef8a2b"/>
+    <path d="M40 30 C62 28 74 48 70 64 C96 66 116 82 112 104 C108 126 84 132 64 128 C40 126 24 112 28 92 C18 82 16 66 22 52 C26 40 32 32 40 30 Z" fill="#f7cf4a"/>
+    <path d="M58 96 C70 86 92 88 98 100 C94 114 74 118 62 110 Z" fill="#efb92f" stroke-width="5"/>
+  </g>
+  <circle cx="38" cy="56" r="5.5" fill="${OL}"/><circle cx="39.6" cy="54.4" r="1.8" fill="#fff"/>`;
+}
+function bgHayChickens() {  // the hay field with a hen, her chick and a white hen in front of the bales (title slide)
+  return bgHay() + `<g transform="translate(600,752) scale(.8)">${hen()}</g>`
+    + `<g transform="translate(1000,912) scale(.9)">${chick()}</g>`
+    + `<g transform="translate(2060,752) scale(-.8,.8)">${hen({ body: "#fbf6ea", wing: "#e4d8bf", tail: "#2a1a14" })}</g>`;
+}
 function bgFence() {
   let s = `<rect width="${W}" height="${H}" fill="#cfe3e8"/><rect y="640" width="${W}" height="440" fill="#6b8e3a"/>`;
   for (let x = 0; x < W; x += 46) s += `<line x1="${x}" x2="${x + 18}" y1="${H}" y2="${H - 60}" stroke="#58772f" stroke-width="5"/>`;
@@ -234,21 +277,18 @@ const HUD_SKIP = new Set(["split","split_hot","fightzoom","ask_ans"]);
 function hud(id) {
   if (HUD_SKIP.has(id) || STEPS[id]) return "";
   const n = String(ORDER.indexOf(id) + 1).padStart(2, "0");
-  return `<div class="hud"><i class="c tl"></i><i class="c tr"></i><i class="c bl"></i><i class="c br"></i>
-    <div class="chip k1">Shepherd <b>//</b> Cam-01 Coop</div>
-    ${id === "phone" ? "" : `<div class="chip k2"><span class="dot"></span>Rec &middot; Fredon, NJ</div>`}
-    <div class="chip k3">16 real clips &middot; Oct 8 to Oct 9</div>
-    <div class="chip k4">${n} / ${String(ORDER.length).padStart(2, "0")}</div></div>`;
+  return `<div class="hud"><i class="c tl"></i><i class="c tr"></i><i class="c bl"></i><i class="c br"></i></div>`;
 }
 function render(id) {
   CUR = id;
   const f = document.getElementById("f");
   document.body.className = id.startsWith("bg-") ? "bgpage" : "";
   if (id === "bg-hay") return f.innerHTML = `<svg width="${W}" height="${H}">${bgHay()}</svg>`;
+  if (id === "bg-hay-chickens") return f.innerHTML = `<svg width="${W}" height="${H}">${bgHayChickens()}</svg>`;
   if (id === "bg-fence") return f.innerHTML = `<svg width="${W}" height="${H}">${bgFence()}</svg>`;
   if (id === "bg-cow") return f.innerHTML = `<svg width="${W}" height="${H}">${bgCow()}</svg>`;
   if (id === "i1") f.innerHTML = board(`<h2 class="h">Most video agents watch people, cars and forklifts.</h2><p class="sub">We built one for a chicken coop.</p>`);
-  if (id === "i3") f.innerHTML = board(`<div class="tag">The problem</div><h2 class="h" style="font-size:72px">On a small farm, nobody is awake at 6 AM watching the coop.</h2>
+  if (id === "i3") f.innerHTML = board(`<h2 class="h" style="font-size:72px">On a small farm, nobody is awake at 6 AM watching the coop.</h2>
     <p class="sub">Fights, injuries and predators happen while the farmer sleeps.</p>`);
   if (id === "iw") f.innerHTML = board(`<h2 class="h" style="font-size:64px">No animal should be hurt or lose its life because farm alerts haven't caught up to the cameras farmers already own.</h2>`);
   if (id === "split") f.innerHTML = `<div class="bar"><div class="loc">Real clips, recorded live from our chicken coop in Fredon, NJ</div><div class="rec"><i></i>Oct 8 to Oct 9</div></div>
@@ -262,13 +302,12 @@ function render(id) {
       <div class="hotbox" style="left:113px;top:599px;width:844px;height:485px"></div>
       <div class="ring" style="left:420px;top:745px;width:190px;height:140px"></div>
       <div class="callout" style="left:1010px;top:690px">6:22 AM, in the dark.<br>Two roosters fighting through the fence. Nobody awake.</div>`;
-  if (id === "fightzoom") f.innerHTML = `<div class="ztag"><span class="real" style="background:var(--barn)">Real clip</span><span class="real">Zoomed in &middot; 6:22 AM &middot; Fredon, NJ</span></div>
-      <div class="ring" style="left:735px;top:330px;width:450px;height:340px;border-width:10px"></div>
-      <div class="zbar">This is what Shepherd caught: two roosters fighting, before sunrise, with nobody there to stop it.</div>`;
+  if (id === "fightzoom") f.innerHTML = `<div class="ring" style="left:735px;top:330px;width:450px;height:340px;border-width:10px"></div>
+      <div class="zbar">Real clip, zoomed in. This is what Shepherd caught: two roosters fighting, before sunrise, with nobody there to stop it.</div>`;
   if (id === "phone") f.innerHTML = `<div class="phonewrap">
       <div class="phonecopy"><h2>Alerts go <span>straight to the farmer's phone.</span></h2>
-        <p>Only the events that need a person. The real clip is one tap away.</p>
-        <div class="tag">Alert preview</div></div>
+        <p>Only the events that need a person. The real clip is one tap away. This is a preview of the text.</p>
+</div>
       <div class="phoneslot"><div class="iphone"><div class="ios">
         <div class="island"></div>
         <div class="sb"><span class="clock">6:23</span><span class="icons">
@@ -290,9 +329,10 @@ function render(id) {
           <div class="field"><span>Text Message &middot; SMS</span><svg width="14" height="20" viewBox="0 0 14 20"><rect x="4" y="1" width="6" height="11" rx="3" fill="#8e8e93"/><path d="M1.5 9a5.5 5.5 0 0 0 11 0M7 14.5V18" fill="none" stroke="#8e8e93" stroke-width="1.6" stroke-linecap="round"/></svg></div></div>
         <div class="home"></div>
       </div></div></div></div>`;
-  if (id === "i4") f.innerHTML = board(`<h1 class="logo">Shepherd</h1><p class="sub">Reads every clip your farm camera records and tells you which ones matter.</p>`);
-  if (id === "i5") f.innerHTML = board(`<h2 class="h">16 real clips recorded.<br><span class="r">1 matters.</span></h2><p class="sub">A rooster fight at 6:22 AM, in the dark, with nobody awake.</p>`);
-  if (id === "i6") f.innerHTML = board(`<div class="tag green">Who it's for</div><div class="two">
+  if (id === "i4") { f.innerHTML = board(`<h1 class="logo">Shepherd</h1><p class="sub">Reads every clip your farm camera records and tells you which ones matter.</p>`);
+    f.querySelector(".board").style.top = "36%"; }  // sits higher so the chickens below stay in view
+  if (id === "i5") f.innerHTML = board(`<div class="hole3" style="width:1440px;height:194px;background:var(--ink)"></div><h2 class="h">16 real clips recorded.<br><span class="r">1 matters.</span></h2><p class="sub">A rooster fight at 6:22 AM, in the dark, with nobody awake.</p>`);
+  if (id === "i6") f.innerHTML = board(`<div class="two">
       <div class="a"><h3>The animals</h3><p>A hurt bird gets found in the morning, not days later. Fights get noticed before they turn into injuries.</p></div>
       <div class="b"><h3>The farmer</h3><p>The night watch a small farm can't afford to hire, on the camera they already own.</p></div></div>`);
   if (id === "ask" || id === "ask_ans") {
@@ -301,7 +341,7 @@ function render(id) {
         <p class="q2">Cosmos: "Yes. A hen is sitting inside the black plastic crate on the floor."</p>
         <p>6 matching clips. Real clip from our coop, Fredon, NJ.</p>
         <div class="by">Searched by NVIDIA Nemotron &middot; checked by Shepherd's guard</div></div></div>`;
-    f.innerHTML = board(`<div class="ask"><div class="tag green" style="justify-self:start">Ask Shepherd in plain English</div>
+    f.innerHTML = board(`<div class="ask">
       <div class="search"><span class="pr">&rsaquo;</span><span>When was the last time a hen laid an egg?</span><span class="cur"></span></div>
       <div style="visibility:${id === "ask" ? "hidden" : "visible"}">${ans}</div></div>`);
     if (id === "ask_ans") {  // answer layer only: hide everything that the "ask" still already shows

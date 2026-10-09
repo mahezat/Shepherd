@@ -82,6 +82,31 @@ def fight_zoom(dur=5.0):
     return out
 
 
+def gallery(dur=7.0, bg="fence"):
+    """'16 real clips recorded': a moving strip of the other 15 real clips plays above the line."""
+    out = TMP / "i5.mp4"
+    x, y, w, h = json.loads((F / "hole_gallery.json").read_text())
+    rest = sorted(p for p in CLIPS.glob("*.mp4") if p != FIGHT)
+    groups = [[p for p in rest if k(p.name)] for k in (lambda n: "T15" in n, lambda n: "T21" in n,
+                                                         lambda n: "egg" in n, lambda n: "fight" in n)]
+    clips = [g[i] for i in range(max(map(len, groups))) for g in groups if i < len(g)]  # mix day, night, nest, fight
+    tw, gap = round(h * 16 / 9), 14
+    args = ["-loop", "1", "-t", str(dur), "-i", str(F / f"bg-{bg}.png"),
+            "-loop", "1", "-t", str(dur), "-i", str(F / "i5.png")]
+    for c in clips:
+        args += ["-i", str(c)]
+    fc = [f"{bg_pan(0, dur)}[b]", "[b][1:v]overlay=0:0[base]"]
+    for i in range(len(clips)):
+        fc.append(f"[{i + 2}:v]scale={tw}:{h},setsar=1,setpts=1.45*PTS,framerate=fps={FPS},"
+                  f"tpad=stop_mode=clone:stop_duration={dur},trim=duration={dur},pad={tw + gap}:{h}:0:0:color=0xfbf6ea[t{i}]")
+    step = 8  # px per frame, exact: 240 px/s
+    fc.append("".join(f"[t{i}]" for i in range(len(clips))) + f"hstack=inputs={len(clips)},"
+              f"crop={w}:{h}:'n*{step}':0[g]")
+    fc.append(f"[base][g]overlay={x}:{y}:shortest=1,format=yuv420p,settb=AVTB[v]")
+    run([*args, "-filter_complex", ";".join(fc), "-map", "[v]", "-t", str(dur), *ENC, str(out)])
+    return out
+
+
 def ask_scene(dur=7.5, answer_at=1.6):
     """Plain-English search: the question sits in the box, then the answer and the real 9:04 AM clip appear."""
     out = TMP / "ask.mp4"
@@ -134,19 +159,19 @@ if __name__ == "__main__":
     SL, FD = ("slideleft", 0.7), ("fade", 0.6)
     intro = [
         (card("i1", "hay", 3.6), 3.6, SL),
-        (card("i3", "fence", 4.8, -1), 4.8, SL),
-        (card("iw", "cow", 5.6), 5.6, SL),
+        (card("i3", "fence", 5.4, -1), 5.4, SL),
+        (card("iw", "cow", 7.0), 7.0, SL),
         (split(8.5), 8.5, ("zoomin", 0.8)),
-        (fight_zoom(5.2), 5.2, SL),
-        (card("i4", "hay", 3.6, -1), 3.6, SL),
-        (card("i5", "fence", 4.0), 4.0, SL),
-        (card("phone", "fence", 5.8, -1), 5.8, SL),
-        (ask_scene(7.5), 7.5, SL),
-        (card("i6", "hay", 6.2), 6.2, FD),
+        (fight_zoom(6.0), 6.0, SL),
+        (card("i4", "hay-chickens", 4.4, -1), 4.4, SL),
+        (gallery(7.0), 7.0, SL),
+        (card("phone", "fence", 7.2, -1), 7.2, SL),
+        (ask_scene(9.0), 9.0, SL),
+        (card("i6", "hay", 7.6), 7.6, FD),
     ]
     chain(intro, HERE / "intro.mp4")
 
-    steps = [("a1", 5.6), ("a2", 6.0), ("a3", 9.0), ("a4", 9.0), ("a5", 7.5), ("a6", 6.0), ("a7", 5.5), ("a8", 6.5)]
+    steps = [("a1", 6.2), ("a2", 6.8), ("a3", 10.5), ("a4", 10.8), ("a5", 8.6), ("a6", 6.8), ("a7", 6.2), ("a8", 7.6)]
     arch = [(arch_step(n, "fence", d), d, FD) for n, d in steps]
     arch.append((card("end", "cow", 5.0), 5.0, FD))
     chain(arch, HERE / "architecture.mp4")
