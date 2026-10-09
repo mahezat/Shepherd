@@ -24,7 +24,7 @@ from pathlib import Path
 from shepherd import rules
 
 ROOT = Path(__file__).resolve().parent.parent
-MODEL = os.environ.get("SHEPHERD_MODEL", "meta-llama/Llama-3.3-70B-Instruct")
+MODEL = os.environ.get("SHEPHERD_MODEL", "nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B")
 WANDB_BASE_URL = "https://api.inference.wandb.ai/v1"
 
 SYSTEM = """You write the morning report for Shepherd, a camera agent that watches a small farm's chicken coop.
@@ -33,7 +33,7 @@ Rules:
 - Do not add events, counts, eggs or animals that aren't in the JSON. Say "likely laying", never "laid an egg".
 - Plain, calm, a little dry. No exclamation marks. No markdown headers.
 - Format: first line is the headline "<clips_recorded> clips recorded. <events_that_matter> that matter."
-  Then one short line per event, HIGH first, then LOW, then good news, each starting with "HIGH:", "LOW:" or "Good news:".
+  Then one short line per event, HIGH first, then LOW, then good news, each starting with "HIGH:", "LOW:" or "Good news:", giving its time and one short reason.
   Then one line starting "Filtered:" for the noise count. Under 90 words in total."""
 
 
@@ -96,7 +96,9 @@ def write_report(result: dict) -> dict:
         headers = {"OpenAI-Project": _project()} if _project() else None
         client = OpenAI(base_url=WANDB_BASE_URL, api_key=key, default_headers=headers)
         resp = client.chat.completions.create(
-            model=MODEL, temperature=0.2, max_tokens=300,
+            model=MODEL, temperature=0.2, max_tokens=600,
+            # Nemotron thinks by default and can spend every token doing it; the report needs no reasoning.
+            extra_body={"chat_template_kwargs": {"enable_thinking": False}},
             messages=[{"role": "system", "content": SYSTEM},
                       {"role": "user", "content": json.dumps(facts)}])
         text = (resp.choices[0].message.content or "").strip()

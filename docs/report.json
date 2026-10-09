@@ -1,8 +1,7 @@
 {
   "report": {
-    "text": "16 clips recorded. 2 things that matter.\nHIGH: Fight through the fence, in the dark, 6:20 AM to 6:22 AM (3 clips). Birds fighting can injure each other; nobody was there to break it up.\nLOW: A hen was pecked while in the nest box, 8:47 AM (1 clip). Nest-box bullying can put a hen off laying. Worth watching, not urgent.\nGood news: Hen in the nest box, likely laying, 8:47 AM to 9:04 AM (6 clips). No clip shows the egg, so Shepherd says likely.\nFiltered: 7 clips of normal chicken business.",
-    "source": "template",
-    "reason": "no WANDB_API_KEY"
+    "text": "16 clips recorded. 2 events that matter.\n\nHIGH: Fight through the fence, in the dark\nLOW: A hen was pecked while in the nest box\nGood news: Hen in the nest box, likely laying\nFiltered: 7 noise clips",
+    "source": "nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B"
   },
   "result": {
     "clips_recorded": 16,
@@ -444,7 +443,7 @@
       "activity": "Something happens."
     }
   ],
-  "trace_url": null,
-  "model": "meta-llama/Llama-3.3-70B-Instruct",
+  "trace_url": "https://wandb.ai/maxmoud/shepherd/r/call/01a12136-e502-77a6-872a-0faf29dc84b9",
+  "model": "nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B",
   "data_source": "sample_segments.json"
 }
