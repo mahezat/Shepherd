@@ -1,6 +1,6 @@
 {
   "report": {
-    "text": "16 clips recorded. 1 that matter.\nHIGH: 6:22 AM Birds fighting can injure each other; nobody was there to break it up.\nGood news: 8:47 AM Hen in the nest box, likely laying.\nFiltered: 9 noise clips",
+    "text": "16 clips recorded. 1 that matter.\nHIGH: Fight, in the dark at 6:22 AM. Birds fighting can injure each other; nobody was there to break it up.\nGood news: Hen in the nest box, likely laying at 8:47 AM. No clip shows the egg, so Shepherd says likely.\nFiltered: 9 noise clips.",
     "source": "nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B",
     "rejected": []
   },
@@ -739,7 +739,7 @@
       }
     }
   ],
-  "trace_url": "https://wandb.ai/maxmoud/shepherd/r/call/01a12160-0c13-7df7-96da-23b420b85961",
+  "trace_url": "https://wandb.ai/maxmoud/shepherd/r/call/01a12160-79ec-787e-8359-d23161dd9dc5",
   "model": "nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B",
   "data_source": "segments.json"
 }

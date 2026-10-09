@@ -32,8 +32,8 @@ Everything below is what Shepherd actually produced on our 16 real clips today.
 
 ## 5. The guardrail (30s)
 
-- Open **"See the rejected draft."**
-- Say: "NVIDIA's Nemotron on W&B writes the report, but the rules decide. Today Nemotron invented a second alert, twice. Shepherd caught it, threw the draft away, and used the rules' own words." Click **See every decision in W&B Weave**.
+- Say: "NVIDIA's Nemotron on W&B writes the report, but the rules decide. Shepherd checks every draft: no new numbers, no changed priorities, every event named. Earlier today Nemotron invented a second alert, twice, and Shepherd threw both drafts away."
+- On your laptop (logged in), open **wandb.ai/maxmoud/shepherd/weave** → Traces. Point at the **…reason** column ("model changed a priority", "model wrote numbers…"), then open a rejected run → **write_report** → Output → **rejected** to show the invented alert.
 - Say: "Every Cosmos answer, every rule and every rejected draft is traced. No clip, no claim."
 
 ## 6. Technical close (20s), read as bullets
@@ -66,7 +66,7 @@ Everything below is what Shepherd actually produced on our 16 real clips today.
 |---|---|
 | Page won't load | The repo's docs/ folder has the same page; or show report.json |
 | Video won't play | Use the poster frame and describe it |
-| Weave link asks for login | Make the W&B project public beforehand (Project → Settings) |
+| Weave link asks for login | Only your team can view it (no public option on this plan); show it from your own logged-in laptop |
 
 ## Submission text (tokensand.com/vastnyc, closes 4:30)
 

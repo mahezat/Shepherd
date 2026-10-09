@@ -36,7 +36,7 @@ Rules:
 - Noise is never HIGH or LOW; it goes on the "Filtered:" line.
 - Plain, calm, a little dry. No exclamation marks. No markdown headers.
 - Format: first line is the headline "<clips_recorded> clips recorded. <events_that_matter> that matter."
-  Then one short line per event, HIGH first, then LOW, then good news, each starting with "HIGH:", "LOW:" or "Good news:", giving its time and one short reason.
+  Then one short line per event, HIGH first, then LOW, then good news, each starting with "HIGH:", "LOW:" or "Good news:", naming the event (e.g. "Fight", "Hen in the nest box") with its time and one short reason.
   Then one line starting "Filtered:" for the noise count. Under 90 words in total."""
 
 
@@ -65,7 +65,12 @@ def labels_match(llm_text: str, events: list[dict]) -> bool:
     want = {"high:": sum(e["priority"] == "HIGH" for e in events),
             "low:": sum(e["priority"] == "LOW" for e in events),
             "good news:": sum(e["priority"] == "INFO" for e in events)}
-    return got == want
+    if got != want:
+        return False
+    # every event must be named on its own line ("fight", "nest box", ...), not just given a label
+    words = {"fight": "fight", "peck": "peck", "laying": "nest", "disturbance": "disturbance"}
+    text = llm_text.lower()
+    return all(words.get(e["kind"], "") in text for e in events)
 
 
 # Weave is optional: the agent must run on a laptop with no key.
@@ -127,7 +132,7 @@ def write_report(result: dict) -> dict:
         if not ok:
             why = f"it wrote numbers not in the evidence: {sorted(extra)}" if extra else "it returned nothing"
         elif not labels_match(text, result["events"]):
-            why = "it dropped an event or changed a priority (HIGH / LOW / Good news) that the rules set"
+            why = "it dropped or renamed an event, or changed a priority (HIGH / LOW / Good news) that the rules set"
         else:
             return {"text": text, "source": MODEL, "rejected": rejected}
         rejected.append({"text": text, "why": why})
