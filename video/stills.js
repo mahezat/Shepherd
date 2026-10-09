@@ -6,7 +6,7 @@ const fs = require('fs');
   const p = await b.newPage({ viewport: { width: 1920, height: 1080 } });
   await p.goto('http://localhost:8766/frames.html');
   await p.evaluate(() => document.fonts.ready);
-  for (const id of ['bg-hay', 'bg-hay-chickens', 'bg-fence', 'bg-cow']) {
+  for (const id of ['bg-hay', 'bg-hay-chickens', 'bg-hay-chickens-a', 'bg-fence', 'bg-cow']) {
     await p.setViewportSize({ width: 2400, height: 1080 });
     await p.evaluate(i => window.render(i), id); await p.waitForTimeout(100);
     await p.screenshot({ path: `frames/${id}.png` });
@@ -23,6 +23,11 @@ const fs = require('fs');
       fs.writeFileSync('frames/hole_ask.json', JSON.stringify(r)); }
     if (id === 'a3') { const r = await p.evaluate(() => { const b = document.querySelector('.hole').getBoundingClientRect(); return [b.x, b.y, b.width, b.height].map(Math.round); });
       fs.writeFileSync('frames/hole.json', JSON.stringify(r)); }
+  }
+  fs.mkdirSync('frames/type', { recursive: true });
+  for (let k = 0; k <= 41; k++) {  // the search question, one more letter per frame
+    await p.evaluate(i => window.render(i), `ask_t${k}`); await p.waitForTimeout(30);
+    await p.screenshot({ path: `frames/type/t${String(k).padStart(2, '0')}.png`, omitBackground: true });
   }
   await b.close(); console.log('stills done');
 })();

@@ -35,10 +35,32 @@ def push(i, dur, amount=0.035):
             f"crop=1920:1080:'(iw-1920)/2':'(ih-1080)/2'")
 
 
-def card(name, bg, dur, direction=1):
-    """The card holds still; only the background drifts behind it."""
+IN_AT, IN_D, RISE = 0.45, 0.7, 70   # cards arrive after the background has slid in, easing up into place
+OUT_D = 0.35                         # and fade before the next slide, so the move between scenes is the landscape, not a slide deck
+
+
+def motion(dur, enter=True, leave=True):
+    """Overlay y expression: ease-out rise on entry (cubic), small ease-in lift on exit."""
+    y = f"{RISE}*pow(1-min(max(t-{IN_AT},0)/{IN_D},1),3)" if enter else "0"
+    if leave:
+        y += f"-24*pow(max(t-{dur - OUT_D},0)/{OUT_D},2)"
+    return y
+
+
+def fades(dur, enter=True, leave=True):
+    f = []
+    if enter:
+        f.append(f"fade=t=in:st={IN_AT}:d={IN_D * 0.7:.2f}:alpha=1")
+    if leave:
+        f.append(f"fade=t=out:st={dur - OUT_D}:d={OUT_D}:alpha=1")
+    return ",".join(f) or "null"
+
+
+def card(name, bg, dur, direction=1, leave=True):
+    """The card holds still between its entrance and exit; only the background drifts behind it."""
     out = TMP / f"{name}.mp4"
-    fc = f"{bg_pan(0, dur, direction)}[b];[b][1:v]overlay=0:0,format=yuv420p,settb=AVTB[v]"
+    fc = (f"{bg_pan(0, dur, direction)}[b];[1:v]format=rgba,{fades(dur, leave=leave)}[f];"
+          f"[b][f]overlay=x=0:y='{motion(dur, leave=leave)}':eval=frame,format=yuv420p,settb=AVTB[v]")
     run(["-loop", "1", "-t", str(dur), "-i", str(F / f"bg-{bg}.png"),
          "-loop", "1", "-t", str(dur), "-i", str(F / f"{name}.png"),
          "-filter_complex", fc, "-map", "[v]", "-t", str(dur), *ENC, str(out)])
@@ -95,31 +117,41 @@ def gallery(dur=7.0, bg="fence"):
             "-loop", "1", "-t", str(dur), "-i", str(F / "i5.png")]
     for c in clips:
         args += ["-i", str(c)]
-    fc = [f"{bg_pan(0, dur)}[b]", "[b][1:v]overlay=0:0[base]"]
+    fc = [f"{bg_pan(0, dur)}[b]", f"[1:v]format=rgba,{fades(dur, leave=False)}[cd]",
+          f"[b][cd]overlay=x=0:y='{motion(dur, leave=False)}':eval=frame[base]"]
     for i in range(len(clips)):
         fc.append(f"[{i + 2}:v]scale={tw}:{h},setsar=1,setpts=1.45*PTS,framerate=fps={FPS},"
                   f"tpad=stop_mode=clone:stop_duration={dur},trim=duration={dur},pad={tw + gap}:{h}:0:0:color=0xfbf6ea[t{i}]")
     step = 8  # px per frame, exact: 240 px/s
     fc.append("".join(f"[t{i}]" for i in range(len(clips))) + f"hstack=inputs={len(clips)},"
-              f"crop={w}:{h}:'n*{step}':0[g]")
+              f"crop={w}:{h}:'n*{step}':0,format=rgba,fade=t=in:st={IN_AT + IN_D}:d=0.3:alpha=1[g]")
     fc.append(f"[base][g]overlay={x}:{y}:shortest=1,format=yuv420p,settb=AVTB[v]")
     run([*args, "-filter_complex", ";".join(fc), "-map", "[v]", "-t", str(dur), *ENC, str(out)])
     return out
 
 
-def ask_scene(dur=7.5, answer_at=1.6):
-    """Plain-English search: the question sits in the box, then the answer and the real 9:04 AM clip appear."""
+def ask_scene(dur=8.8, type_at=1.3, cps=18):
+    """Plain-English search: the card rises in, the question types out letter by letter, then the answer
+    and the real 9:04 AM clip appear."""
     out = TMP / "ask.mp4"
     x, y, w, h = json.loads((F / "hole_ask.json").read_text())
     clip = CLIPS / "coopcam_egglaying_2026-10-09T09_04_15.mp4"
-    fc = (f"{bg_pan(0, dur)}[b];[b][1:v]overlay=0:0[q];"
-          f"[2:v]format=rgba,fade=t=in:st={answer_at}:d=0.5:alpha=1[a];[q][a]overlay=0:0[qa];"
-          f"[3:v]fps={FPS},scale={w}:{h},setsar=1,format=rgba,fade=t=in:st={answer_at}:d=0.5:alpha=1[c];"
-          f"[qa][c]overlay={x}:{y}:shortest=1,format=yuv420p,settb=AVTB[v]")
+    n = len(list((F / "type").glob("t*.png")))
+    answer_at = type_at + n / cps + 0.45
+    fc = (f"{bg_pan(0, dur)}[b];[1:v]format=rgba,{fades(dur, leave=False)}[cd];"
+          f"[b][cd]overlay=x=0:y='{motion(dur, leave=False)}':eval=frame[q];"
+          f"[4:v]fps={FPS},format=rgba,tpad=start_duration={type_at}:color=black@0:stop_mode=clone:stop_duration={dur}[ty];"
+          f"[q][ty]overlay=0:0[qt];"
+          f"[2:v]format=rgba,fade=t=in:st={answer_at:.2f}:d=0.5:alpha=1[a];[qt][a]overlay=0:0[qa];"
+          f"[3:v]fps={FPS},scale={w}:{h},setsar=1,setpts=1.45*PTS,format=rgba,"
+          f"tpad=start_duration={answer_at:.2f}:color=black@0:stop_mode=clone:stop_duration={dur},"
+          f"fade=t=in:st={answer_at:.2f}:d=0.5:alpha=1[c];"
+          f"[qa][c]overlay={x}:{y},format=yuv420p,settb=AVTB[v]")
     run(["-loop", "1", "-t", str(dur), "-i", str(F / "bg-cow.png"),
          "-loop", "1", "-t", str(dur), "-i", str(F / "ask.png"),
          "-loop", "1", "-t", str(dur), "-i", str(F / "ask_ans.png"),
-         "-stream_loop", "-1", "-t", str(dur), "-i", str(clip),
+         "-i", str(clip),
+         "-framerate", str(cps), "-i", str(F / "type" / "t%02d.png"),
          "-filter_complex", fc, "-map", "[v]", "-t", str(dur), *ENC, str(out)])
     return out
 
@@ -158,22 +190,22 @@ def chain(segments, out):
 if __name__ == "__main__":
     SL, FD = ("slideleft", 0.7), ("fade", 0.6)
     intro = [
-        (card("i1", "hay", 3.6), 3.6, SL),
+        (card("i1", "hay", 4.2), 4.2, SL),
         (card("i3", "fence", 5.4, -1), 5.4, SL),
         (card("iw", "cow", 7.0), 7.0, SL),
         (split(8.5), 8.5, ("zoomin", 0.8)),
-        (fight_zoom(6.0), 6.0, SL),
+        (fight_zoom(4.0), 4.0, SL),
         (card("i4", "hay-chickens", 4.4, -1), 4.4, SL),
-        (gallery(7.0), 7.0, SL),
+        (gallery(5.0), 5.0, SL),
         (card("phone", "fence", 7.2, -1), 7.2, SL),
-        (ask_scene(9.0), 9.0, SL),
-        (card("i6", "hay", 7.6), 7.6, FD),
+        (ask_scene(8.8), 8.8, SL),
+        (card("i6", "hay", 7.6, leave=False), 7.6, FD),
     ]
     chain(intro, HERE / "intro.mp4")
 
     steps = [("a1", 6.2), ("a2", 6.8), ("a3", 10.5), ("a4", 10.8), ("a5", 8.6), ("a6", 6.8), ("a7", 6.2), ("a8", 7.6)]
     arch = [(arch_step(n, "fence", d), d, FD) for n, d in steps]
-    arch.append((card("end", "cow", 5.0), 5.0, FD))
+    arch.append((card("end", "cow", 5.0, leave=False), 5.0, FD))
     chain(arch, HERE / "architecture.mp4")
     for f in ("intro.mp4", "architecture.mp4"):
         d = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", str(HERE / f)],
