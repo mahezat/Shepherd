@@ -6849,6 +6849,11 @@
    "cosmos_input": "video",
    "cosmos_model": "nvidia/cosmos3-nano-reasoner",
    "path": "direct-to-GPU-endpoint"
+  },
+  "checks": {
+   "fight": "NO",
+   "peck": "NO. No chicken pecks at another chicken in the video.",
+   "nest": "NO. The black plastic crate is on the floor, but no hen is sitting inside it."
   }
  },
  {
@@ -10443,6 +10448,11 @@
    "cosmos_input": "video",
    "cosmos_model": "nvidia/cosmos3-nano-reasoner",
    "path": "direct-to-GPU-endpoint"
+  },
+  "checks": {
+   "fight": "NO. No birds are seen fighting, jumping at, chasing, flapping at, or attacking each other.",
+   "peck": "NO. No chicken pecks at another chicken in the video.",
+   "nest": "NO. The black plastic crate is on the floor, but no hen is sitting inside it."
   }
  },
  {
@@ -12487,6 +12497,11 @@
    "cosmos_input": "video",
    "cosmos_model": "nvidia/cosmos3-nano-reasoner",
    "path": "direct-to-GPU-endpoint"
+  },
+  "checks": {
+   "fight": "NO. No birds fight, jump at, chase, flap at, or attack each other.",
+   "peck": "NO. No chicken pecks at another chicken in the video.",
+   "nest": "NO. The black plastic crate is empty and serves as a nest box."
   }
  },
  {
@@ -14299,6 +14314,11 @@
    "cosmos_input": "video",
    "cosmos_model": "nvidia/cosmos3-nano-reasoner",
    "path": "direct-to-GPU-endpoint"
+  },
+  "checks": {
+   "fight": "NO. No birds fight, jump at, chase, flap at, or attack each other.",
+   "peck": "NO. No chicken pecks at another chicken in the video.",
+   "nest": "No. The hen is perched on the wooden railing, not inside the crate."
   }
  },
  {
@@ -15665,6 +15685,11 @@
    "cosmos_input": "video",
    "cosmos_model": "nvidia/cosmos3-nano-reasoner",
    "path": "direct-to-GPU-endpoint"
+  },
+  "checks": {
+   "fight": "NO",
+   "peck": "NO. No chicken pecks at another chicken in the video.",
+   "nest": "NO. The black plastic crate is empty."
   }
  },
  {
@@ -17365,6 +17390,11 @@
    "cosmos_input": "video",
    "cosmos_model": "nvidia/cosmos3-nano-reasoner",
    "path": "direct-to-GPU-endpoint"
+  },
+  "checks": {
+   "fight": "NO, there is no interaction between any birds.",
+   "peck": "NO. No chicken pecks at another chicken in the video.",
+   "nest": "No. The black plastic crate is empty and serves as a nest box."
   }
  },
  {
@@ -18691,6 +18721,11 @@
    "cosmos_input": "video",
    "cosmos_model": "nvidia/cosmos3-nano-reasoner",
    "path": "direct-to-GPU-endpoint"
+  },
+  "checks": {
+   "fight": "NO, there is no interaction between the birds.",
+   "peck": "NO. No chicken pecks at another chicken in the video.",
+   "nest": "No. The black plastic crate is empty and serves as a nest box."
   }
  },
  {
@@ -21941,6 +21976,11 @@
    "cosmos_input": "video",
    "cosmos_model": "nvidia/cosmos3-nano-reasoner",
    "path": "direct-to-GPU-endpoint"
+  },
+  "checks": {
+   "fight": "NO. No birds are seen fighting, jumping at, chasing, flapping at, or attacking each other.",
+   "peck": "NO. No chicken pecks at another chicken in the video.",
+   "nest": "Yes. A hen is sitting inside the black plastic crate on the floor."
   }
  },
  {
@@ -30047,6 +30087,11 @@
    "cosmos_input": "video",
    "cosmos_model": "nvidia/cosmos3-nano-reasoner",
    "path": "direct-to-GPU-endpoint"
+  },
+  "checks": {
+   "fight": "NO, the two birds do not interact with each other.",
+   "peck": "NO. No chicken pecks at another chicken in the video.",
+   "nest": "Yes. A hen is sitting inside the black plastic crate on the floor."
   }
  },
  {
@@ -37647,6 +37692,11 @@
    "cosmos_input": "video",
    "cosmos_model": "nvidia/cosmos3-nano-reasoner",
    "path": "direct-to-GPU-endpoint"
+  },
+  "checks": {
+   "fight": "NO, there is no fighting or aggressive interaction between any birds in the video.",
+   "peck": "NO. No chicken pecks at another chicken in the video.",
+   "nest": "Yes, a hen is sitting inside the black crate."
   }
  },
  {
@@ -40739,6 +40789,11 @@
    "cosmos_input": "video",
    "cosmos_model": "nvidia/cosmos3-nano-reasoner",
    "path": "direct-to-GPU-endpoint"
+  },
+  "checks": {
+   "fight": "NO. No two birds are seen fighting, jumping at, chasing, flapping at, or attacking each other.",
+   "peck": "NO. No chicken is seen pecking at another chicken in the video.",
+   "nest": "Yes. A hen is sitting inside the black plastic crate on the floor."
   }
  },
  {
@@ -46125,6 +46180,11 @@
    "cosmos_input": "video",
    "cosmos_model": "nvidia/cosmos3-nano-reasoner",
    "path": "direct-to-GPU-endpoint"
+  },
+  "checks": {
+   "fight": "NO. No two birds are seen fighting, jumping at, chasing, flapping at, or attacking each other.",
+   "peck": "NO. No chicken pecks at another chicken in the video.",
+   "nest": "Yes. A hen is sitting inside the black plastic crate on the floor."
   }
  },
  {
@@ -51657,6 +51717,11 @@
    "cosmos_input": "video",
    "cosmos_model": "nvidia/cosmos3-nano-reasoner",
    "path": "direct-to-GPU-endpoint"
+  },
+  "checks": {
+   "fight": "NO. No birds are seen fighting, jumping at, chasing, flapping at, or attacking each other.",
+   "peck": "NO. No chicken pecks at another chicken in the video.",
+   "nest": "Yes. A hen is sitting inside the black plastic crate on the floor."
   }
  },
  {
@@ -53291,6 +53356,11 @@
    "cosmos_input": "video",
    "cosmos_model": "nvidia/cosmos3-nano-reasoner",
    "path": "direct-to-GPU-endpoint"
+  },
+  "checks": {
+   "fight": "NO. No birds are seen fighting, jumping at, chasing, flapping at, or attacking each other.",
+   "peck": "NO. No chicken pecks at another chicken in the video.",
+   "nest": "No. The black plastic crate is empty and serves as a nest box, with no hen inside."
   }
  },
  {
@@ -54539,6 +54609,11 @@
    "cosmos_input": "video",
    "cosmos_model": "nvidia/cosmos3-nano-reasoner",
    "path": "direct-to-GPU-endpoint"
+  },
+  "checks": {
+   "fight": "NO, there is no interaction between any birds.",
+   "peck": "NO. No chicken pecks at another chicken in the video.",
+   "nest": "NO. The black plastic crate is empty."
   }
  },
  {
@@ -55909,6 +55984,11 @@
    "cosmos_input": "video",
    "cosmos_model": "nvidia/cosmos3-nano-reasoner",
    "path": "direct-to-GPU-endpoint"
+  },
+  "checks": {
+   "fight": "NO. No birds fight, jump at, chase, flap at, or attack each other.",
+   "peck": "NO. No chicken pecks at another chicken in the video.",
+   "nest": "NO. The black plastic crate is empty."
   }
  }
 ]
