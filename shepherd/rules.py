@@ -158,13 +158,15 @@ class Clip:
     replies: list = field(default_factory=list)
     checks: dict = field(default_factory=dict)   # Cosmos's answers to the direct questions
     form_event: Optional[str] = None             # what the long-form reply said, before the checks
+    zoomed: dict = field(default_factory=dict)   # which zoomed tiles Cosmos said YES on
 
     def evidence(self) -> dict:
         return {
             "clip": self.filename, "time": fmt_time(self.time), "event": self.event,
             "lighting": self.lighting, "where": self.where, "mover": self.mover,
             "chickens_cosmos": self.total, "birds_yolo": self.birds_yolo, "activity": self.activity,
-            "form_event": self.form_event, "checks": self.checks,
+            "form_event": self.form_event, "zoomed": self.zoomed,
+            "checks": {k: v for k, v in self.checks.items() if not isinstance(v, dict)},
         }
 
 
@@ -196,7 +198,7 @@ def build_clips(segments: list[dict]) -> list[Clip]:
 
         # The direct yes/no questions beat the long form: the small Cosmos model
         # calls almost everything "normal" in the form but answers questions well.
-        checks = {}
+        checks: dict = {}
         for s in segs:
             for k, a in (s.get("checks") or {}).items():
                 if a and k not in checks:
@@ -206,9 +208,16 @@ def build_clips(segments: list[dict]) -> list[Clip]:
         mover = lead.get("mover") if good else None
         if event == "disturbance" and mover == "chicken":
             event = "normal"   # a chicken moving is not a disturbance
-        if yes(checks.get("fight")):
+        def any_tile(key):
+            tiles = checks.get(key) or {}
+            hits = [name for name, a in tiles.items() if yes(a)]
+            return hits
+
+        fight_tiles, peck_tiles = any_tile("fight_zoom"), any_tile("peck_zoom")
+        zoomed = {"fight": fight_tiles, "peck": peck_tiles}
+        if yes(checks.get("fight")) or fight_tiles:
             event = "fight"
-        elif yes(checks.get("peck")):
+        elif yes(checks.get("peck")) or peck_tiles:
             event = "peck"
             if yes(checks.get("nest")):
                 where = "nest_box"
@@ -229,7 +238,7 @@ def build_clips(segments: list[dict]) -> list[Clip]:
             activity=lead.get("activity", ""),
             sources=[s.get("source") for s in segs],
             replies=[s.get("reasoning") or "" for s in segs],
-            checks=checks, form_event=form_event,
+            checks=checks, form_event=form_event, zoomed=zoomed,
         ))
     clips.sort(key=lambda c: c.time)
     return clips

@@ -133,6 +133,14 @@ class Checks(unittest.TestCase):
         s["checks"] = {"fight": "NO", "peck": "NO", "nest": "YES, a hen sits in the black crate."}
         self.assertEqual(decide(build_clips([s]))["events"][0]["kind"], "laying")
 
+    def test_zoomed_tile_finds_fight(self):
+        s = seg("coopcam_2026-10-09T06_20_41.mp4", reply("night", 2, "normal", "perch"))
+        s["checks"] = {"fight": "NO.", "peck": "NO.", "nest": "NO.",
+                       "fight_zoom": {"center": "YES, two birds jump at each other.", "top-left": "NO."},
+                       "peck_zoom": {"center": "NO."}}
+        c = build_clips([s])[0]
+        self.assertEqual((c.event, c.zoomed["fight"]), ("fight", ["center"]))
+
     def test_chicken_disturbance_is_not_high(self):
         s = seg("coopcam_2026-10-09T06_22_30.mp4", reply("night", 2, "disturbance", "floor", mover="chicken"))
         self.assertEqual(decide(build_clips([s]))["events"], [])

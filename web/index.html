@@ -157,7 +157,7 @@ function timeline(data) {
 
 function card(e, i) {
   const span = e.start === e.end ? e.start : `${e.start} – ${e.end}`;
-  const rows = e.evidence.map(x => `<tr><td>${esc(x.time)}</td><td>${esc(x.event ?? "can't tell")}</td><td>${esc(x.where ?? "")}</td><td>${esc(x.chickens_cosmos ?? "–")} / ${esc(x.birds_yolo ?? "–")}</td><td>${esc(x.activity)}</td></tr>`).join("");
+  const rows = e.evidence.map(x => `<tr><td>${esc(x.time)}</td><td>${esc(x.event ?? "can't tell")}</td><td>${esc(x.where ?? "")}</td><td>${esc(x.chickens_cosmos ?? "–")} / ${esc(x.birds_yolo ?? "–")}</td><td>${esc(x.activity)}${x.zoomed && (x.zoomed.fight || []).length ? ` <b>Zoomed: fight seen in ${esc(x.zoomed.fight.join(", "))} tile.</b>` : ""}${x.zoomed && (x.zoomed.peck || []).length ? ` <b>Zoomed: peck seen in ${esc(x.zoomed.peck.join(", "))} tile.</b>` : ""}</td></tr>`).join("");
   const buttons = e.clips.length > 1 ? `<div class="strip" role="group" aria-label="Clips">${e.clips.map((f, j) =>
     `<button type="button" data-card="${i}" data-clip="${esc(f)}" aria-pressed="${j === 0}">${esc(hm(clipTime(f)))}</button>`).join("")}</div>` : "";
   return `<article class="card ${e.priority}">
