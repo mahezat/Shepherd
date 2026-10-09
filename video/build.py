@@ -32,7 +32,7 @@ def still(name, dur, fade=0.45):
     return out
 
 
-def split(dur=7.5):
+def split(dur=8.5, hot_at=3.5):
     """2x2 of real coop clips under the Fredon, NJ banner. Clips loop to fill the scene."""
     clips = ["coopcam_2026-10-08T15_35_00", "coopcam_2026-10-08T21_51_55",
              "coopcam_fight_2026-10-09T06_22_30", "coopcam_egglaying_2026-10-09T08_47_56"]
@@ -42,6 +42,7 @@ def split(dur=7.5):
     for c in clips:
         args += ["-stream_loop", "-1", "-t", str(dur), "-i", str(CLIPS / f"{c}.mp4")]
     args += ["-loop", "1", "-t", str(dur), "-i", str(F / "split.png")]
+    args += ["-loop", "1", "-t", str(dur), "-i", str(F / "split_hot.png")]
     fc = []
     for i in range(4):
         fc.append(f"[{i + 1}:v]fps={FPS},scale=820:461,setsar=1[c{i}]")
@@ -49,9 +50,23 @@ def split(dur=7.5):
     for i, (x, y) in enumerate(pos):
         fc.append(f"{chain}[c{i}]overlay={x}:{y}:shortest=1[o{i}]")
         chain = f"[o{i}]"
-    fc.append(f"{chain}[5:v]overlay=0:0,format=yuv420p,"
+    fc.append(f"{chain}[5:v]overlay=0:0[base]")
+    fc.append(f"[6:v]format=rgba,fade=t=in:st={hot_at}:d=0.5:alpha=1[hot]")
+    fc.append(f"[base][hot]overlay=0:0,format=yuv420p,"
               f"fade=t=in:st=0:d=0.45:color={PAPER},fade=t=out:st={dur - 0.45}:d=0.45:color={PAPER}[v]")
     run([*args, "-filter_complex", ";".join(fc), "-map", "[v]", "-t", str(dur), *ENC, str(out)])
+    return out
+
+
+def fight_zoom(dur=5.5):
+    """Full screen: the 6:22 AM clip cropped around the roosters, with the ring and caption bar."""
+    out = TMP / "fightzoom.mp4"
+    fc = (f"[0:v]fps={FPS},crop=iw*0.5:ih*0.5:iw*0.22:ih*0.18,scale=1920:1080,setsar=1[z];"
+          f"[z][1:v]overlay=0:0,format=yuv420p,"
+          f"fade=t=in:st=0:d=0.45:color={PAPER},fade=t=out:st={dur - 0.45}:d=0.45:color={PAPER}[v]")
+    run(["-stream_loop", "-1", "-t", str(dur), "-i", str(CLIPS / "coopcam_fight_2026-10-09T06_22_30.mp4"),
+         "-loop", "1", "-t", str(dur), "-i", str(F / "fightzoom.png"),
+         "-filter_complex", fc, "-map", "[v]", "-t", str(dur), *ENC, str(out)])
     return out
 
 
@@ -89,7 +104,8 @@ def dissolve(parts, durs, out, d=0.4):
 
 
 if __name__ == "__main__":
-    intro = [still("i1", 3.4), still("i2", 3.0), split(7.5), still("i4", 3.6), still("i5", 4.4)]
+    intro = [still("i1", 3.2), still("i2", 2.8), still("i3", 5.2), split(8.5), fight_zoom(5.5),
+             still("i4", 3.4), still("i5", 4.0), still("i6", 6.2)]
     concat(intro, HERE / "intro.mp4")
 
     steps = [("a1", 5.5), ("a2", 6.0), ("a3", 9.0), ("a4", 6.5), ("a5", 7.5), ("a6", 6.0), ("a7", 5.5), ("a8", 6.5)]

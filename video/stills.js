@@ -5,12 +5,12 @@ const { chromium } = require('playwright');
   const p = await b.newPage({ viewport: { width: 1920, height: 1080 } });
   await p.goto('http://localhost:8766/frames.html');
   await p.evaluate(() => document.fonts.ready);
-  const ids = ['i1','i2','split','i4','i5','a1','a2','a3','a4','a5','a6','a7','a8','end'];
+  const ids = ['i1','i2','i3','split','split_hot','fightzoom','i4','i5','i6','a1','a2','a3','a4','a5','a6','a7','a8','end'];
   for (const id of ids) {
     await p.evaluate(i => window.render(i), id);
     await p.evaluate(() => document.fonts.ready);
     await p.waitForTimeout(150);
-    await p.screenshot({ path: `frames/${id}.png`, omitBackground: id === 'split' });
+    await p.screenshot({ path: `frames/${id}.png`, omitBackground: ['split','split_hot','fightzoom'].includes(id) });
     if (id === 'a3') { const r = await p.evaluate(() => { const b = document.querySelector('.hole').getBoundingClientRect(); return [b.x, b.y, b.width, b.height].map(Math.round); });
       require('fs').writeFileSync('frames/hole.json', JSON.stringify(r)); }
   }
