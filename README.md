@@ -1,5 +1,7 @@
 # Shepherd
 
+> **Teammate? Start with [TEAM.md](TEAM.md).**
+
 **Shepherd reads every clip your farm camera records and tells you the ones that matter.**
 
 Small farmers can't stand in the field all night, and the cameras they do have record so much that people switch the alerts off. Shepherd watches every clip instead. It groups a run of motion clips into one event, decides how urgent that event is, and hands the farmer one morning report with the clips behind every line.
