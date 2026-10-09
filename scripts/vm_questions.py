@@ -36,13 +36,18 @@ def ask(clip_b64, question):
         return ""
 
 
-path = v.DATA / "segments.json"
-rows = json.loads(path.read_text())
-for i, row in enumerate(rows, 1):
-    clip = v.ROOT / "clips" / row["filename"]
-    b64 = base64.b64encode(clip.read_bytes()).decode()
-    row["checks"] = {k: ask(b64, q) for k, q in QUESTIONS.items()}
-    short = "  ".join(f"{k}={(a.split() or ['?'])[0].strip('.,').upper()}" for k, a in row["checks"].items())
-    print(f"[{i}/{len(rows)}] {row['filename'][-24:-4]}  {short}", flush=True)
-path.write_text(json.dumps(rows, indent=1, default=str))
-print("\nupdated data/segments.json. Next: bash ~/shepherd/scripts/vm_push.sh")
+def main():
+    path = v.DATA / "segments.json"
+    rows = json.loads(path.read_text())
+    for i, row in enumerate(rows, 1):
+        clip = v.ROOT / "clips" / row["filename"]
+        b64 = base64.b64encode(clip.read_bytes()).decode()
+        row["checks"] = {k: ask(b64, q) for k, q in QUESTIONS.items()}
+        short = "  ".join(f"{k}={(a.split() or ['?'])[0].strip('.,').upper()}" for k, a in row["checks"].items())
+        print(f"[{i}/{len(rows)}] {row['filename'][-24:-4]}  {short}", flush=True)
+    path.write_text(json.dumps(rows, indent=1, default=str))
+    print("\nupdated data/segments.json. Next: bash ~/shepherd/scripts/vm_push.sh")
+
+
+if __name__ == "__main__":
+    main()
