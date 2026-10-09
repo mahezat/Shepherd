@@ -33,8 +33,11 @@ def config():
 
 
 CFG = config()
-COSMOS = CFG.get("COSMOS3_REASON_URL", "").rstrip("/")
-YOLO = CFG.get("YOLO_URL", "").rstrip("/")
+# The organizers' gpu/model-smoke-test skill pins the shared GPU host; use it when the env doesn't say.
+GPU_HOST = CFG.get("GPU_HOST", "166.19.38.112")
+COSMOS = (CFG.get("COSMOS3_REASON_URL") or f"http://{GPU_HOST}:8001").rstrip("/")
+YOLO = (CFG.get("YOLO_URL") or f"http://{GPU_HOST}:8002").rstrip("/")
+print("Cosmos endpoint:", COSMOS, "| YOLO endpoint:", YOLO, flush=True)
 AUTH = {"Authorization": f"Bearer {CFG['GPU_BEARER_TOKEN']}"} if CFG.get("GPU_BEARER_TOKEN") else {}
 if not COSMOS:
     sys.exit("COSMOS3_REASON_URL not found in the environment or /config/*.config")
