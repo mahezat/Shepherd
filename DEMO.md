@@ -26,7 +26,7 @@ Numbers in [brackets] get confirmed from the app on build day.
 
 ## 4. The peck: LOW (25s)
 
-- The amber card: **a hen pecked while she's in the nest box.**
+- The amber card: **a hen pecked while she's in the nest box, 8:47 AM.**
 - Say: "This one's *worth watching*, not *wake up now*. Nest-box bullying can put a hen off laying. A motion sensor can't tell the difference between this and the fight. Shepherd can."
 - Green card: "Good news: hen in the nest box 8:47 to 9:04, likely laying. It says *likely*, because no clip shows the egg."
 

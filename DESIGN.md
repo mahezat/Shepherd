@@ -27,7 +27,7 @@ We checked the 30 public SF projects from this series. About 10 were safety "det
 | 2 | Oct 8, 3:34–3:35 PM | Daytime, chickens being chickens | Noise. Also used to learn the flock size. |
 | 5 | Oct 8, 9:51–9:55 PM | Night, birds shifting at rest | Noise: motion at night, nothing wrong |
 | 3 | Oct 9, 6:20–6:22 AM | Two roosters fighting through the fence, in the dark (first light was about 6:32, sunrise 7:00) | **One HIGH event** |
-| 6 | Oct 9, 8:47–9:04 AM | A hen in the nest box, shifting; in one clip another hen pecks her | **One laying session**, plus **one LOW event** (the peck) |
+| 6 | Oct 9, 8:47–9:04 AM | A hen in the nest box, shifting. In the first clip (8:47:56) another hen pecks her. | **One laying session**, plus **one LOW event** (the peck) |
 
 Every filename holds its recording time: `coopcam_[label_]YYYY-MM-DDTHH_MM_SS.mp4`. The labels are for us; Shepherd must **never** read them. It uses only the time.
 
@@ -64,7 +64,7 @@ One card, readable on a phone:
 
 > **16 clips recorded. 2 that matter.**
 > HIGH: Two roosters fighting through the fence at 6:20 AM, in the dark (3 clips).
-> LOW: A hen was pecked while in the nest box at [time]. Nest-box bullying can put a hen off laying.
+> LOW: A hen was pecked while in the nest box at 8:47 AM. Nest-box bullying can put a hen off laying.
 > Good news: a hen in the nest box 8:47–9:04 AM, likely laying.
 > Filtered: 11 clips of normal chicken business, including 5 at 9:51 PM.
 

@@ -43,7 +43,7 @@ from videos/detections). Flag any segment whose reply doesn't follow the format.
 ```
 
 **Check by eye:** the 3 fight clips should say `fight`, the 5 clips at 21:5x should say `shifting`,
-the nest clips should say `laying`, and one nest clip should say `peck`. If not, paste the table to
+the nest clips should say `laying`, and the 08_47_56 clip should say `peck`. If not, paste the table to
 Claude and we'll adjust the prompt and re-ingest just those clips.
 
 ## 4. 10:45 – The rules (the core)
