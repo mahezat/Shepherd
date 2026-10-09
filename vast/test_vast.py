@@ -98,6 +98,14 @@ class VastTests(unittest.TestCase):
         report['result']['events'][0]['clip_count']=2
         with self.assertRaises(ValueError):build_rows(json.dumps(report).encode(),b)
 
+    def test_crop_positive_is_not_discarded_as_stale_full_frame_negative(self):
+        a,b=fixture();segments=json.loads(b)
+        segments[0]['checks']['fight']='NO'
+        segments[0]['checks']['fight_zoom']={'center':'YES. Synthetic directed interaction.'}
+        rows=build_rows(a,json.dumps(segments).encode())
+        self.assertEqual(rows[0]['evidence_status'],'conflicting_model_views')
+        self.assertIn('Synthetic directed interaction',rows[0]['provenance_json'])
+
     def test_idempotent_insert_and_committed_readback(self):
         a,b=fixture();rows=build_rows(a,b)
         config={'S3_ENDPOINT':'http://fixture.invalid','ACCESS_KEY':'synthetic','SECRET_KEY':'synthetic','VASTDB_BUCKET':'assigned-test-bucket','VDB_SCHEMA':'existing-test-schema'}

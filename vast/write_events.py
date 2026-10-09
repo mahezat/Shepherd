@@ -31,13 +31,22 @@ def yes_no(value):
     return True if word=='yes' else False if word=='no' else None
 
 
+def pass_answers(value):
+    if isinstance(value,dict):
+        return [answer for child in value.values() for answer in pass_answers(child)]
+    return [yes_no(value)]
+
+
 def provenance(event,segments):
     linked = [s for s in segments if s.get('filename') in event['clips']]
     warnings = []
     check = 'fight' if event['kind']=='fight' else 'peck' if event['kind']=='peck' else None
-    answers = [yes_no(s.get('checks',{}).get(check)) for s in linked] if check else []
+    answers = [answer for s in linked for key in [check,check+'_zoom',check+'_slow'] for answer in pass_answers(s.get('checks',{}).get(key)) if answer is not None] if check else []
     status = 'model_reported_unverified'
-    if check and linked and len(linked)>=len(set(event['clips'])) and all(a is False for a in answers):
+    if True in answers and False in answers:
+        status = 'conflicting_model_views'
+        warnings.append('Full-frame, cropped or slowed views have conflicting model responses. Preserve those responses for review; multiple views of the same model are not independent confirmation.')
+    elif check and answers and linked and len(linked)>=len(set(event['clips'])) and all(a is False for a in answers):
         status = 'contradicted_by_latest_checks'
         warnings.append('The latest saved yes/no responses contradict this reported event. Review the source before using it operationally.')
     if not linked:
@@ -51,7 +60,7 @@ def provenance(event,segments):
     direct = any(s.get('raw',{}).get('path')=='direct-to-GPU-endpoint' for s in linked)
     if not originals:
         warnings.append('No VAST original-video URI accompanies these source records; persisting results does not prove pipeline indexing or semantic search.')
-    return status,{'source_clips':event['clips'],'original_video_uris':originals,'direct_gpu_source':direct,'capture_timezone':'unspecified_in_source_report','recording_timestamps_are_upload_timestamps':False,'warnings':warnings,'human_filename_labels_used_for_inference_by_this_writer':False}
+    return status,{'source_clips':event['clips'],'source_checks':[{'filename':s.get('filename'),'checks':s.get('checks',{})} for s in linked],'original_video_uris':originals,'direct_gpu_source':direct,'capture_timezone':'unspecified_in_source_report','recording_timestamps_are_upload_timestamps':False,'warnings':warnings,'human_filename_labels_used_for_inference_by_this_writer':False}
 
 
 def build_rows(report_bytes,segments_bytes=None,stored_at=None):
