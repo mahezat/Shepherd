@@ -56,6 +56,7 @@ def load_config():
 
 BACKEND, USER, PASSWORD = load_config()
 TOKEN = None
+FIRST_DUMP = []
 
 
 def call(method, path, body=None, headers=None, raw=False, timeout=120):
@@ -118,7 +119,7 @@ def upload_all():
             login()
             r = call("POST", "/api/v1/videos/upload", body, h, timeout=300)
         key = (r or {}).get("object_key")
-        print(("uploaded  " if key else "FAILED    ") + clip.name, "" if key else r)
+        print(("uploaded  " if key else "FAILED    ") + clip.name, "" if key else r, flush=True)
         if key:
             uploads[clip.name] = key
     UPLOADS.write_text(json.dumps(uploads, indent=1))
@@ -128,8 +129,10 @@ def upload_all():
 def explore_all():
     items, offset = [], 0
     while True:
-        r = call("GET", f"/api/v1/videos/explore?scope=mine&limit=100&offset={offset}")
-        page = (r or {}).get("items") or (r or {}).get("videos") or (r or {}).get("results") or (r if isinstance(r, list) else [])
+        # location=coop keeps it to our uploads instead of the whole team archive
+        r = call("GET", f"/api/v1/videos/explore?scope=mine&location=coop&limit=100&offset={offset}")
+        page = ((r or {}).get("chunks") or (r or {}).get("items") or (r or {}).get("videos")
+                or (r or {}).get("results") or (r if isinstance(r, list) else []))
         items += page
         total = (r or {}).get("total") if isinstance(r, dict) else None
         offset += 100
@@ -177,10 +180,15 @@ def export(uploads):
             if not orig:
                 continue
             segs, rawseg = segments_for(orig)
+            if not (RAW / "segments_sample.json").exists():
+                (RAW / "segments_sample.json").write_text(json.dumps(rawseg, indent=1, default=str)[:200_000])
             if segs and all(text_of(s) for s in segs):
                 found[name] = (orig, segs)
                 del pending[name]
-        print(f"indexed {len(found)}/{len(uploads)}" + (" ... waiting" if pending else ""))
+        print(f"indexed {len(found)}/{len(uploads)} (explore lists {len(items)} coop chunks)" + (" ... waiting" if pending else ""), flush=True)
+        if items and not found and not FIRST_DUMP:
+            FIRST_DUMP.append(1)
+            print("first chunk keys:", sorted(items[0].keys())[:20], flush=True)
         if pending:
             time.sleep(20)
             if time.time() - LOGIN_AT > 20 * 60:
