@@ -1,0 +1,123 @@
+{
+ "custom_prompt_max_length": 800,
+ "filterable_fields": [
+  {
+   "key": "camera_id",
+   "label": "Camera ID"
+  },
+  {
+   "key": "capture_type",
+   "label": "Capture Type"
+  },
+  {
+   "key": "location",
+   "label": "Location"
+  },
+  {
+   "key": "object_classes",
+   "label": "Object class"
+  }
+ ],
+ "capture_types": [
+  {
+   "value": "traffic",
+   "label": "Traffic"
+  },
+  {
+   "value": "streets",
+   "label": "Streets"
+  },
+  {
+   "value": "crowds",
+   "label": "Crowds"
+  },
+  {
+   "value": "malls",
+   "label": "Malls"
+  },
+  {
+   "value": "general",
+   "label": "General"
+  },
+  {
+   "value": "sports",
+   "label": "Sports"
+  },
+  {
+   "value": "robotics",
+   "label": "Robotics"
+  },
+  {
+   "value": "warehouse",
+   "label": "Warehouse"
+  },
+  {
+   "value": "retail",
+   "label": "Retail"
+  }
+ ],
+ "capture_type_default_label": "-- Select Type --",
+ "analysis_scenarios": [
+  {
+   "value": "surveillance",
+   "label": "Incident & Safety Detection"
+  },
+  {
+   "value": "traffic",
+   "label": "Vehicle & Pedestrian Monitoring"
+  },
+  {
+   "value": "live_driving",
+   "label": "Live Driving & Road Safety"
+  },
+  {
+   "value": "nhl",
+   "label": "Hockey Game Analysis"
+  },
+  {
+   "value": "sports",
+   "label": "General Sports Analysis"
+  },
+  {
+   "value": "retail",
+   "label": "Retail Store Monitoring"
+  },
+  {
+   "value": "warehouse",
+   "label": "Warehouse Safety & Operations"
+  },
+  {
+   "value": "nyc_control",
+   "label": "NYC Traffic & Public Safety"
+  },
+  {
+   "value": "nyc_safety_surveillance",
+   "label": "NYC Street Safety Surveillance"
+  },
+  {
+   "value": "egocentric",
+   "label": "First-Person Activity Analysis"
+  },
+  {
+   "value": "general",
+   "label": "General Video Analysis"
+  }
+ ],
+ "analysis_scenario_default_label": "-- Use Default (from settings) --",
+ "labels": {
+  "use_custom_prompt": "Use custom prompt (overrides scenario)",
+  "metadata_section_title": "Stream Metadata (Optional)",
+  "metadata_section_description": "These fields will be stored with each video segment for filtering and search",
+  "camera_id": "Camera ID",
+  "capture_type": "Capture Type",
+  "location": "Location",
+  "object_classes": "Object class"
+ },
+ "placeholders": {
+  "camera_id": "e.g., CAM-001, manhattan-cam-1",
+  "location": "e.g., Midtown, Downtown, Times Square",
+  "tags": "demo, outdoor, test",
+  "allowed_users": "john.doe, jane.smith",
+  "custom_prompt": "Enter your custom reasoning prompt for the AI model..."
+ }
+}

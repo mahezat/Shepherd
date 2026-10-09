@@ -1,0 +1,55 @@
+{
+ "chunks": [],
+ "total": 0,
+ "uploads_by_day": [
+  {
+   "date": "2026-10-08",
+   "chunk_count": 168
+  },
+  {
+   "date": "2026-10-06",
+   "chunk_count": 30
+  },
+  {
+   "date": "2026-10-01",
+   "chunk_count": 414
+  }
+ ],
+ "locations": [
+  {
+   "label": "toronto",
+   "chunk_count": 180
+  },
+  {
+   "label": "new_york",
+   "chunk_count": 168
+  },
+  {
+   "label": "san_francisco",
+   "chunk_count": 122
+  },
+  {
+   "label": "neighborhood",
+   "chunk_count": 52
+  },
+  {
+   "label": "indoor",
+   "chunk_count": 30
+  },
+  {
+   "label": "warehouse3",
+   "chunk_count": 30
+  },
+  {
+   "label": "nashville",
+   "chunk_count": 30
+  }
+ ],
+ "scope": "mine",
+ "selected_date": null,
+ "selected_location": "coop",
+ "limit": 100,
+ "offset": 0,
+ "table_available": true,
+ "table_message": "No videos match location filter: coop"
+}
