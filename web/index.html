@@ -177,7 +177,11 @@ function card(e, i) {
 function render(data) {
   const r = data.result, n = r.events_that_matter;
   const sample = /sample/i.test(data.data_source || "");
-  const by = data.report.source === "template" ? "Plain template (no language model)" : `Written by ${esc(data.report.source)} on W&B Inference, numbers checked against the evidence`;
+  const rej = data.report.rejected || [];
+  const by = data.report.source === "template"
+    ? (rej.length ? `Written by Shepherd's rules. ${esc(data.model)} on W&B Inference drafted it ${rej.length}×; each draft was rejected because ${esc(rej[rej.length - 1].why)}.` : "Written by Shepherd's rules (no language model).")
+    : `Written by ${esc(data.report.source)} on W&B Inference; every number and priority checked against the rules.`;
+  const rejHtml = rej.length ? `<details><summary>See the rejected draft</summary><pre class="mono" style="font-size:13px">${esc(rej[rej.length - 1].text)}</pre></details>` : "";
   const matter = r.events.filter(e => e.priority !== "INFO");
   const good = r.events.filter(e => e.priority === "INFO");
   $("#app").innerHTML = `
@@ -185,9 +189,9 @@ function render(data) {
   <section class="head">
     ${sample ? `<span class="sample">SAMPLE DATA · stand-in Cosmos output until the real run lands</span>` : ""}
     <div class="big">${r.clips_recorded} clips recorded.<br><b>${n} ${n === 1 ? "matters" : "matter"}.</b></div>
-    <p>From ${esc(r.first_clip)} yesterday to ${esc(r.last_clip)} today. NVIDIA Cosmos watched every clip, YOLO counted the birds, and Shepherd's rules decided what you need to see.</p>
+    <p>From ${esc(r.first_clip)} yesterday to ${esc(r.last_clip)} today. NVIDIA Cosmos watched every clip, zooming in where the action was too small to see, and Shepherd's rules decided what you need to see.</p>
   </section>
-  <section class="reportText"><div class="eyebrow">Read this with your coffee</div><pre>${esc(data.report.text)}</pre><div class="by">${by}</div></section>
+  <section class="reportText"><div class="eyebrow">Read this with your coffee</div><pre>${esc(data.report.text)}</pre><div class="by">${by}</div>${rejHtml}</section>
   ${timeline(data)}
   <section class="events">${[...matter, ...good].map(card).join("") || `<p class="empty">Quiet night. Nothing needs you.</p>`}</section>
   <section class="noise">
@@ -198,8 +202,8 @@ function render(data) {
   <section class="how">
     <div class="eyebrow">How it decided</div>
     <ol>
-      <li>Our clips went through the VAST DataEngine pipeline into VastDB.</li>
-      <li>NVIDIA Cosmos Reason described every clip with our coop prompt; YOLO counted the birds.</li>
+      <li>Our own coop clips, 3:34 PM to 9:04 AM, uploaded to the VAST AI OS.</li>
+      <li>NVIDIA Cosmos Reason (on CoreWeave GPUs) described every clip, answered yes/no questions about fights, pecks and the nest box, and re-checked 5 zoomed tiles of each clip for action too small to see at full frame. YOLO counted the birds.</li>
       <li>Shepherd's rules grouped repeat clips into one event and set the priority. The language model only words the report; if it writes a number that isn't in the evidence, its text is thrown away.</li>
     </ol>
     ${data.trace_url ? `<a href="${esc(data.trace_url)}" target="_blank" rel="noopener">See every decision in W&B Weave ↗</a>` : ""}

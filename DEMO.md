@@ -1,6 +1,6 @@
-# Demo script (3 minutes)
+# Demo script (3 minutes), real results
 
-Numbers in [brackets] get confirmed from the app on build day.
+Everything below is what Shepherd actually produced on our 16 real clips today.
 
 ## 1. Hook (25s)
 
@@ -12,46 +12,42 @@ Numbers in [brackets] get confirmed from the app on build day.
 >
 > "Chickens."
 >
-> "I have a camera on my coop. It records every time something moves, so much that I'd turned the alerts off. Small farmers can't stand in the field all night, and they can't watch every clip either."
+> "My coop camera records every time something moves, so much that I'd turned the alerts off. Small farmers can't stand in the field all night, and they can't watch every clip either."
 
-## 2. The morning report (35s)
+## 2. The report (30s)
 
-- Open the app. The big line: **"16 clips recorded. 2 that matter."**
-- Say: "This is my real coop, from yesterday afternoon to this morning. Shepherd watched every clip so I didn't have to."
+- Open the page. Big line: **"16 clips recorded. 1 matters."**
+- Say: "My real coop, 3:34 yesterday afternoon to 9 this morning. NVIDIA Cosmos watched every clip. Fifteen were normal chicken business. One wasn't."
 
-## 3. The fight: HIGH (35s)
+## 3. The fight (45s): the technical heart
 
-- The red card plays: **two roosters fighting through the fence, 6:20 AM, in the dark.**
-- Say: "The camera recorded this 3 times. Shepherd reports it once: one fight, confirmed by three clips. 6:20 in the morning, before first light, nobody awake. That's how birds get hurt."
+- The red card: **"Fight, in the dark, 6:22 AM."** Play the clip; point at the back fence.
+- Say: "Two roosters fighting through the fence before sunrise. At full frame the fight is a few dozen pixels in infrared, and the small Cosmos model said *normal*. So Shepherd zooms: it cuts every clip into five tiles and asks again. In the center tile, Cosmos saw the fight. It found zero fights in the other 15 clips."
+- Point at the badge: "Confirmed by two signals: the full frame flagged a disturbance, the zoom saw a fight."
 
-## 4. The peck: LOW (25s)
+## 4. Good news (20s)
 
-- The amber card: **a hen pecked while she's in the nest box, 8:47 AM.**
-- Say: "This one's *worth watching*, not *wake up now*. Nest-box bullying can put a hen off laying. A motion sensor can't tell the difference between this and the fight. Shepherd can."
-- Green card: "Good news: hen in the nest box 8:47 to 9:04, likely laying. It says *likely*, because no clip shows the egg."
+- Green card: **"Hen in the nest box, likely laying, 8:47 to 9:04 AM."**
+- Say: "Six clips of a hen shifting in the box. Shepherd reports one session, not six alerts. It says *likely*, because no clip shows the egg."
 
-## 5. The noise (15s)
+## 5. The guardrail (30s)
 
-- Open "Noise Shepherd filtered": **5 clips at 9:51 PM.**
-- Say: "Motion at night, but it's just birds shifting on the perch. Filtered. You can check its work."
+- Open **"See the rejected draft."**
+- Say: "NVIDIA's Nemotron on W&B writes the report, but the rules decide. Today Nemotron invented a second alert, twice. Shepherd caught it, threw the draft away, and used the rules' own words." Click **See every decision in W&B Weave**.
+- Say: "Every Cosmos answer, every rule and every rejected draft is traced. No clip, no claim."
 
-## 6. The guardrail (20s)
+## 6. Technical close (20s), read as bullets
 
-- Click **"See what Shepherd saw"** to open the W&B Weave trace.
-- Say: "Cosmos describes, the rules decide, and the language model only writes the report. If it writes a number or a time that isn't in the evidence, we throw its text away. No clip, no claim."
+- 16 of our own clips, uploaded to the **VAST AI OS**
+- **NVIDIA Cosmos Reason** on **CoreWeave** GPUs: a structured description, three yes/no checks and 5 zoomed tiles per clip
+- **YOLO11** bird counts
+- Rules group repeat clips into one event and set the urgency
+- **NVIDIA Nemotron** on **W&B Inference** writes the report; a guard rejects invented numbers or alerts
+- **W&B Weave** traces every decision; built with **Cursor**
 
-## 7. Technical close (20s), read as bullets
+## 7. Last line
 
-- Our own footage through the **VAST DataEngine** pipeline
-- A custom **Cosmos3-Reason** prompt turns every clip into an event
-- **YOLO11** as the second signal; clips grouped into events
-- Events written back to **VastDB** as Shepherd's memory
-- **W&B** writes the report; **Weave** traces every decision
-- Running on **CoreWeave**, built in **Cursor**
-
-## 8. Last line
-
-> "16 clips in. 2 that matter. Shepherd watches the flock, so the farmer can sleep."
+> "Sixteen clips in. One that mattered. Shepherd watches the flock, so the farmer can sleep."
 
 ---
 
@@ -59,24 +55,23 @@ Numbers in [brackets] get confirmed from the app on build day.
 
 - **Why chickens?** "It's our footage, and nobody else has it. The same rules work for anything a farmer can't watch all night: goats, sheep, a barn."
 - **Didn't a chicken show up in SF?** "That one was crossing the road. Ours are picking fights."
-- **Is the fight real?** "Yes. 6:20 this morning, my coop."
-- **Night accuracy?** "Infrared is the hard case. That's why there's a second signal, and why anything unsure says unconfirmed."
-- **Privacy?** "A coop camera: no people, private clips. I work in GRC; we kept it that way on purpose."
-- **What's next?** A bedtime roll call, a sick-bird check, phone push alerts.
+- **What did it miss?** "Be honest: there was also one peck in the nest box at 8:47, and the small model didn't catch it, even zoomed in. Two other fight clips came back normal too. We show what Cosmos actually said; we didn't tune it to the answer."
+- **Did you use the VAST pipeline?** "We uploaded through it, but the indexing pipeline stalled for everyone around 11 (the dashboard was down), so we called the same Cosmos and YOLO endpoints directly." (Update this if your teammate gets VastDB working.)
+- **Privacy?** "A coop camera: no people. I work in GRC; we kept it that way on purpose."
+- **What's next?** A bedtime roll call, sick-bird checks, phone alerts, and the bigger Cosmos model for small, far-away action.
 
 ## What can go wrong
 
 | Problem | Backup |
 |---|---|
-| The live app is slow | Keep talking: "it's reading every clip." |
-| App won't deploy | Run `python3 agent.py` and show report.json plus the Weave trace |
-| Cosmos misses the peck | It shows as noise. Say so honestly; the fight is the headline. |
-| Cosmos miscounts | It shows as unconfirmed. That's the guardrail working, so say so. |
+| Page won't load | The repo's docs/ folder has the same page; or show report.json |
+| Video won't play | Use the poster frame and describe it |
+| Weave link asks for login | Make the W&B project public beforehand (Project → Settings) |
 
 ## Submission text (tokensand.com/vastnyc, closes 4:30)
 
-**Short:** Shepherd reads every clip a farm camera records and tells the farmer the few that matter. On 16 real clips from our coop, it flagged a rooster fight at 6:20 AM (HIGH) and a hen pecked in the nest box (LOW), and filtered the rest.
+**Short:** Shepherd reads every clip a farm camera records and tells the farmer what matters. On 16 real clips from our coop, NVIDIA Cosmos (with a zoom pass for small, far-away action) found a rooster fight at 6:22 AM and a laying session, and filtered the rest. A guard rejected Nemotron's report drafts when they invented an alert.
 
-**Built with:** VAST DataEngine, VastDB, NVIDIA Cosmos3-Reason, Cosmos Embed1, YOLO11, CoreWeave, Weights & Biases Inference + Weave, Cursor (+ NVIDIA Canary-1B if time allows).
+**Built with:** VAST AI OS, NVIDIA Cosmos Reason, YOLO11, CoreWeave GPUs, NVIDIA Nemotron on Weights & Biases Inference, W&B Weave, Cursor.
 
-**Needed:** repo link, demo video link, team names and emails.
+**Links:** repo github.com/mahezat/Shepherd · report page (share it as public first) · demo video.
