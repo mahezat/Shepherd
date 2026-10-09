@@ -134,7 +134,10 @@ def write_report(result: dict) -> dict:
         elif not labels_match(text, result["events"]):
             why = "it dropped or renamed an event, or changed a priority (HIGH / LOW / Good news) that the rules set"
         else:
-            return {"text": text, "source": MODEL, "rejected": rejected}
+            # The headline is a count, so it always comes from the rules, word for word.
+            lines = text.splitlines()
+            lines[0] = plain.splitlines()[0]
+            return {"text": "\n".join(lines), "source": MODEL, "rejected": rejected}
         rejected.append({"text": text, "why": why})
         messages += [{"role": "assistant", "content": text},
                      {"role": "user", "content": f"Rejected: {why}. Rewrite following the rules exactly."}]
